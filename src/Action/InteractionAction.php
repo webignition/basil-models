@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Action;
 
-class InteractionAction extends Action
+class InteractionAction extends Action implements InteractionActionInterface
 {
     private $identifier;
 

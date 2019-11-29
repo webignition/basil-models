@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Action;
 
-class WaitAction extends Action
+class WaitAction extends Action implements WaitActionInterface
 {
     public const TYPE = 'wait';
 

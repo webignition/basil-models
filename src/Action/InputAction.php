@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Action;
 
-class InputAction extends InteractionAction
+class InputAction extends InteractionAction implements InputActionInterface
 {
     public const TYPE = 'set';
 
