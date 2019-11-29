@@ -13,9 +13,12 @@ class Step implements StepInterface
 {
     private $actions = [];
     private $assertions = [];
-    private $data;
+    private $data = null;
+    private $importName = null;
+    private $dataImportName = null;
+    private $identifiers = [];
 
-    public function __construct(array $actions, array $assertions, ?DataSetCollectionInterface $data = null)
+    public function __construct(array $actions, array $assertions)
     {
         foreach ($actions as $action) {
             if ($action instanceof ActionInterface) {
@@ -28,8 +31,6 @@ class Step implements StepInterface
                 $this->assertions[] = $assertion;
             }
         }
-
-        $this->data = $data ?? new DataSetCollection([]);
     }
 
     /**
@@ -48,8 +49,74 @@ class Step implements StepInterface
         return $this->assertions;
     }
 
-    public function getData(): DataSetCollectionInterface
+    public function getData(): ?DataSetCollectionInterface
     {
         return $this->data;
+    }
+
+    public function withData(DataSetCollection $data): StepInterface
+    {
+        $new = clone $this;
+        $new->data = $data;
+
+        return $new;
+    }
+
+    public function getImportName(): ?string
+    {
+        return $this->importName;
+    }
+
+    public function withImportName(string $importName): StepInterface
+    {
+        $new = clone $this;
+        $new->importName = $importName;
+
+        return $new;
+    }
+
+    public function removeImportName(): StepInterface
+    {
+        $new = clone $this;
+        $new->importName = null;
+
+        return $new;
+    }
+
+    public function getDataImportName(): ?string
+    {
+        return $this->dataImportName;
+    }
+
+    public function withDataImportName(string $dataImportName): StepInterface
+    {
+        $new = clone $this;
+        $new->dataImportName = $dataImportName;
+
+        return $new;
+    }
+
+    public function removeDataImportName(): StepInterface
+    {
+        $new = clone $this;
+        $new->dataImportName = null;
+
+        return $new;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getIdentifiers(): array
+    {
+        return $this->identifiers;
+    }
+
+    public function withIdentifiers(array $elements): Step
+    {
+        $new = clone $this;
+        $new->identifiers = $elements;
+
+        return $new;
     }
 }
