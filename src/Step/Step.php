@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Step;
 
 use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Assertion\AssertionInterface;
+use webignition\BasilModels\DataSet\DataSetCollection;
 use webignition\BasilModels\DataSet\DataSetCollectionInterface;
 
 class Step implements StepInterface
@@ -14,7 +15,7 @@ class Step implements StepInterface
     private $assertions = [];
     private $data;
 
-    public function __construct(array $actions, array $assertions, DataSetCollectionInterface $data)
+    public function __construct(array $actions, array $assertions, ?DataSetCollectionInterface $data = null)
     {
         foreach ($actions as $action) {
             if ($action instanceof ActionInterface) {
@@ -28,7 +29,7 @@ class Step implements StepInterface
             }
         }
 
-        $this->data = $data;
+        $this->data = $data ?? new DataSetCollection([]);
     }
 
     /**
