@@ -21,4 +21,12 @@ class InputAction extends InteractionAction implements InputActionInterface
     {
         return $this->value;
     }
+
+    public function withValue(string $value): InputActionInterface
+    {
+        $new = clone $this;
+        $new->value = $value;
+
+        return $new;
+    }
 }
