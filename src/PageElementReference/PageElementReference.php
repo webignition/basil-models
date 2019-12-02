@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\PageElementReference;
 
+use webignition\BasilModels\ElementReference\ElementReference;
+
 class PageElementReference implements PageElementReferenceInterface
 {
     private const PART_DELIMITER = '.';
     private const EXPECTED_PART_COUNT = 3;
-    private const EXPECTED_ELEMENTS_PART = 'elements';
-
-    private const IMPORT_NAME_INDEX = 0;
-    private const ELEMENTS_PART_INDEX = 1;
-    private const ELEMENT_NAME_INDEX = 2;
 
     private $importName = '';
     private $elementName = '';
@@ -28,10 +25,17 @@ class PageElementReference implements PageElementReferenceInterface
 
         $hasExpectedPartCount = self::EXPECTED_PART_COUNT === count($referenceParts);
 
-        if ($hasExpectedPartCount && self::EXPECTED_ELEMENTS_PART === $referenceParts[self::ELEMENTS_PART_INDEX]) {
-            $this->importName = $referenceParts[self::IMPORT_NAME_INDEX];
-            $this->elementName = $referenceParts[self::ELEMENT_NAME_INDEX];
-            $this->isValid = true;
+        if ($hasExpectedPartCount) {
+            $elementReferenceParts = $referenceParts;
+            $importName = array_shift($elementReferenceParts);
+
+            $elementReference = new ElementReference('$' . implode($elementReferenceParts, '.'));
+
+            if ($elementReference->isValid()) {
+                $this->importName = $importName;
+                $this->elementName = $elementReference->getElementName();
+                $this->isValid = true;
+            }
         }
     }
 
