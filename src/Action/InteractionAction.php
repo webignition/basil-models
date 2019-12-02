@@ -19,4 +19,12 @@ class InteractionAction extends Action implements InteractionActionInterface
     {
         return $this->identifier;
     }
+
+    public function withIdentifier(string $identifier): InteractionActionInterface
+    {
+        $new = clone $this;
+        $new->identifier = $identifier;
+
+        return $new;
+    }
 }
