@@ -9,7 +9,6 @@ use webignition\BasilModels\ElementReference\ElementReference;
 class PageElementReference implements PageElementReferenceInterface
 {
     private const PART_DELIMITER = '.';
-    private const EXPECTED_PART_COUNT = 3;
 
     private $importName = '';
     private $elementName = '';
@@ -23,21 +22,15 @@ class PageElementReference implements PageElementReferenceInterface
         $reference = trim($reference);
         $this->reference = $reference;
 
-        $referenceParts = explode(self::PART_DELIMITER, $reference);
+        if (self::is($reference)) {
+            $referenceParts = explode(self::PART_DELIMITER, $reference);
+            $importName = array_shift($referenceParts);
 
-        $hasExpectedPartCount = self::EXPECTED_PART_COUNT === count($referenceParts);
+            $elementReference = new ElementReference('$' . implode($referenceParts, '.'));
 
-        if ($hasExpectedPartCount) {
-            $elementReferenceParts = $referenceParts;
-            $importName = array_shift($elementReferenceParts);
-
-            $elementReference = new ElementReference('$' . implode($elementReferenceParts, '.'));
-
-            if ($elementReference->isValid()) {
-                $this->importName = $importName;
-                $this->elementName = $elementReference->getElementName();
-                $this->isValid = true;
-            }
+            $this->importName = $importName;
+            $this->elementName = $elementReference->getElementName();
+            $this->isValid = true;
         }
     }
 
