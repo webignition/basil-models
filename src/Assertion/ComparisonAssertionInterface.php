@@ -7,4 +7,5 @@ namespace webignition\BasilModels\Assertion;
 interface ComparisonAssertionInterface extends AssertionInterface
 {
     public function getValue(): string;
+    public function withValue(string $value): ComparisonAssertionInterface;
 }

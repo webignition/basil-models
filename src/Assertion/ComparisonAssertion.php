@@ -19,4 +19,12 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
     {
         return $this->value;
     }
+
+    public function withValue(string $value): ComparisonAssertionInterface
+    {
+        $new = clone $this;
+        $new->value = $value;
+
+        return $new;
+    }
 }

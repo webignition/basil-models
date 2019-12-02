@@ -10,4 +10,5 @@ interface AssertionInterface extends StatementInterface
 {
     public function getIdentifier(): string;
     public function getComparison(): string;
+    public function withIdentifier(string $identifier): AssertionInterface;
 }
