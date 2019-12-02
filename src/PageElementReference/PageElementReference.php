@@ -16,6 +16,8 @@ class PageElementReference implements PageElementReferenceInterface
     private $isValid = false;
     private $reference  = '';
 
+    private const REGEX = '/^[^\.]+\.elements\.[^.]+$/';
+
     public function __construct(string $reference)
     {
         $reference = trim($reference);
@@ -38,6 +40,12 @@ class PageElementReference implements PageElementReferenceInterface
             }
         }
     }
+
+    public static function is(string $pageElementReference): bool
+    {
+        return preg_match(self::REGEX, $pageElementReference) > 0;
+    }
+
 
     public function getImportName(): string
     {

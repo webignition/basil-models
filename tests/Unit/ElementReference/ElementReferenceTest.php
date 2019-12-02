@@ -54,7 +54,6 @@ class ElementReferenceTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-
     /**
      * @dataProvider isDataProvider
      */

@@ -13,7 +13,7 @@ class ElementReference implements ElementReferenceInterface
     private const ELEMENTS_PART_INDEX = 0;
     private const ELEMENT_NAME_INDEX = 1;
 
-    private const REGEX = '/^\$elements\.[^.]+$/';
+    private const REGEX = '/^\$elements\.[^\.]+$/';
 
     private $elementName = '';
     private $isValid = false;

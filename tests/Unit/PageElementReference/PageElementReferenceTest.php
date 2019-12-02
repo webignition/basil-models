@@ -66,4 +66,46 @@ class PageElementReferenceTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider isDataProvider
+     */
+    public function testIs(string $pageElementReference, bool $expectedIs)
+    {
+        $this->assertSame($expectedIs, PageElementReference::is($pageElementReference));
+    }
+
+    public function isDataProvider(): array
+    {
+        return [
+            'empty string' => [
+                'pageElementReference' => '',
+                'expectedIs' => false,
+            ],
+            'lacking elements part, element name' => [
+                'pageElementReference' => 'import_name',
+                'expectedIs' => false,
+            ],
+            'lacking element name' => [
+                'pageElementReference' => 'import_name.elements',
+                'expectedIs' => false,
+            ],
+            'has more than two dots' => [
+                'pageElementReference' => 'import_name.elements.element_name.name',
+                'expectedIs' => false,
+            ],
+//            'lacking element name (2)' => [
+//                'pageElementReference' => '$elements',
+//                'expectedIs' => false,
+//            ],
+//            'has more than one dot' => [
+//                'pageElementReference' => '$elements.element_name.name',
+//                'expectedIs' => false,
+//            ],
+            'valid' => [
+                'pageElementReference' => 'import_name.elements.element_name',
+                'expectedIs' => true,
+            ],
+        ];
+    }
 }
