@@ -53,4 +53,42 @@ class ElementReferenceTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider isDataProvider
+     */
+    public function testIs(string $elementReference, bool $expectedIs)
+    {
+        $this->assertSame($expectedIs, ElementReference::is($elementReference));
+    }
+
+    public function isDataProvider(): array
+    {
+        return [
+            'empty string' => [
+                'elementReference' => '',
+                'expectedIs' => false,
+            ],
+            'non-empty valid string' => [
+                'elementReference' => 'foo',
+                'expectedIs' => false,
+            ],
+            'lacking element name (1)' => [
+                'elementReference' => '$elements',
+                'expectedIs' => false,
+            ],
+            'lacking element name (2)' => [
+                'elementReference' => '$elements',
+                'expectedIs' => false,
+            ],
+            'has more than one dot' => [
+                'elementReference' => '$elements.element_name.name',
+                'expectedIs' => false,
+            ],
+            'valid' => [
+                'elementReference' => '$elements.name',
+                'expectedIs' => true,
+            ],
+        ];
+    }
 }
