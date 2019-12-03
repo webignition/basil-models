@@ -142,16 +142,50 @@ class Step implements StepInterface
         return null !== $this->importName || null !== $this->dataImportName;
     }
 
+    public function withPrependedActions(array $actions): StepInterface
+    {
+        $actions = $this->filterActions($actions);
+
+        foreach ($this->getActions() as $action) {
+            $actions[] = clone $action;
+        }
+
+        $new = clone $this;
+        $new->actions = $actions;
+
+        return $new;
+    }
+
     private function setActions(array $actions)
     {
-        $this->actions = array_filter($actions, function ($action) {
-            return $action instanceof ActionInterface;
-        });
+        $this->actions = $this->filterActions($actions);
     }
 
     private function setAssertions(array $assertions)
     {
-        $this->assertions = array_filter($assertions, function ($assertion) {
+        $this->assertions = $this->filterAssertions($assertions);
+    }
+
+    /**
+     * @param array $actions
+     *
+     * @return ActionInterface[]
+     */
+    private function filterActions(array $actions): array
+    {
+        return array_filter($actions, function ($action) {
+            return $action instanceof ActionInterface;
+        });
+    }
+
+    /**
+     * @param array $assertions
+     *
+     * @return AssertionInterface[]
+     */
+    private function filterAssertions(array $assertions): array
+    {
+        return array_filter($assertions, function ($assertion) {
             return $assertion instanceof AssertionInterface;
         });
     }

@@ -54,4 +54,11 @@ interface StepInterface
     public function withIdentifiers(array $elements): Step;
 
     public function requiresImportResolution(): bool;
+
+    /**
+     * @param ActionInterface[] $actions
+     *
+     * @return StepInterface
+     */
+    public function withPrependedActions(array $actions): StepInterface;
 }
