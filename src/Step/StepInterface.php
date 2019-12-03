@@ -17,9 +17,23 @@ interface StepInterface
     public function getActions(): array;
 
     /**
+     * @param ActionInterface[] $actions
+     *
+     * @return StepInterface
+     */
+    public function withActions(array $actions): StepInterface;
+
+    /**
      * @return AssertionInterface[]
      */
     public function getAssertions(): array;
+
+    /**
+     * @param AssertionInterface[] $assertions
+     *
+     * @return StepInterface
+     */
+    public function withAssertions(array $assertions): StepInterface;
 
     public function getData(): ?DataSetCollectionInterface;
     public function withData(DataSetCollection $data): StepInterface;

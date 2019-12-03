@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Step;
 
+use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Action\InteractionAction;
 use webignition\BasilModels\Action\WaitAction;
 use webignition\BasilModels\Assertion\Assertion;
@@ -157,5 +158,37 @@ class StepTest extends \PHPUnit\Framework\TestCase
                 'expectedRequiresImportResolution' => true,
             ],
         ];
+    }
+
+    public function testWithActions()
+    {
+        $step = new Step([], []);
+        $this->assertEquals([], $step->getActions());
+
+        $actions = [
+            new Action('click $".selector"', 'click', '$".selector"'),
+        ];
+
+        $mutatedStep = $step->withActions($actions);
+
+        $this->assertNotSame($step, $mutatedStep);
+        $this->assertEquals([], $step->getActions());
+        $this->assertEquals($actions, $mutatedStep->getActions());
+    }
+
+    public function testWithAssertions()
+    {
+        $step = new Step([], []);
+        $this->assertEquals([], $step->getAssertions());
+
+        $assertions = [
+            new Assertion('$".selector exists', '$".selector"', 'exists'),
+        ];
+
+        $mutatedStep = $step->withAssertions($assertions);
+
+        $this->assertNotSame($step, $mutatedStep);
+        $this->assertEquals([], $step->getAssertions());
+        $this->assertEquals($assertions, $mutatedStep->getAssertions());
     }
 }

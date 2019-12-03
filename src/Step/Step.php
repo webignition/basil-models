@@ -20,17 +20,8 @@ class Step implements StepInterface
 
     public function __construct(array $actions, array $assertions)
     {
-        foreach ($actions as $action) {
-            if ($action instanceof ActionInterface) {
-                $this->actions[] = $action;
-            }
-        }
-
-        foreach ($assertions as $assertion) {
-            if ($assertion instanceof AssertionInterface) {
-                $this->assertions[] = $assertion;
-            }
-        }
+        $this->setActions($actions);
+        $this->setAssertions($assertions);
     }
 
     /**
@@ -42,11 +33,37 @@ class Step implements StepInterface
     }
 
     /**
+     * @param ActionInterface[] $actions
+     *
+     * @return StepInterface
+     */
+    public function withActions(array $actions): StepInterface
+    {
+        $new = clone $this;
+        $new->setActions($actions);
+
+        return $new;
+    }
+
+    /**
      * @return AssertionInterface[]
      */
     public function getAssertions(): array
     {
         return $this->assertions;
+    }
+
+    /**
+     * @param AssertionInterface[] $assertions
+     *
+     * @return StepInterface
+     */
+    public function withAssertions(array $assertions): StepInterface
+    {
+        $new = clone $this;
+        $new->setAssertions($assertions);
+
+        return $new;
     }
 
     public function getData(): ?DataSetCollectionInterface
@@ -123,5 +140,19 @@ class Step implements StepInterface
     public function requiresImportResolution(): bool
     {
         return null !== $this->importName || null !== $this->dataImportName;
+    }
+
+    private function setActions(array $actions)
+    {
+        $this->actions = array_filter($actions, function ($action) {
+            return $action instanceof ActionInterface;
+        });
+    }
+
+    private function setAssertions(array $assertions)
+    {
+        $this->assertions = array_filter($assertions, function ($assertion) {
+            return $assertion instanceof AssertionInterface;
+        });
     }
 }
