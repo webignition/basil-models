@@ -191,4 +191,92 @@ class StepTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $step->getAssertions());
         $this->assertEquals($assertions, $mutatedStep->getAssertions());
     }
+
+    /**
+     * @dataProvider withPrependedActionsDataProvider
+     */
+    public function testWithPrependedActions(StepInterface $step, array $actions, StepInterface $expectedStep)
+    {
+        $mutatedStep = $step->withPrependedActions($actions);
+
+        $this->assertEquals($expectedStep, $mutatedStep);
+    }
+
+    public function withPrependedActionsDataProvider(): array
+    {
+        $assertion = new Assertion(
+            '$".selector" exists',
+            '$".selector"',
+            'exists'
+        );
+
+        return [
+            'has no actions, empty prepended actions' => [
+                'step' => new Step([], []),
+                'actions' => [],
+                'expectedStep' => new Step([], []),
+            ],
+            'has actions, empty prepended actions' => [
+                'step' => new Step([
+                    new WaitAction('wait 1', '1'),
+                ], []),
+                'actions' => [],
+                'expectedStep' => new Step([
+                    new WaitAction('wait 1', '1'),
+                ], []),
+            ],
+            'has no actions, non-empty prepended actions' => [
+                'step' => new Step([], []),
+                'actions' => [
+                    new WaitAction('wait 2', '2'),
+                ],
+                'expectedStep' => new Step([
+                    new WaitAction('wait 2', '2'),
+                ], []),
+            ],
+            'has actions, non-empty prepended actions' => [
+                'step' => new Step([
+                    new WaitAction('wait 1', '1'),
+                ], []),
+                'actions' => [
+                    new WaitAction('wait 2', '2'),
+                ],
+                'expectedStep' => new Step([
+                    new WaitAction('wait 2', '2'),
+                    new WaitAction('wait 1', '1'),
+                ], []),
+            ],
+            'assertions are retained' => [
+                'step' => new Step([], [
+                    $assertion,
+                ]),
+                'actions' => [],
+                'expectedStep' => new Step([], [
+                    $assertion,
+                ]),
+            ],
+            'data sets are retained' => [
+                'step' => (new Step([], []))->withData(new DataSetCollection([
+                    '0' => [
+                        'field1' => 'value1',
+                    ]
+                ])),
+                'actions' => [],
+                'expectedStep' => (new Step([], []))->withData(new DataSetCollection([
+                    '0' => [
+                        'field1' => 'value1',
+                    ]
+                ])),
+            ],
+            'identifier collection is retained' => [
+                'step' => (new Step([], []))->withIdentifiers([
+                    'heading1' => '$".heading"'
+                ]),
+                'actions' => [],
+                'expectedStep' => (new Step([], []))->withIdentifiers([
+                    'heading1' => '$".heading"'
+                ]),
+            ],
+        ];
+    }
 }
