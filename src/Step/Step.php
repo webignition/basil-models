@@ -119,4 +119,9 @@ class Step implements StepInterface
 
         return $new;
     }
+
+    public function requiresImportResolution(): bool
+    {
+        return null !== $this->importName || null !== $this->dataImportName;
+    }
 }
