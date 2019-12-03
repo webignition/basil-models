@@ -61,4 +61,11 @@ interface StepInterface
      * @return StepInterface
      */
     public function withPrependedActions(array $actions): StepInterface;
+
+    /**
+     * @param AssertionInterface[] $assertions
+     *
+     * @return StepInterface
+     */
+    public function withPrependedAssertions(array $assertions): StepInterface;
 }
