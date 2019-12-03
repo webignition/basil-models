@@ -6,7 +6,6 @@ namespace webignition\BasilModels\Step;
 
 use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Assertion\AssertionInterface;
-use webignition\BasilModels\DataSet\DataSetCollection;
 use webignition\BasilModels\DataSet\DataSetCollectionInterface;
 
 class Step implements StepInterface
@@ -71,7 +70,7 @@ class Step implements StepInterface
         return $this->data;
     }
 
-    public function withData(DataSetCollection $data): StepInterface
+    public function withData(DataSetCollectionInterface $data): StepInterface
     {
         $new = clone $this;
         $new->data = $data;

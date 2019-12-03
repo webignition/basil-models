@@ -6,7 +6,6 @@ namespace webignition\BasilModels\Step;
 
 use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Assertion\AssertionInterface;
-use webignition\BasilModels\DataSet\DataSetCollection;
 use webignition\BasilModels\DataSet\DataSetCollectionInterface;
 
 interface StepInterface
@@ -36,7 +35,7 @@ interface StepInterface
     public function withAssertions(array $assertions): StepInterface;
 
     public function getData(): ?DataSetCollectionInterface;
-    public function withData(DataSetCollection $data): StepInterface;
+    public function withData(DataSetCollectionInterface $data): StepInterface;
 
     public function getImportName(): ?string;
     public function withImportName(string $importName): StepInterface;
