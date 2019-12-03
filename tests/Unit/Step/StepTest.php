@@ -10,6 +10,7 @@ use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\DataSet\DataSetCollection;
 use webignition\BasilModels\Step\Step;
+use webignition\BasilModels\Step\StepInterface;
 
 class StepTest extends \PHPUnit\Framework\TestCase
 {
@@ -122,5 +123,39 @@ class StepTest extends \PHPUnit\Framework\TestCase
 
         $step = $step->withIdentifiers($identifiers);
         $this->assertSame($identifiers, $step->getIdentifiers());
+    }
+
+    /**
+     * @dataProvider requiresImportResolutionDataProvider
+     */
+    public function testRequiresImportResolution(StepInterface $step, bool $expectedRequiresImportResolution)
+    {
+        $this->assertSame($expectedRequiresImportResolution, $step->requiresImportResolution());
+    }
+
+    public function requiresImportResolutionDataProvider(): array
+    {
+        return [
+            'no import name, no data provider import name' => [
+                'step' => new Step([], []),
+                'expectedRequiresImportResolution' => false,
+            ],
+            'no import name, has data provider import name' => [
+                'step' => (new Step([], []))
+                    ->withDataImportName('data_import_name'),
+                'expectedRequiresImportResolution' => true,
+            ],
+            'has import name, no data provider import name' => [
+                'step' => (new Step([], []))
+                    ->withImportName('import_name'),
+                'expectedRequiresImportResolution' => true,
+            ],
+            'has import name, has data provider import name' => [
+                'step' => (new Step([], []))
+                    ->withImportName('import_name')
+                    ->withDataImportName('data_import_name'),
+                'expectedRequiresImportResolution' => true,
+            ],
+        ];
     }
 }

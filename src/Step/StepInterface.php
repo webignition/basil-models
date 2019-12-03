@@ -38,4 +38,6 @@ interface StepInterface
     public function getIdentifiers(): array;
 
     public function withIdentifiers(array $elements): Step;
+
+    public function requiresImportResolution(): bool;
 }
