@@ -156,6 +156,20 @@ class Step implements StepInterface
         return $new;
     }
 
+    public function withPrependedAssertions(array $assertions): StepInterface
+    {
+        $assertions = $this->filterAssertions($assertions);
+
+        foreach ($this->getAssertions() as $assertion) {
+            $assertions[] = clone $assertion;
+        }
+
+        $new = clone $this;
+        $new->assertions = $assertions;
+
+        return $new;
+    }
+
     private function setActions(array $actions)
     {
         $this->actions = $this->filterActions($actions);

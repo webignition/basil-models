@@ -259,22 +259,116 @@ class StepTest extends \PHPUnit\Framework\TestCase
                 'step' => (new Step([], []))->withData(new DataSetCollection([
                     '0' => [
                         'field1' => 'value1',
-                    ]
+                    ],
                 ])),
                 'actions' => [],
                 'expectedStep' => (new Step([], []))->withData(new DataSetCollection([
                     '0' => [
                         'field1' => 'value1',
-                    ]
+                    ],
                 ])),
             ],
             'identifier collection is retained' => [
                 'step' => (new Step([], []))->withIdentifiers([
-                    'heading1' => '$".heading"'
+                    'heading' => '$".heading"'
                 ]),
                 'actions' => [],
                 'expectedStep' => (new Step([], []))->withIdentifiers([
-                    'heading1' => '$".heading"'
+                    'heading' => '$".heading"'
+                ]),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider withPrependedAssertionsDataProvider
+     */
+    public function testWithPrependedAssertions(StepInterface $step, array $assertions, StepInterface $expectedStep)
+    {
+        $mutatedStep = $step->withPrependedAssertions($assertions);
+
+        $this->assertEquals($expectedStep, $mutatedStep);
+    }
+
+    public function withPrependedAssertionsDataProvider(): array
+    {
+        $assertion1 = new Assertion(
+            '$".selector1" exists',
+            '$".selector1"',
+            'exists'
+        );
+
+        $assertion2 = new Assertion(
+            '$".selector2" exists',
+            '$".selector2"',
+            'exists'
+        );
+
+        return [
+            'has no assertions, empty prepended assertions' => [
+                'step' => new Step([], []),
+                'assertions' => [],
+                'expectedStep' => new Step([], []),
+            ],
+            'has assertions, empty prepended assertions' => [
+                'step' => new Step([], [
+                    $assertion1,
+                ]),
+                'assertions' => [],
+                'expectedStep' => new Step([], [
+                    $assertion1,
+                ]),
+            ],
+            'has no assertions, non-empty prepended assertions' => [
+                'step' => new Step([], []),
+                'assertions' => [
+                    $assertion1,
+                ],
+                'expectedStep' => new Step([], [
+                    $assertion1,
+                ]),
+            ],
+            'has assertions, non-empty prepended assertions' => [
+                'step' => new Step([], [
+                    $assertion1,
+                ]),
+                'assertions' => [
+                    $assertion2,
+                ],
+                'expectedStep' => new Step([], [
+                    $assertion2,
+                    $assertion1,
+                ]),
+            ],
+            'actions are retained' => [
+                'step' => new Step([
+                    new WaitAction('wait 1', '1'),
+                ], []),
+                'assertions' => [],
+                'expectedStep' => new Step([
+                    new WaitAction('wait 1', '1'),
+                ], []),
+            ],
+            'data sets are retained' => [
+                'step' => (new Step([], []))->withData(new DataSetCollection([
+                    '0' => [
+                        'field1' => 'value1',
+                    ],
+                ])),
+                'assertions' => [],
+                'expectedStep' => (new Step([], []))->withData(new DataSetCollection([
+                    '0' => [
+                        'field1' => 'value1',
+                    ],
+                ])),
+            ],
+            'identifier collection is retained' => [
+                'step' => (new Step([], []))->withIdentifiers([
+                    'heading' => '.heading'
+                ]),
+                'assertions' => [],
+                'expectedStep' => (new Step([], []))->withIdentifiers([
+                    'heading' => '.heading'
                 ]),
             ],
         ];
