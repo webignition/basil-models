@@ -6,7 +6,7 @@ namespace webignition\BasilModels;
 
 abstract class AbstractObjectWithProperty
 {
-    private const PART_DELIMITER = '.';
+    protected const PART_DELIMITER = '.';
     private const PATTERN_DELIMITER = '/';
 
     private $value  = '';
@@ -19,15 +19,14 @@ abstract class AbstractObjectWithProperty
         $this->value = $value;
 
         if (self::is($value)) {
-            $referenceParts = explode(self::PART_DELIMITER, $value);
-            $this->property = $referenceParts[$this->getPropertyIndex()];
+            $referenceParts = explode(self::PART_DELIMITER, $value, 2);
+            $this->property = $referenceParts[1];
             $this->isValid = true;
         }
     }
 
     abstract protected static function getObjectName(): string;
     abstract protected static function getPropertyPattern(): string;
-    abstract protected function getPropertyIndex(): int;
 
     public static function is(string $value): bool
     {
@@ -55,7 +54,7 @@ abstract class AbstractObjectWithProperty
             self::PATTERN_DELIMITER .
             '^\$' .
             preg_quote(static::getObjectName(), self::PATTERN_DELIMITER) .
-            '\.(' . static::getPropertyPattern() . ')$' .
+            '\.' . static::getPropertyPattern() . '$' .
             self::PATTERN_DELIMITER;
     }
 }

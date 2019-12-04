@@ -13,13 +13,8 @@ class PageProperty extends AbstractObjectWithProperty implements PagePropertyInt
         return 'page';
     }
 
-    protected function getPropertyIndex(): int
-    {
-        return 1;
-    }
-
     protected static function getPropertyPattern(): string
     {
-        return 'title|url';
+        return '(title|url)';
     }
 }
