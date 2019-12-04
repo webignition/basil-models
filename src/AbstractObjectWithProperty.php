@@ -26,12 +26,7 @@ abstract class AbstractObjectWithProperty
     }
 
     abstract protected static function getObjectName(): string;
-
-    /**
-     * @return string[]
-     */
-    abstract protected static function getProperties(): array;
-
+    abstract protected static function getPropertyPattern(): string;
     abstract protected function getPropertyIndex(): int;
 
     public static function is(string $value): bool
@@ -56,19 +51,11 @@ abstract class AbstractObjectWithProperty
 
     private static function createPattern(): string
     {
-        $propertiesPattern = array_reduce(static::getProperties(), function (?string $result, $item) {
-            if (is_string($result)) {
-                $result .= '|';
-            }
-
-            return $result . preg_quote($item, self::PATTERN_DELIMITER);
-        });
-
         return
             self::PATTERN_DELIMITER .
             '^\$' .
             preg_quote(static::getObjectName(), self::PATTERN_DELIMITER) .
-            '\.(' . $propertiesPattern . ')$' .
+            '\.(' . static::getPropertyPattern() . ')$' .
             self::PATTERN_DELIMITER;
     }
 }

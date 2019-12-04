@@ -13,18 +13,13 @@ class BrowserProperty extends AbstractObjectWithProperty implements BrowserPrope
         return 'browser';
     }
 
-    /**
-     * @return string[]
-     */
-    protected static function getProperties(): array
-    {
-        return [
-            'size',
-        ];
-    }
-
     protected function getPropertyIndex(): int
     {
         return 1;
+    }
+
+    protected static function getPropertyPattern(): string
+    {
+        return 'size';
     }
 }
