@@ -4,58 +4,27 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\AttributeReference;
 
-use webignition\BasilModels\ElementReference\ElementReference;
+use webignition\BasilModels\AbstractObjectWithProperty;
 
-class AttributeReference implements AttributeReferenceInterface
+class AttributeReference extends AbstractObjectWithProperty implements AttributeReferenceInterface
 {
-    private const PART_DELIMITER = '.';
-
-    private const REGEX = '/^\$elements\.[^\.]+\.[^\.]+$/';
-
-    private $elementName = '';
-    private $attributeName = '';
-    private $isValid = false;
-    private $reference  = '';
-
-    public function __construct(string $reference)
+    protected static function getPatternPrefix(): string
     {
-        $reference = trim($reference);
-        $this->reference = $reference;
-
-        if (self::is($reference)) {
-            $referenceParts = explode(self::PART_DELIMITER, $reference);
-
-            $this->attributeName = array_pop($referenceParts);
-
-            $elementReference = new ElementReference(implode(self::PART_DELIMITER, $referenceParts));
-
-            $this->elementName = $elementReference->getElementName();
-            $this->isValid = true;
-        }
+        return '\$elements';
     }
 
-    public static function is(string $elementReference): bool
+    protected static function getPropertyPattern(): string
     {
-        return preg_match(self::REGEX, $elementReference) > 0;
+        return '[^\.]+\.[^\.]+';
     }
 
     public function getElementName(): string
     {
-        return $this->elementName;
+        return $this->getPropertyPart(0);
     }
 
     public function getAttributeName(): string
     {
-        return $this->attributeName;
-    }
-
-    public function isValid(): bool
-    {
-        return $this->isValid;
-    }
-
-    public function __toString(): string
-    {
-        return $this->reference;
+        return $this->getPropertyPart(1);
     }
 }

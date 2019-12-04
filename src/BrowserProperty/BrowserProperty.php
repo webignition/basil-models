@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilModels\PageProperty;
+namespace webignition\BasilModels\BrowserProperty;
 
 use webignition\BasilModels\AbstractObjectWithProperty;
 
-class PageProperty extends AbstractObjectWithProperty implements PagePropertyInterface
+class BrowserProperty extends AbstractObjectWithProperty implements BrowserPropertyInterface
 {
     protected static function getPatternPrefix(): string
     {
-        return '\$page';
+        return '\$browser';
     }
 
     protected static function getPropertyPattern(): string
     {
-        return '(title|url)';
+        return 'size';
     }
 }
