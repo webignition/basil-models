@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilModels\Tests\Unit\PageProperty;
+namespace webignition\BasilModels\Tests\Unit\BrowserProperty;
 
-use webignition\BasilModels\PageProperty\PageProperty;
+use webignition\BasilModels\BrowserProperty\BrowserProperty;
 
-class PagePropertyTest extends \PHPUnit\Framework\TestCase
+class BrowserPropertyTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
@@ -16,7 +16,7 @@ class PagePropertyTest extends \PHPUnit\Framework\TestCase
         string $expectedProperty,
         bool $expectedIsValid
     ) {
-        $pageUrlReference = new PageProperty($value);
+        $pageUrlReference = new BrowserProperty($value);
 
         $this->assertSame($expectedProperty, $pageUrlReference->getProperty());
         $this->assertSame($expectedIsValid, $pageUrlReference->isValid());
@@ -32,23 +32,18 @@ class PagePropertyTest extends \PHPUnit\Framework\TestCase
                 'expectedIsValid' => false,
             ],
             'incorrect prefix' => [
-                'value' => '$pages.url',
+                'value' => '$browsers.size',
                 'expectedProperty' => '',
                 'expectedIsValid' => false,
             ],
             'incorrect property' => [
-                'value' => '$page.address',
+                'value' => '$browser.address',
                 'expectedProperty' => '',
                 'expectedIsValid' => false,
             ],
-            'valid: url' => [
-                'value' => '$page.url',
-                'expectedProperty' => 'url',
-                'expectedIsValid' => true,
-            ],
-            'valid: title' => [
-                'value' => '$page.title',
-                'expectedProperty' => 'title',
+            'valid' => [
+                'value' => '$browser.size',
+                'expectedProperty' => 'size',
                 'expectedIsValid' => true,
             ],
         ];
@@ -59,30 +54,26 @@ class PagePropertyTest extends \PHPUnit\Framework\TestCase
      */
     public function testIs(string $value, bool $expectedIs)
     {
-        $this->assertSame($expectedIs, PageProperty::is($value));
+        $this->assertSame($expectedIs, BrowserProperty::is($value));
     }
 
     public function isDataProvider(): array
     {
         return [
-            'empty string' => [
+            'empty' => [
                 'value' => '',
                 'expectedIs' => false,
             ],
             'incorrect prefix' => [
-                'value' => '$pages.url',
+                'value' => '$browsers.size',
                 'expectedIs' => false,
             ],
             'incorrect property' => [
-                'value' => '$page.address',
+                'value' => '$browser.address',
                 'expectedIs' => false,
             ],
-            'valid: url' => [
-                'value' => '$page.url',
-                'expectedIs' => true,
-            ],
-            'valid: title' => [
-                'value' => '$page.title',
+            'valid' => [
+                'value' => '$browser.size',
                 'expectedIs' => true,
             ],
         ];
