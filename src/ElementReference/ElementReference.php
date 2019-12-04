@@ -8,11 +8,6 @@ use webignition\BasilModels\AbstractObjectWithProperty;
 
 class ElementReference extends AbstractObjectWithProperty implements ElementReferenceInterface
 {
-    protected static function getObjectName(): string
-    {
-        return 'elements';
-    }
-
     protected static function getPropertyPattern(): string
     {
         return '[^\.]+';
@@ -26,5 +21,10 @@ class ElementReference extends AbstractObjectWithProperty implements ElementRefe
     public function getElementName(): string
     {
         return $this->getProperty();
+    }
+
+    protected static function getPatternPrefix(): string
+    {
+        return 'elements';
     }
 }

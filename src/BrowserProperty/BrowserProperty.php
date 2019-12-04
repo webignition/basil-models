@@ -8,13 +8,13 @@ use webignition\BasilModels\AbstractObjectWithProperty;
 
 class BrowserProperty extends AbstractObjectWithProperty implements BrowserPropertyInterface
 {
-    protected static function getObjectName(): string
-    {
-        return 'browser';
-    }
-
     protected static function getPropertyPattern(): string
     {
         return 'size';
+    }
+
+    protected static function getPatternPrefix(): string
+    {
+        return 'browser';
     }
 }

@@ -25,7 +25,7 @@ abstract class AbstractObjectWithProperty
         }
     }
 
-    abstract protected static function getObjectName(): string;
+    abstract protected static function getPatternPrefix(): string;
     abstract protected static function getPropertyPattern(): string;
 
     public static function is(string $value): bool
@@ -53,7 +53,7 @@ abstract class AbstractObjectWithProperty
         return
             self::PATTERN_DELIMITER .
             '^\$' .
-            preg_quote(static::getObjectName(), self::PATTERN_DELIMITER) .
+            static::getPatternPrefix() .
             '\.' . static::getPropertyPattern() . '$' .
             self::PATTERN_DELIMITER;
     }
