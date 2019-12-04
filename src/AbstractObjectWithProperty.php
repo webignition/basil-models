@@ -43,6 +43,11 @@ abstract class AbstractObjectWithProperty
         return $this->isValid;
     }
 
+    protected function getValue(): string
+    {
+        return $this->value;
+    }
+
     public function __toString(): string
     {
         return $this->value;
@@ -52,7 +57,7 @@ abstract class AbstractObjectWithProperty
     {
         return
             self::PATTERN_DELIMITER .
-            '^\$' .
+            '^' .
             static::getPatternPrefix() .
             '\.' . static::getPropertyPattern() . '$' .
             self::PATTERN_DELIMITER;

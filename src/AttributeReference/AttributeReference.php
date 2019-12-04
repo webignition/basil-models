@@ -8,6 +8,11 @@ use webignition\BasilModels\AbstractObjectWithProperty;
 
 class AttributeReference extends AbstractObjectWithProperty implements AttributeReferenceInterface
 {
+    protected static function getPatternPrefix(): string
+    {
+        return '\$elements';
+    }
+
     protected static function getPropertyPattern(): string
     {
         return '[^\.]+\.[^\.]+';
@@ -32,10 +37,5 @@ class AttributeReference extends AbstractObjectWithProperty implements Attribute
         $propertyParts = explode(self::PART_DELIMITER, $this->getProperty());
 
         return $propertyParts[$partIndex];
-    }
-
-    protected static function getPatternPrefix(): string
-    {
-        return 'elements';
     }
 }
