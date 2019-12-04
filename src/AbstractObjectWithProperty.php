@@ -53,6 +53,28 @@ abstract class AbstractObjectWithProperty
         return $this->value;
     }
 
+    protected function getPropertyPart(int $partIndex): string
+    {
+        if (false === $this->isValid()) {
+            return '';
+        }
+
+        $propertyParts = explode(self::PART_DELIMITER, $this->getProperty());
+
+        return $propertyParts[$partIndex];
+    }
+
+    protected function getValuePart(int $partIndex): string
+    {
+        if (false === $this->isValid()) {
+            return '';
+        }
+
+        $valueParts = explode(self::PART_DELIMITER, $this->getValue());
+
+        return $valueParts[$partIndex];
+    }
+
     private static function createPattern(): string
     {
         return

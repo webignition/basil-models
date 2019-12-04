@@ -27,15 +27,4 @@ class AttributeReference extends AbstractObjectWithProperty implements Attribute
     {
         return $this->getPropertyPart(1);
     }
-
-    private function getPropertyPart(int $partIndex): string
-    {
-        if (false === $this->isValid()) {
-            return '';
-        }
-
-        $propertyParts = explode(self::PART_DELIMITER, $this->getProperty());
-
-        return $propertyParts[$partIndex];
-    }
 }
