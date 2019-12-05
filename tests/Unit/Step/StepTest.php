@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Tests\Unit\Step;
 
 use webignition\BasilModels\Action\Action;
+use webignition\BasilModels\Action\InputAction;
 use webignition\BasilModels\Action\InteractionAction;
 use webignition\BasilModels\Action\WaitAction;
 use webignition\BasilModels\Assertion\Assertion;
@@ -370,6 +371,93 @@ class StepTest extends \PHPUnit\Framework\TestCase
                 'expectedStep' => (new Step([], []))->withIdentifiers([
                     'heading' => '.heading'
                 ]),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getDataParameterNamesDataProvider
+     */
+    public function testGetDataParameterNames(StepInterface $step, array $expectedDataParameterNames)
+    {
+        $this->assertSame($expectedDataParameterNames, $step->getDataParameterNames());
+    }
+
+    public function getDataParameterNamesDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'step' => new Step([], []),
+                'expectedDataParameterNames' => [],
+            ],
+            'has actions, has assertions, no data parameters' => [
+                'step' => new Step(
+                    [
+                        new InteractionAction(
+                            'click $".selector"',
+                            'click',
+                            '$".selector"',
+                            '$".selector"'
+                        ),
+                        new InputAction(
+                            'set $".selector" to "value"',
+                            '$".selector" to "value"',
+                            '$".selector"',
+                            '"value"'
+                        ),
+                    ],
+                    [
+                        new Assertion(
+                            '$".selector" exists',
+                            '$".selector"',
+                            'exists'
+                        ),
+                        new ComparisonAssertion(
+                            '$".selector" is "value"',
+                            '$".selector"',
+                            'is',
+                            '"value"'
+                        )
+                    ]
+                ),
+                'expectedDataParameterNames' => [],
+            ],
+            'has actions, has assertions, has data parameters' => [
+                'step' => new Step(
+                    [
+                        new InteractionAction(
+                            'click $".selector"',
+                            'click',
+                            '$".selector"',
+                            '$".selector"'
+                        ),
+                        new InputAction(
+                            'set $".selector" to $data.zebra',
+                            '$".selector" to $data.zebra',
+                            '$".selector"',
+                            '$data.zebra'
+                        ),
+                    ],
+                    [
+                        new Assertion(
+                            '$data.aardvark exists',
+                            '$data.aardvark',
+                            'exists'
+                        ),
+                        new ComparisonAssertion(
+                            '$data.cow is $data.bee',
+                            '$data.cow',
+                            'is',
+                            '$data.bee'
+                        )
+                    ]
+                ),
+                'expectedDataParameterNames' => [
+                    'aardvark',
+                    'bee',
+                    'cow',
+                    'zebra',
+                ],
             ],
         ];
     }
