@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Step;
 
 use webignition\BasilModels\Action\ActionInterface;
+use webignition\BasilModels\Action\InputActionInterface;
+use webignition\BasilModels\Action\InteractionActionInterface;
 use webignition\BasilModels\Assertion\AssertionInterface;
+use webignition\BasilModels\Assertion\ComparisonAssertionInterface;
+use webignition\BasilModels\DataParameter\DataParameter;
 use webignition\BasilModels\DataSet\DataSetCollectionInterface;
 
 class Step implements StepInterface
@@ -169,6 +173,42 @@ class Step implements StepInterface
         return $new;
     }
 
+    public function getDataParameterNames(): array
+    {
+        $dataParameterNames = [];
+
+        foreach ($this->getActions() as $action) {
+            if ($action instanceof InteractionActionInterface) {
+                $identifier = $action->getIdentifier();
+
+                $this->addDataParameterName($identifier, $dataParameterNames);
+            }
+
+            if ($action instanceof InputActionInterface) {
+                $value = $action->getValue();
+
+                $this->addDataParameterName($value, $dataParameterNames);
+            }
+        }
+
+        foreach ($this->getAssertions() as $assertion) {
+            $identifier = $assertion->getIdentifier();
+
+            $this->addDataParameterName($identifier, $dataParameterNames);
+
+            if ($assertion instanceof ComparisonAssertionInterface) {
+                $value = $assertion->getValue();
+
+                $this->addDataParameterName($value, $dataParameterNames);
+            }
+        }
+
+        $dataParameterNames = array_unique($dataParameterNames);
+        sort($dataParameterNames);
+
+        return $dataParameterNames;
+    }
+
     private function setActions(array $actions)
     {
         $this->actions = $this->filterActions($actions);
@@ -201,5 +241,13 @@ class Step implements StepInterface
         return array_filter($assertions, function ($assertion) {
             return $assertion instanceof AssertionInterface;
         });
+    }
+
+    private function addDataParameterName(string $value, array &$dataParameterNames)
+    {
+        if (DataParameter::is($value)) {
+            $dataParameter = new DataParameter($value);
+            $dataParameterNames[] = $dataParameter->getProperty();
+        }
     }
 }

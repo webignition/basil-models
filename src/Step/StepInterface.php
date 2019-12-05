@@ -67,4 +67,9 @@ interface StepInterface
      * @return StepInterface
      */
     public function withPrependedAssertions(array $assertions): StepInterface;
+
+    /**
+     * @return string[]
+     */
+    public function getDataParameterNames(): array;
 }
