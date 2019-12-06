@@ -6,13 +6,20 @@ namespace webignition\BasilModels\Page;
 
 class Page implements PageInterface
 {
+    private $importName;
     private $url;
     private $identifiers;
 
-    public function __construct(string $url, array $identifiers = [])
+    public function __construct(string $importName, string $url, array $identifiers = [])
     {
+        $this->importName = $importName;
         $this->url = $url;
         $this->identifiers = $identifiers;
+    }
+
+    public function getImportName(): string
+    {
+        return $this->importName;
     }
 
     public function getUrl(): string

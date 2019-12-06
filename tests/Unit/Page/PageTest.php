@@ -10,12 +10,15 @@ class PageTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreate()
     {
-        $emptyPage = new Page('', []);
+        $emptyPage = new Page('', '', []);
+
+        $this->assertSame('', $emptyPage->getImportName());
         $this->assertSame('', $emptyPage->getUrl());
         $this->assertSame([], $emptyPage->getIdentifiers());
 
-        $nonEmptyPage = new Page('http://example.com', ['title' => '.title']);
+        $nonEmptyPage = new Page('import_name', 'http://example.com', ['title' => '.title']);
 
+        $this->assertSame('import_name', $nonEmptyPage->getImportName());
         $this->assertSame('http://example.com', $nonEmptyPage->getUrl());
         $this->assertSame(['title' => '.title'], $nonEmptyPage->getIdentifiers());
     }
@@ -25,7 +28,7 @@ class PageTest extends \PHPUnit\Framework\TestCase
         $headingIdentifier = '$".heading"';
         $headingIdentifierName = 'heading';
 
-        $page = new Page('', [
+        $page = new Page('import_name', '', [
             $headingIdentifierName => $headingIdentifier,
         ]);
 
