@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Page;
 
 interface PageInterface
 {
+    public function getImportName(): string;
     public function getUrl(): string;
     public function getIdentifier(string $name): ?string;
 
