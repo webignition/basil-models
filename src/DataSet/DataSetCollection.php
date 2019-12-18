@@ -13,6 +13,9 @@ class DataSetCollection implements DataSetCollectionInterface
 
     private $iteratorPosition = 0;
 
+    /**
+     * @param array<int|string, array<int|string, string>> $data
+     */
     public function __construct(array $data)
     {
         $this->iteratorPosition = 0;
