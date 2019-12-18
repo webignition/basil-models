@@ -16,13 +16,29 @@ class Step implements StepInterface
 {
     private $actions = [];
     private $assertions = [];
+
+    /**
+     * @var array|null
+     */
     private $data = null;
+
+    /**
+     * @var string|null
+     */
     private $importName = null;
+
+    /**
+     * @var string|null
+     */
     private $dataImportName = null;
     private $identifiers = [];
 
     public function __construct(array $actions, array $assertions)
     {
+        $this->actions = [];
+        $this->assertions = [];
+        $this->identifiers = [];
+
         $this->setActions($actions);
         $this->setAssertions($assertions);
     }

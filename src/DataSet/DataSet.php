@@ -12,6 +12,7 @@ class DataSet implements DataSetInterface
     public function __construct(string $name, array $data)
     {
         $this->name = $name;
+        $this->data = [];
 
         foreach ($data as $key => $value) {
             $this->data[$key] = (string) $value;

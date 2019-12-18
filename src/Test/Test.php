@@ -22,6 +22,7 @@ class Test implements TestInterface
         $this->path = $path;
         $this->configuration = $configuration;
         $this->imports = $imports ?? new Imports();
+        $this->steps = [];
 
         foreach ($steps as $stepName => $step) {
             if ($step instanceof StepInterface) {

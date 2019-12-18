@@ -10,6 +10,13 @@ class Imports implements ImportsInterface
     private $pagePaths = [];
     private $dataProviderPaths = [];
 
+    public function __construct()
+    {
+        $this->stepPaths = [];
+        $this->pagePaths = [];
+        $this->dataProviderPaths = [];
+    }
+
     public function getStepPaths(): array
     {
         return $this->stepPaths;
