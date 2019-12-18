@@ -10,6 +10,11 @@ class Page implements PageInterface
     private $url;
     private $identifiers;
 
+    /**
+     * @param string $importName
+     * @param string $url
+     * @param string[] $identifiers
+     */
     public function __construct(string $importName, string $url, array $identifiers = [])
     {
         $this->importName = $importName;
