@@ -209,12 +209,12 @@ class Step implements StepInterface
         return $dataParameterNames;
     }
 
-    private function setActions(array $actions)
+    private function setActions(array $actions): void
     {
         $this->actions = $this->filterActions($actions);
     }
 
-    private function setAssertions(array $assertions)
+    private function setAssertions(array $assertions): void
     {
         $this->assertions = $this->filterAssertions($assertions);
     }
@@ -243,7 +243,7 @@ class Step implements StepInterface
         });
     }
 
-    private function addDataParameterName(string $value, array &$dataParameterNames)
+    private function addDataParameterName(string $value, array &$dataParameterNames): void
     {
         if (DataParameter::is($value)) {
             $dataParameter = new DataParameter($value);

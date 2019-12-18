@@ -47,7 +47,7 @@ class DataSetCollection implements DataSetCollectionInterface
 
     // Iterator methods
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->iteratorPosition = 0;
     }
@@ -62,7 +62,7 @@ class DataSetCollection implements DataSetCollectionInterface
         return $this->iteratorPosition;
     }
 
-    public function next()
+    public function next(): void
     {
         ++$this->iteratorPosition;
     }
