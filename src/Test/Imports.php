@@ -32,6 +32,11 @@ class Imports implements ImportsInterface
         return $this->dataProviderPaths;
     }
 
+    /**
+     * @param string[] $paths
+     *
+     * @return Imports
+     */
     public function withStepPaths(array $paths): Imports
     {
         $new = clone $this;
@@ -40,6 +45,11 @@ class Imports implements ImportsInterface
         return $new;
     }
 
+    /**
+     * @param string[] $paths
+     *
+     * @return Imports
+     */
     public function withPagePaths(array $paths): Imports
     {
         $new = clone $this;
@@ -48,6 +58,11 @@ class Imports implements ImportsInterface
         return $new;
     }
 
+    /**
+     * @param string[] $paths
+     *
+     * @return Imports
+     */
     public function withDataProviderPaths(array $paths): Imports
     {
         $new = clone $this;
@@ -56,6 +71,11 @@ class Imports implements ImportsInterface
         return $new;
     }
 
+    /**
+     * @param string[] $paths
+     *
+     * @return string[]
+     */
     private function filterPaths(array $paths): array
     {
         return array_filter($paths, function ($path) {

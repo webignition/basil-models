@@ -13,6 +13,12 @@ class Test implements TestInterface
     private $imports;
     private $steps = [];
 
+    /**
+     * @param string $path
+     * @param ConfigurationInterface $configuration
+     * @param StepInterface[] $steps
+     * @param ImportsInterface|null $imports
+     */
     public function __construct(
         string $path,
         ConfigurationInterface $configuration,
