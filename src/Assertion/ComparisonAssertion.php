@@ -27,4 +27,17 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
 
         return $new;
     }
+
+    public function equals(AssertionInterface $assertion): bool
+    {
+        if (!parent::equals($assertion)) {
+            return false;
+        }
+
+        if (!$assertion instanceof ComparisonAssertionInterface) {
+            return false;
+        }
+
+        return $this->value === $assertion->getValue();
+    }
 }
