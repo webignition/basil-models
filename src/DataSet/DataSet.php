@@ -9,6 +9,10 @@ class DataSet implements DataSetInterface
     private $name;
     private $data = [];
 
+    /**
+     * @param string $name
+     * @param array<int|string, string> $data
+     */
     public function __construct(string $name, array $data)
     {
         $this->name = $name;
@@ -24,6 +28,9 @@ class DataSet implements DataSetInterface
         return $this->name;
     }
 
+    /**
+     * @return array<int|string, string>
+     */
     public function getData(): array
     {
         return $this->data;
@@ -45,6 +52,11 @@ class DataSet implements DataSetInterface
         return array_values($keys);
     }
 
+    /**
+     * @param string[] $parameterNames
+     *
+     * @return bool
+     */
     public function hasParameterNames(array $parameterNames): bool
     {
         $dataSetParameterNames = $this->getParameterNames();
