@@ -17,6 +17,8 @@ abstract class AbstractObjectWithProperty
     {
         $value = trim($value);
         $this->value = $value;
+        $this->property = '';
+        $this->isValid = false;
 
         if (self::is($value)) {
             $referenceParts = explode(self::PART_DELIMITER, $value, 2);

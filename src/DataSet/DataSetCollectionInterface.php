@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\DataSet;
 
+/**
+ * @extends \Iterator<DataSetInterface>
+ */
 interface DataSetCollectionInterface extends \Countable, \Iterator
 {
     /**

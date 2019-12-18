@@ -6,11 +6,15 @@ namespace webignition\BasilModels\Tests\Unit\DataSet;
 
 use webignition\BasilModels\DataSet\DataSet;
 use webignition\BasilModels\DataSet\DataSetCollection;
+use webignition\BasilModels\DataSet\DataSetInterface;
 
 class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
+     *
+     * @param array<mixed> $data
+     * @param DataSetInterface[] $expectedDataSets
      */
     public function testCreate(array $data, array $expectedDataSets)
     {
@@ -68,6 +72,9 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getParameterNamesDataProvider
+     *
+     * @param DataSetCollection $dataSetCollection
+     * @param string[] $expectedKeys
      */
     public function testGetParameterNames(DataSetCollection $dataSetCollection, array $expectedKeys)
     {

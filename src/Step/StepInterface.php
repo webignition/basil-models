@@ -50,7 +50,12 @@ interface StepInterface
      */
     public function getIdentifiers(): array;
 
-    public function withIdentifiers(array $elements): Step;
+    /**
+     * @param string[] $identifiers
+     *
+     * @return Step
+     */
+    public function withIdentifiers(array $identifiers): Step;
 
     public function requiresImportResolution(): bool;
 

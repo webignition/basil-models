@@ -13,6 +13,12 @@ class Test implements TestInterface
     private $imports;
     private $steps = [];
 
+    /**
+     * @param string $path
+     * @param ConfigurationInterface $configuration
+     * @param StepInterface[] $steps
+     * @param ImportsInterface|null $imports
+     */
     public function __construct(
         string $path,
         ConfigurationInterface $configuration,
@@ -22,6 +28,7 @@ class Test implements TestInterface
         $this->path = $path;
         $this->configuration = $configuration;
         $this->imports = $imports ?? new Imports();
+        $this->steps = [];
 
         foreach ($steps as $stepName => $step) {
             if ($step instanceof StepInterface) {

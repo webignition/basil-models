@@ -10,6 +10,13 @@ class Imports implements ImportsInterface
     private $pagePaths = [];
     private $dataProviderPaths = [];
 
+    public function __construct()
+    {
+        $this->stepPaths = [];
+        $this->pagePaths = [];
+        $this->dataProviderPaths = [];
+    }
+
     public function getStepPaths(): array
     {
         return $this->stepPaths;
@@ -25,6 +32,11 @@ class Imports implements ImportsInterface
         return $this->dataProviderPaths;
     }
 
+    /**
+     * @param array<mixed> $paths
+     *
+     * @return Imports
+     */
     public function withStepPaths(array $paths): Imports
     {
         $new = clone $this;
@@ -33,6 +45,11 @@ class Imports implements ImportsInterface
         return $new;
     }
 
+    /**
+     * @param array<mixed> $paths
+     *
+     * @return Imports
+     */
     public function withPagePaths(array $paths): Imports
     {
         $new = clone $this;
@@ -41,6 +58,11 @@ class Imports implements ImportsInterface
         return $new;
     }
 
+    /**
+     * @param array<mixed> $paths
+     *
+     * @return Imports
+     */
     public function withDataProviderPaths(array $paths): Imports
     {
         $new = clone $this;
@@ -49,6 +71,11 @@ class Imports implements ImportsInterface
         return $new;
     }
 
+    /**
+     * @param string[] $paths
+     *
+     * @return string[]
+     */
     private function filterPaths(array $paths): array
     {
         return array_filter($paths, function ($path) {
