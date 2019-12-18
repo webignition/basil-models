@@ -7,6 +7,7 @@ namespace webignition\BasilModels\Tests\Unit\Test;
 use webignition\BasilModels\Action\WaitAction;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Step\Step;
+use webignition\BasilModels\Step\StepInterface;
 use webignition\BasilModels\Test\Configuration;
 use webignition\BasilModels\Test\ConfigurationInterface;
 use webignition\BasilModels\Test\Imports;
@@ -17,6 +18,12 @@ class TestTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
+     *
+     * @param string $path
+     * @param ConfigurationInterface $configuration
+     * @param array<mixed> $steps
+     * @param ImportsInterface $imports
+     * @param StepInterface[] $expectedSteps
      */
     public function testCreate(
         string $path,

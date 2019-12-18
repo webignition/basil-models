@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Tests\Unit\Step;
 
 use webignition\BasilModels\Action\Action;
+use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\InputAction;
 use webignition\BasilModels\Action\InteractionAction;
 use webignition\BasilModels\Action\WaitAction;
 use webignition\BasilModels\Assertion\Assertion;
+use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\DataSet\DataSetCollection;
 use webignition\BasilModels\Step\Step;
@@ -18,6 +20,11 @@ class StepTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
+     *
+     * @param array<mixed> $actions
+     * @param array<mixed> $assertions
+     * @param ActionInterface[] $expectedActions
+     * @param AssertionInterface[] $expectedAssertions
      */
     public function testCreate(
         array $actions,
@@ -195,6 +202,10 @@ class StepTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider withPrependedActionsDataProvider
+     *
+     * @param StepInterface $step
+     * @param ActionInterface[] $actions
+     * @param StepInterface $expectedStep
      */
     public function testWithPrependedActions(StepInterface $step, array $actions, StepInterface $expectedStep)
     {
@@ -283,6 +294,10 @@ class StepTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider withPrependedAssertionsDataProvider
+     *
+     * @param StepInterface $step
+     * @param AssertionInterface[] $assertions
+     * @param StepInterface $expectedStep
      */
     public function testWithPrependedAssertions(StepInterface $step, array $assertions, StepInterface $expectedStep)
     {
@@ -377,6 +392,9 @@ class StepTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getDataParameterNamesDataProvider
+     *
+     * @param StepInterface $step
+     * @param string[] $expectedDataParameterNames
      */
     public function testGetDataParameterNames(StepInterface $step, array $expectedDataParameterNames)
     {

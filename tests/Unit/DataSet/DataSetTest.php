@@ -11,6 +11,9 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider getParameterNamesDataProvider
+     *
+     * @param array<int|string, string> $data
+     * @param string[] $expectedParameterNames
      */
     public function testGetParameterNames(array $data, array $expectedParameterNames)
     {
@@ -19,7 +22,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expectedParameterNames, $dataSet->getParameterNames());
     }
 
-    public function getParameterNamesDataProvider()
+    public function getParameterNamesDataProvider(): array
     {
         return [
             'empty' => [
@@ -55,6 +58,10 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider hasParameterNamesDataProvider
+     *
+     * @param DataSetInterface $dataSet
+     * @param string[] $parameterNames
+     * @param bool $expectedHasParameterNames
      */
     public function testHasParameterNames(
         DataSetInterface $dataSet,

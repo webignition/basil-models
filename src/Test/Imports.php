@@ -33,7 +33,7 @@ class Imports implements ImportsInterface
     }
 
     /**
-     * @param string[] $paths
+     * @param array<mixed> $paths
      *
      * @return Imports
      */
@@ -46,7 +46,7 @@ class Imports implements ImportsInterface
     }
 
     /**
-     * @param string[] $paths
+     * @param array<mixed> $paths
      *
      * @return Imports
      */
@@ -59,7 +59,7 @@ class Imports implements ImportsInterface
     }
 
     /**
-     * @param string[] $paths
+     * @param array<mixed> $paths
      *
      * @return Imports
      */
