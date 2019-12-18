@@ -18,7 +18,7 @@ class Step implements StepInterface
     private $assertions = [];
 
     /**
-     * @var array|null
+     * @var DataSetCollectionInterface|null
      */
     private $data = null;
 
@@ -33,6 +33,10 @@ class Step implements StepInterface
     private $dataImportName = null;
     private $identifiers = [];
 
+    /**
+     * @param array<mixed> $actions
+     * @param array<mixed> $assertions
+     */
     public function __construct(array $actions, array $assertions)
     {
         $this->actions = [];
@@ -148,10 +152,15 @@ class Step implements StepInterface
         return $this->identifiers;
     }
 
-    public function withIdentifiers(array $elements): Step
+    /**
+     * @param string[] $identifiers
+     *
+     * @return Step
+     */
+    public function withIdentifiers(array $identifiers): Step
     {
         $new = clone $this;
-        $new->identifiers = $elements;
+        $new->identifiers = $identifiers;
 
         return $new;
     }
@@ -225,18 +234,24 @@ class Step implements StepInterface
         return $dataParameterNames;
     }
 
+    /**
+     * @param array<mixed> $actions
+     */
     private function setActions(array $actions): void
     {
         $this->actions = $this->filterActions($actions);
     }
 
+    /**
+     * @param array<mixed> $assertions
+     */
     private function setAssertions(array $assertions): void
     {
         $this->assertions = $this->filterAssertions($assertions);
     }
 
     /**
-     * @param array $actions
+     * @param array<mixed> $actions
      *
      * @return ActionInterface[]
      */
@@ -248,7 +263,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @param array $assertions
+     * @param array<mixed> $assertions
      *
      * @return AssertionInterface[]
      */
@@ -259,6 +274,10 @@ class Step implements StepInterface
         });
     }
 
+    /**
+     * @param string $value
+     * @param string[] $dataParameterNames
+     */
     private function addDataParameterName(string $value, array &$dataParameterNames): void
     {
         if (DataParameter::is($value)) {
