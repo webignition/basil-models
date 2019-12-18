@@ -39,4 +39,13 @@ class Assertion implements AssertionInterface
 
         return $new;
     }
+
+    public function equals(AssertionInterface $assertion): bool
+    {
+        if ($this->identifier !== $assertion->getIdentifier()) {
+            return false;
+        }
+
+        return $this->comparison === $assertion->getComparison();
+    }
 }

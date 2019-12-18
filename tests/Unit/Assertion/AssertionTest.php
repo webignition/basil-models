@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Tests\Unit\Assertion;
 
 use webignition\BasilModels\Assertion\Assertion;
+use webignition\BasilModels\Assertion\AssertionInterface;
 
 class AssertionTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,5 +33,34 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
         $this->assertNotSame($assertion, $mutatedAssertion);
         $this->assertSame($originalIdentifier, $assertion->getIdentifier());
         $this->assertSame($newIdentifier, $mutatedAssertion->getIdentifier());
+    }
+
+    /**
+     * @dataProvider equalsDataProvider
+     */
+    public function testEquals(AssertionInterface $source, AssertionInterface $comparator, bool $expectedEquals)
+    {
+        $this->assertSame($expectedEquals, $source->equals($comparator));
+    }
+
+    public function equalsDataProvider(): array
+    {
+        return [
+            'identifiers do not match' => [
+                'source' => new Assertion('$".source" exists', '$".source"', 'exists'),
+                'comparator' => new Assertion('$".comparator" exists', '$".comparator"', 'exists'),
+                'expectedEquals' => false,
+            ],
+            'comparisons do not match' => [
+                'source' => new Assertion('$".source" exists', '$".source"', 'exists'),
+                'comparator' => new Assertion('$".source" not-exists', '$".source"', 'not-exists'),
+                'expectedEquals' => false,
+            ],
+            'equal' => [
+                'source' => new Assertion('$".source" exists', '$".source"', 'exists'),
+                'comparator' => new Assertion('$".source" exists', '$".source"', 'exists'),
+                'expectedEquals' => true,
+            ],
+        ];
     }
 }
