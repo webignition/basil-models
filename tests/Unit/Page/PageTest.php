@@ -35,4 +35,17 @@ class PageTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($headingIdentifier, $page->getIdentifier($headingIdentifierName));
         $this->assertNull($page->getIdentifier('non-existent'));
     }
+
+    public function testWithIdentifiers()
+    {
+        $page = new Page('import_name', '');
+        $this->assertSame([], $page->getIdentifiers());
+
+        $identifiers = [
+            'heading' => '$".heading"',
+        ];
+
+        $page = $page->withIdentifiers($identifiers);
+        $this->assertSame($identifiers, $page->getIdentifiers());
+    }
 }

@@ -14,4 +14,11 @@ interface PageInterface
      * @return string[]
      */
     public function getIdentifiers(): array;
+
+    /**
+     * @param string[] $identifiers
+     *
+     * @return PageInterface
+     */
+    public function withIdentifiers(array $identifiers): PageInterface;
 }

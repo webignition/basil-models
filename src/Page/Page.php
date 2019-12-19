@@ -44,4 +44,12 @@ class Page implements PageInterface
     {
         return $this->identifiers;
     }
+
+    public function withIdentifiers(array $identifiers): PageInterface
+    {
+        $new = clone $this;
+        $new->identifiers = $identifiers;
+
+        return $new;
+    }
 }
