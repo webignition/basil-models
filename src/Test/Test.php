@@ -59,4 +59,12 @@ class Test implements TestInterface
     {
         return $this->steps;
     }
+
+    public function withPath(string $path): TestInterface
+    {
+        $new = clone $this;
+        $new->path = $path;
+
+        return $new;
+    }
 }

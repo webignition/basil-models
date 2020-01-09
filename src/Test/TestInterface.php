@@ -16,4 +16,6 @@ interface TestInterface
      * @return StepInterface[]
      */
     public function getSteps(): array;
+
+    public function withPath(string $path): TestInterface;
 }
