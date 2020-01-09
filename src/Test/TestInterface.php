@@ -10,7 +10,6 @@ interface TestInterface
 {
     public function getPath(): string;
     public function getConfiguration(): ConfigurationInterface;
-    public function getImports(): ImportsInterface;
 
     /**
      * @return StepInterface[]

@@ -10,24 +10,20 @@ class Test implements TestInterface
 {
     private $path = '';
     private $configuration;
-    private $imports;
     private $steps = [];
 
     /**
      * @param string $path
      * @param ConfigurationInterface $configuration
      * @param StepInterface[] $steps
-     * @param ImportsInterface|null $imports
      */
     public function __construct(
         string $path,
         ConfigurationInterface $configuration,
-        array $steps,
-        ?ImportsInterface $imports = null
+        array $steps
     ) {
         $this->path = $path;
         $this->configuration = $configuration;
-        $this->imports = $imports ?? new Imports();
         $this->steps = [];
 
         foreach ($steps as $stepName => $step) {
@@ -45,11 +41,6 @@ class Test implements TestInterface
     public function getConfiguration(): ConfigurationInterface
     {
         return $this->configuration;
-    }
-
-    public function getImports(): ImportsInterface
-    {
-        return $this->imports;
     }
 
     /**

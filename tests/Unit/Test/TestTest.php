@@ -10,8 +10,6 @@ use webignition\BasilModels\Step\Step;
 use webignition\BasilModels\Step\StepInterface;
 use webignition\BasilModels\Test\Configuration;
 use webignition\BasilModels\Test\ConfigurationInterface;
-use webignition\BasilModels\Test\Imports;
-use webignition\BasilModels\Test\ImportsInterface;
 use webignition\BasilModels\Test\Test;
 
 class TestTest extends \PHPUnit\Framework\TestCase
@@ -22,22 +20,19 @@ class TestTest extends \PHPUnit\Framework\TestCase
      * @param string $path
      * @param ConfigurationInterface $configuration
      * @param array<mixed> $steps
-     * @param ImportsInterface $imports
      * @param StepInterface[] $expectedSteps
      */
     public function testCreate(
         string $path,
         ConfigurationInterface $configuration,
         array $steps,
-        ImportsInterface $imports,
         array $expectedSteps
     ) {
-        $test = new Test($path, $configuration, $steps, $imports);
+        $test = new Test($path, $configuration, $steps);
 
         $this->assertSame($path, $test->getPath());
         $this->assertSame($configuration, $test->getConfiguration());
         $this->assertEquals($expectedSteps, $test->getSteps());
-        $this->assertSame($imports, $test->getImports());
     }
 
     public function createDataProvider(): array
@@ -47,7 +42,6 @@ class TestTest extends \PHPUnit\Framework\TestCase
                 'path' => 'test.yml',
                 'configuration' => new Configuration('', ''),
                 'steps' => [],
-                'imports' => new Imports(),
                 'expectedSteps' => [],
             ],
             'valid and invalid steps' => [
@@ -74,7 +68,6 @@ class TestTest extends \PHPUnit\Framework\TestCase
                         ]
                     ),
                 ],
-                'imports' => new Imports(),
                 'expectedSteps' => [
                     '3' => new Step(
                         [
