@@ -8,21 +8,21 @@ use webignition\BasilModels\Step\StepInterface;
 
 class Test implements TestInterface
 {
-    private $path = '';
+    /**
+     * @var string|null
+     */
+    private $path = null;
     private $configuration;
     private $steps = [];
 
     /**
-     * @param string $path
      * @param ConfigurationInterface $configuration
      * @param StepInterface[] $steps
      */
     public function __construct(
-        string $path,
         ConfigurationInterface $configuration,
         array $steps
     ) {
-        $this->path = $path;
         $this->configuration = $configuration;
         $this->steps = [];
 
@@ -33,7 +33,7 @@ class Test implements TestInterface
         }
     }
 
-    public function getPath(): string
+    public function getPath(): ?string
     {
         return $this->path;
     }

@@ -29,13 +29,11 @@ class TestSuiteTest extends \PHPUnit\Framework\TestCase
     public function createDataProvider(): array
     {
         $testOne = new Test(
-            'test one',
             new Configuration('chrome', 'http://example.com/one'),
             []
         );
 
         $testTwo = new Test(
-            'test two',
             new Configuration('chrome', 'http://example.com/two'),
             []
         );
