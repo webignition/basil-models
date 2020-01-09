@@ -96,4 +96,17 @@ class TestTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    public function testWithPath()
+    {
+        $originalPath = '/original';
+        $newPath = '/new';
+
+        $test = new Test($originalPath, new Configuration('', ''), []);
+        $this->assertSame($originalPath, $test->getPath());
+
+        $mutatedTest = $test->withPath($newPath);
+        $this->assertSame($newPath, $mutatedTest->getPath());
+        $this->assertNotSame($test, $mutatedTest);
+    }
 }
