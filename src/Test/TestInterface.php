@@ -8,7 +8,7 @@ use webignition\BasilModels\Step\StepInterface;
 
 interface TestInterface
 {
-    public function getPath(): string;
+    public function getPath(): ?string;
     public function getConfiguration(): ConfigurationInterface;
 
     /**

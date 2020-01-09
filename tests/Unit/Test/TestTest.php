@@ -17,20 +17,17 @@ class TestTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider createDataProvider
      *
-     * @param string $path
      * @param ConfigurationInterface $configuration
      * @param array<mixed> $steps
      * @param StepInterface[] $expectedSteps
      */
     public function testCreate(
-        string $path,
         ConfigurationInterface $configuration,
         array $steps,
         array $expectedSteps
     ) {
-        $test = new Test($path, $configuration, $steps);
+        $test = new Test($configuration, $steps);
 
-        $this->assertSame($path, $test->getPath());
         $this->assertSame($configuration, $test->getConfiguration());
         $this->assertEquals($expectedSteps, $test->getSteps());
     }
@@ -39,13 +36,11 @@ class TestTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'empty' => [
-                'path' => 'test.yml',
                 'configuration' => new Configuration('', ''),
                 'steps' => [],
                 'expectedSteps' => [],
             ],
             'valid and invalid steps' => [
-                'path' => 'test.yml',
                 'configuration' => new Configuration('', ''),
                 'steps' => [
                     1,
@@ -92,14 +87,13 @@ class TestTest extends \PHPUnit\Framework\TestCase
 
     public function testWithPath()
     {
-        $originalPath = '/original';
-        $newPath = '/new';
+        $path = 'test.yml';
 
-        $test = new Test($originalPath, new Configuration('', ''), []);
-        $this->assertSame($originalPath, $test->getPath());
+        $test = new Test(new Configuration('', ''), []);
+        $this->assertNull($test->getPath());
 
-        $mutatedTest = $test->withPath($newPath);
-        $this->assertSame($newPath, $mutatedTest->getPath());
+        $mutatedTest = $test->withPath($path);
+        $this->assertSame($path, $mutatedTest->getPath());
         $this->assertNotSame($test, $mutatedTest);
     }
 }
