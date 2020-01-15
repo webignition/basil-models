@@ -31,4 +31,9 @@ class Action implements ActionInterface
     {
         return $this->arguments;
     }
+
+    public function __toString(): string
+    {
+        return $this->source;
+    }
 }

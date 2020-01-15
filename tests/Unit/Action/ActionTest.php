@@ -16,8 +16,9 @@ class ActionTest extends \PHPUnit\Framework\TestCase
 
         $action = new Action($source, $type, $arguments);
 
-        $this->assertEquals($source, $action->getSource());
-        $this->assertEquals($type, $action->getType());
-        $this->assertEquals($arguments, $action->getArguments());
+        $this->assertSame($source, $action->getSource());
+        $this->assertSame($source, (string) $action);
+        $this->assertSame($type, $action->getType());
+        $this->assertSame($arguments, $action->getArguments());
     }
 }

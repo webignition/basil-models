@@ -23,6 +23,7 @@ class DerivedElementExistsAssertionTest extends \PHPUnit\Framework\TestCase
         $derivedAssertion = new DerivedElementExistsAssertion($sourceAssertion, $identifier);
 
         $this->assertSame('$".selector" exists', $derivedAssertion->getSource());
+        $this->assertSame('$".selector" exists', (string) $derivedAssertion);
         $this->assertSame($identifier, $derivedAssertion->getIdentifier());
         $this->assertSame('exists', $derivedAssertion->getComparison());
         $this->assertSame($sourceAssertion, $derivedAssertion->getSourceStatement());
