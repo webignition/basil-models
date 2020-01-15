@@ -7,4 +7,5 @@ namespace webignition\BasilModels;
 interface StatementInterface
 {
     public function getSource(): string;
+    public function __toString(): string;
 }

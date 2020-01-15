@@ -48,4 +48,9 @@ class Assertion implements AssertionInterface
 
         return $this->comparison === $assertion->getComparison();
     }
+
+    public function __toString(): string
+    {
+        return $this->source;
+    }
 }
