@@ -15,12 +15,14 @@ class PageElementReferenceTest extends \PHPUnit\Framework\TestCase
         string $reference,
         string $expectedImportName,
         string $expectedElementName,
+        string $expectedAttributeName,
         bool $expectedIsValid
     ) {
         $pageElementReference = new PageElementReference($reference);
 
         $this->assertSame($expectedImportName, $pageElementReference->getImportName());
         $this->assertSame($expectedElementName, $pageElementReference->getElementName());
+        $this->assertSame($expectedAttributeName, $pageElementReference->getAttributeName());
         $this->assertSame($expectedIsValid, $pageElementReference->isValid());
         $this->assertSame($reference, (string) $pageElementReference);
     }
@@ -32,36 +34,49 @@ class PageElementReferenceTest extends \PHPUnit\Framework\TestCase
                 'reference' => '',
                 'expectedImportName' => '',
                 'expectedElementName' => '',
+                'expectedAttributeName' => '',
                 'expectedIsValid' => false,
             ],
             'incorrect part count (1)' => [
                 'reference' => 'import_name',
                 'expectedImportName' => '',
                 'expectedElementName' => '',
+                'expectedAttributeName' => '',
                 'expectedIsValid' => false,
             ],
             'incorrect part count (2)' => [
                 'reference' => 'import_name.elements',
                 'expectedImportName' => '',
                 'expectedElementName' => '',
-                'expectedIsValid' => false,
-            ],
-            'incorrect part count (>3)' => [
-                'reference' => 'import_name.elements.element_name.another_element_name',
-                'expectedImportName' => '',
-                'expectedElementName' => '',
+                'expectedAttributeName' => '',
                 'expectedIsValid' => false,
             ],
             'incorrect elements part value' => [
                 'reference' => 'import_name.foo.element_name',
                 'expectedImportName' => '',
                 'expectedElementName' => '',
+                'expectedAttributeName' => '',
                 'expectedIsValid' => false,
             ],
-            'valid' => [
+            'valid element reference' => [
                 'reference' => 'import_name.elements.element_name',
                 'expectedImportName' => 'import_name',
                 'expectedElementName' => 'element_name',
+                'expectedAttributeName' => '',
+                'expectedIsValid' => true,
+            ],
+            'valid attribute reference' => [
+                'reference' => 'import_name.elements.element_name.attribute_name',
+                'expectedImportName' => 'import_name',
+                'expectedElementName' => 'element_name',
+                'expectedAttributeName' => 'attribute_name',
+                'expectedIsValid' => true,
+            ],
+            'valid attribute reference with dot in attribute name' => [
+                'reference' => 'import_name.elements.element_name.attribute.name',
+                'expectedImportName' => 'import_name',
+                'expectedElementName' => 'element_name',
+                'expectedAttributeName' => 'attribute.name',
                 'expectedIsValid' => true,
             ],
         ];
@@ -90,12 +105,12 @@ class PageElementReferenceTest extends \PHPUnit\Framework\TestCase
                 'reference' => 'import_name.elements',
                 'expectedIs' => false,
             ],
-            'has more than two dots' => [
-                'reference' => 'import_name.elements.element_name.name',
-                'expectedIs' => false,
-            ],
-            'valid' => [
+            'valid element reference' => [
                 'reference' => 'import_name.elements.element_name',
+                'expectedIs' => true,
+            ],
+            'valid attribute reference' => [
+                'reference' => 'import_name.elements.element_name.attribute_name',
                 'expectedIs' => true,
             ],
         ];

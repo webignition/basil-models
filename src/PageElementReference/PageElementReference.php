@@ -15,7 +15,12 @@ class PageElementReference extends AbstractObjectWithProperty implements PageEle
 
     protected static function getPropertyPattern(): string
     {
-        return 'elements\.[^.]+';
+        return 'elements\.[^ ]+';
+    }
+
+    protected function getMaxPartCount(): int
+    {
+        return 4;
     }
 
     public function getImportName(): string
@@ -26,5 +31,10 @@ class PageElementReference extends AbstractObjectWithProperty implements PageEle
     public function getElementName(): string
     {
         return $this->getValuePart(2);
+    }
+
+    public function getAttributeName(): string
+    {
+        return $this->getValuePart(3);
     }
 }
