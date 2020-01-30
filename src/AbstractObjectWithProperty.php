@@ -50,6 +50,11 @@ abstract class AbstractObjectWithProperty
         return $this->value;
     }
 
+    protected function getMaxPartCount(): int
+    {
+        return 2;
+    }
+
     public function __toString(): string
     {
         return $this->value;
@@ -61,9 +66,9 @@ abstract class AbstractObjectWithProperty
             return '';
         }
 
-        $propertyParts = explode(self::PART_DELIMITER, $this->getProperty());
+        $propertyParts = explode(self::PART_DELIMITER, $this->getProperty(), $this->getMaxPartCount());
 
-        return $propertyParts[$partIndex];
+        return $propertyParts[$partIndex] ?? '';
     }
 
     protected function getValuePart(int $partIndex): string
@@ -72,9 +77,9 @@ abstract class AbstractObjectWithProperty
             return '';
         }
 
-        $valueParts = explode(self::PART_DELIMITER, $this->getValue());
+        $valueParts = explode(self::PART_DELIMITER, $this->getValue(), $this->getMaxPartCount());
 
-        return $valueParts[$partIndex];
+        return $valueParts[$partIndex] ?? '';
     }
 
     private static function createPattern(): string
