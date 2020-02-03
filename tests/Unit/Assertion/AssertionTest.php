@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Tests\Unit\Assertion;
 
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
+use webignition\BasilModels\Assertion\ComparisonAssertion;
 
 class AssertionTest extends \PHPUnit\Framework\TestCase
 {
@@ -61,6 +62,117 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
                 'source' => new Assertion('$".source" exists', '$".source"', 'exists'),
                 'comparator' => new Assertion('$".source" exists', '$".source"', 'exists'),
                 'expectedEquals' => true,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider jsonSerializeDataProvider
+     *
+     * @param AssertionInterface $assertion
+     * @param array<mixed> $expectedSerializedData
+     */
+    public function testJsonSerialize(AssertionInterface $assertion, array $expectedSerializedData)
+    {
+        $this->assertEquals($expectedSerializedData, $assertion->jsonSerialize());
+    }
+
+    public function jsonSerializeDataProvider(): array
+    {
+        return [
+            'is' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" is "value"',
+                    '$".selector"',
+                    'is',
+                    '"value"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" is "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'is',
+                    'value' => '"value"',
+                ],
+            ],
+            'is-not' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" is-not "value"',
+                    '$".selector"',
+                    'is-not',
+                    '"value"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" is-not "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'is-not',
+                    'value' => '"value"',
+                ],
+            ],
+            'exists' => [
+                'assertion' => new Assertion(
+                    '$".selector" exists',
+                    '$".selector"',
+                    'exists'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" exists',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'exists',
+                ],
+            ],
+            'not-exists' => [
+                'assertion' => new Assertion(
+                    '$".selector" not-exists',
+                    '$".selector"',
+                    'not-exists'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" not-exists',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'not-exists',
+                ],
+            ],
+            'includes' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" includes "value"',
+                    '$".selector"',
+                    'includes',
+                    '"value"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" includes "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'includes',
+                    'value' => '"value"',
+                ],
+            ],
+            'excludes' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" excludes "value"',
+                    '$".selector"',
+                    'excludes',
+                    '"value"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" excludes "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'excludes',
+                    'value' => '"value"',
+                ],
+            ],
+            'matches' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" matches "/$pattern/"',
+                    '$".selector"',
+                    'matches',
+                    '"/$pattern/"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" matches "/$pattern/"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'matches',
+                    'value' => '"/$pattern/"',
+                ],
             ],
         ];
     }

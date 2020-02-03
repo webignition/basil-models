@@ -6,6 +6,10 @@ namespace webignition\BasilModels\Assertion;
 
 class Assertion implements AssertionInterface
 {
+    private const KEY_SOURCE = 'source';
+    private const KEY_IDENTIFIER = 'identifier';
+    private const KEY_COMPARISON = 'comparison';
+
     private $source;
     private $identifier;
     private $comparison;
@@ -47,6 +51,15 @@ class Assertion implements AssertionInterface
         }
 
         return $this->comparison === $assertion->getComparison();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            self::KEY_SOURCE => $this->source,
+            self::KEY_IDENTIFIER => $this->identifier,
+            self::KEY_COMPARISON => $this->comparison,
+        ];
     }
 
     public function __toString(): string
