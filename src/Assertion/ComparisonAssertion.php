@@ -6,6 +6,8 @@ namespace webignition\BasilModels\Assertion;
 
 class ComparisonAssertion extends Assertion implements ComparisonAssertionInterface
 {
+    private const KEY_VALUE = 'value';
+
     private $value;
 
     public function __construct(string $source, string $identifier, string $comparison, string $value)
@@ -39,5 +41,12 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
         }
 
         return $this->value === $assertion->getValue();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array_merge(parent::jsonSerialize(), [
+            self::KEY_VALUE => $this->value,
+        ]);
     }
 }
