@@ -38,8 +38,15 @@ class Assertion implements AssertionInterface
 
     public function withComparison(string $comparison): AssertionInterface
     {
+        $oldComparison = $this->getComparison();
+
         $new = clone $this;
         $new->comparison = $comparison;
+        $new->source = preg_replace(
+            '/' . $oldComparison . '$/',
+            $comparison,
+            $this->source
+        );
 
         return $new;
     }
