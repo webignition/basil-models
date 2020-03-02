@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Action;
 
+use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\InputAction;
 
 class InputActionTest extends \PHPUnit\Framework\TestCase
@@ -59,5 +60,37 @@ class InputActionTest extends \PHPUnit\Framework\TestCase
         $this->assertNotSame($action, $mutatedAction);
         $this->assertSame($originalValue, $action->getValue());
         $this->assertSame($newValue, $mutatedAction->getValue());
+    }
+
+    /**
+     * @dataProvider jsonSerializeDataProvider
+     *
+     * @param ActionInterface $action
+     * @param array<mixed> $expectedSerializedData
+     */
+    public function testJsonSerialize(ActionInterface $action, array $expectedSerializedData)
+    {
+        $this->assertEquals($expectedSerializedData, $action->jsonSerialize());
+    }
+
+    public function jsonSerializeDataProvider(): array
+    {
+        return [
+            'set' => [
+                'action' => new InputAction(
+                    'set $".selector" to "value"',
+                    '$".selector" to "value"',
+                    '$".selector"',
+                    '"value"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => 'set $".selector" to "value"',
+                    'type' => 'set',
+                    'arguments' => '$".selector" to "value"',
+                    'identifier' => '$".selector"',
+                    'value' => '"value"',
+                ],
+            ],
+        ];
     }
 }

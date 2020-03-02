@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Action;
 
-class Action implements ActionInterface
+use webignition\BasilModels\Statement;
+
+class Action extends Statement implements ActionInterface
 {
-    private $source;
+    private const KEY_TYPE = 'type';
+    private const KEY_ARGUMENTS = 'arguments';
+
     private $type;
     private $arguments;
 
     public function __construct(string $source, string $type, string $arguments)
     {
-        $this->source = $source;
+        parent::__construct($source);
+
         $this->type = $type;
         $this->arguments = $arguments;
-    }
-
-    public function getSource(): string
-    {
-        return $this->source;
     }
 
     public function getType(): string
@@ -32,8 +32,11 @@ class Action implements ActionInterface
         return $this->arguments;
     }
 
-    public function __toString(): string
+    public function jsonSerialize(): array
     {
-        return $this->source;
+        return array_merge(parent::jsonSerialize(), [
+            self::KEY_TYPE => $this->type,
+            self::KEY_ARGUMENTS => $this->arguments,
+        ]);
     }
 }

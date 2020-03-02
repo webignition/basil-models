@@ -7,6 +7,7 @@ namespace webignition\BasilModels\Action;
 class InputAction extends InteractionAction implements InputActionInterface
 {
     public const TYPE = 'set';
+    private const KEY_VALUE = 'value';
 
     private $value;
 
@@ -28,5 +29,12 @@ class InputAction extends InteractionAction implements InputActionInterface
         $new->value = $value;
 
         return $new;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array_merge(parent::jsonSerialize(), [
+            self::KEY_VALUE => $this->value,
+        ]);
     }
 }
