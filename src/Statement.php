@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels;
 
-class Statement implements StatementInterface
+abstract class Statement implements StatementInterface
 {
     private const KEY_SOURCE = 'source';
 
