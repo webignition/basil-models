@@ -7,6 +7,7 @@ namespace webignition\BasilModels\Action;
 class WaitAction extends Action implements WaitActionInterface
 {
     public const TYPE = 'wait';
+    private const KEY_DURATION = 'duration';
 
     private $duration;
 
@@ -20,5 +21,12 @@ class WaitAction extends Action implements WaitActionInterface
     public function getDuration(): string
     {
         return $this->duration;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array_merge(parent::jsonSerialize(), [
+            self::KEY_DURATION => $this->duration,
+        ]);
     }
 }
