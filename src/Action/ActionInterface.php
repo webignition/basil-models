@@ -6,13 +6,8 @@ namespace webignition\BasilModels\Action;
 
 use webignition\BasilModels\StatementInterface;
 
-interface ActionInterface extends StatementInterface, \JsonSerializable
+interface ActionInterface extends StatementInterface
 {
     public function getType(): string;
     public function getArguments(): string;
-
-    /**
-     * @return array<mixed>
-     */
-    public function jsonSerialize(): array;
 }

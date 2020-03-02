@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
-class Assertion implements AssertionInterface
+use webignition\BasilModels\Statement;
+
+class Assertion extends Statement implements AssertionInterface
 {
-    private const KEY_SOURCE = 'source';
     private const KEY_IDENTIFIER = 'identifier';
     private const KEY_COMPARISON = 'comparison';
 
-    private $source;
     private $identifier;
     private $comparison;
 
     public function __construct(string $source, string $identifier, string $comparison)
     {
-        $this->source = $source;
+        parent::__construct($source);
+
         $this->identifier = $identifier;
         $this->comparison = $comparison;
-    }
-
-    public function getSource(): string
-    {
-        return $this->source;
     }
 
     public function getIdentifier(): string
@@ -70,11 +66,10 @@ class Assertion implements AssertionInterface
 
     public function jsonSerialize(): array
     {
-        return [
-            self::KEY_SOURCE => $this->source,
+        return array_merge(parent::jsonSerialize(), [
             self::KEY_IDENTIFIER => $this->identifier,
             self::KEY_COMPARISON => $this->comparison,
-        ];
+        ]);
     }
 
     public function __toString(): string
