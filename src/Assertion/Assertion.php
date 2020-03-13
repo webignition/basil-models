@@ -85,6 +85,11 @@ class Assertion extends Statement implements AssertionInterface
         return new Assertion((string) $source, (string) $identifier, (string) $comparison);
     }
 
+    public static function createsFromComparison(string $comparison): bool
+    {
+        return in_array($comparison, ['exists', 'not-exists']);
+    }
+
     public function __toString(): string
     {
         return $this->source;

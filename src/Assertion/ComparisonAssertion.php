@@ -69,4 +69,9 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
             (string) $value
         );
     }
+
+    public static function createsFromComparison(string $comparison): bool
+    {
+        return in_array($comparison, ['is', 'is-not', 'includes', 'excludes', 'matches']);
+    }
 }
