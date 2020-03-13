@@ -49,4 +49,24 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
             self::KEY_VALUE => $this->value,
         ]);
     }
+
+    public static function fromArray(array $data): ?AssertionInterface
+    {
+        $assertion = parent::fromArray($data);
+        if (null === $assertion) {
+            return null;
+        }
+
+        $value = $data[self::KEY_VALUE] ?? null;
+        if (null === $value) {
+            return null;
+        }
+
+        return new ComparisonAssertion(
+            $assertion->getSource(),
+            $assertion->getIdentifier(),
+            $assertion->getComparison(),
+            (string) $value
+        );
+    }
 }
