@@ -20,4 +20,6 @@ interface AssertionInterface extends StatementInterface
      * @return AssertionInterface|null
      */
     public static function fromArray(array $data): ?AssertionInterface;
+
+    public static function createsFromComparison(string $comparison): bool;
 }

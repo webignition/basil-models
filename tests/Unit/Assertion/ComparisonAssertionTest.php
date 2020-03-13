@@ -145,4 +145,46 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider createsFromComparisonDataProvider
+     */
+    public function testCreatesFromComparison(string $comparison, bool $expectedCreatesFromComparison)
+    {
+        $this->assertSame($expectedCreatesFromComparison, ComparisonAssertion::createsFromComparison($comparison));
+    }
+
+    public function createsFromComparisonDataProvider(): array
+    {
+        return [
+            'is' => [
+                'comparison' => 'is',
+                'expectedCreatesFromComparison' => true,
+            ],
+            'is-not' => [
+                'comparison' => 'is-not',
+                'expectedCreatesFromComparison' => true,
+            ],
+            'exists' => [
+                'comparison' => 'exists',
+                'expectedCreatesFromComparison' => false,
+            ],
+            'not-exists' => [
+                'comparison' => 'not-exists',
+                'expectedCreatesFromComparison' => false,
+            ],
+            'includes' => [
+                'comparison' => 'includes',
+                'expectedCreatesFromComparison' => true,
+            ],
+            'excludes' => [
+                'comparison' => 'excludes',
+                'expectedCreatesFromComparison' => true,
+            ],
+            'matches' => [
+                'comparison' => 'matches',
+                'expectedCreatesFromComparison' => true,
+            ],
+        ];
+    }
 }
