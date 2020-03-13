@@ -37,4 +37,24 @@ class InputAction extends InteractionAction implements InputActionInterface
             self::KEY_VALUE => $this->value,
         ]);
     }
+
+    public static function fromArray(array $data): ?ActionInterface
+    {
+        $action = InteractionAction::fromArray($data);
+        if (!$action instanceof InteractionActionInterface) {
+            return null;
+        }
+
+        $value = $data[self::KEY_VALUE] ?? null;
+        if (null === $value) {
+            return null;
+        }
+
+        return new InputAction(
+            $action->getSource(),
+            $action->getArguments(),
+            $action->getIdentifier(),
+            (string) $value
+        );
+    }
 }

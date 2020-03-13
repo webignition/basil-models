@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Action;
 
-use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\InteractionAction;
+use webignition\BasilModels\Action\InteractionActionInterface;
 
 class InteractionActionTest extends \PHPUnit\Framework\TestCase
 {
@@ -46,10 +46,10 @@ class InteractionActionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param ActionInterface $action
+     * @param InteractionActionInterface $action
      * @param array<mixed> $expectedSerializedData
      */
-    public function testJsonSerialize(ActionInterface $action, array $expectedSerializedData)
+    public function testJsonSerialize(InteractionActionInterface $action, array $expectedSerializedData)
     {
         $this->assertEquals($expectedSerializedData, $action->jsonSerialize());
     }
@@ -70,6 +70,73 @@ class InteractionActionTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider fromArrayDataProvider
+     *
+     * @param array<mixed> $data
+     * @param InteractionActionInterface $expectedAction
+     */
+    public function testFromArray(array $data, ?InteractionActionInterface $expectedAction)
+    {
+        $this->assertEquals($expectedAction, InteractionAction::fromArray($data));
+    }
+
+    public function fromArrayDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'data' => [],
+                'expectedAction' => null,
+            ],
+            'source missing' => [
+                'data' => [
+                    'type' => 'click',
+                    'arguments' => '$".selector"',
+                    'identifier' => '$".selector"',
+                ],
+                'expectedAction' => null,
+            ],
+            'type missing' => [
+                'data' => [
+                    'source' => 'click $".selector"',
+                    'arguments' => '$".selector"',
+                    'identifier' => '$".selector"',
+                ],
+                'expectedAction' => null,
+            ],
+            'arguments missing' => [
+                'data' => [
+                    'source' => 'click $".selector"',
+                    'type' => 'click',
+                    'identifier' => '$".selector"',
+                ],
+                'expectedAction' => null,
+            ],
+            'identifier missing' => [
+                'data' => [
+                    'source' => 'click $".selector"',
+                    'type' => 'click',
+                    'arguments' => '$".selector"',
+                ],
+                'expectedAction' => null,
+            ],
+            'source, type, arguments, identifier present' => [
+                'data' => [
+                    'source' => 'click $".selector"',
+                    'type' => 'click',
+                    'arguments' => '$".selector"',
+                    'identifier' => '$".selector"',
+                ],
+                'expectedAction' => new InteractionAction(
+                    'click $".selector"',
+                    'click',
+                    '$".selector"',
+                    '$".selector"'
+                ),
             ],
         ];
     }

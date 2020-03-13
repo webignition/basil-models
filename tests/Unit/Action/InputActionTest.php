@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Tests\Unit\Action;
 
 use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\InputAction;
+use webignition\BasilModels\Action\InputActionInterface;
 
 class InputActionTest extends \PHPUnit\Framework\TestCase
 {
@@ -90,6 +91,87 @@ class InputActionTest extends \PHPUnit\Framework\TestCase
                     'identifier' => '$".selector"',
                     'value' => '"value"',
                 ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider fromArrayDataProvider
+     *
+     * @param array<mixed> $data
+     * @param InputActionInterface $expectedAction
+     */
+    public function testFromArray(array $data, ?InputActionInterface $expectedAction)
+    {
+        $this->assertEquals($expectedAction, InputAction::fromArray($data));
+    }
+
+    public function fromArrayDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'data' => [],
+                'expectedAction' => null,
+            ],
+            'source missing' => [
+                'data' => [
+                    'type' => 'set',
+                    'arguments' => '$".selector"',
+                    'identifier' => '$".selector"',
+                    'value' => '"value"',
+                ],
+                'expectedAction' => null,
+            ],
+            'type missing' => [
+                'data' => [
+                    'source' => 'set $".selector" to "value"',
+                        'arguments' => '$".selector"',
+                    'identifier' => '$".selector"',
+                    'value' => '"value"',
+                ],
+                'expectedAction' => null,
+            ],
+            'arguments missing' => [
+                'data' => [
+                    'source' => 'set $".selector" to "value"',
+                    'type' => 'set',
+                    'identifier' => '$".selector"',
+                    'value' => '"value"',
+                ],
+                'expectedAction' => null,
+            ],
+            'identifier missing' => [
+                'data' => [
+                    'source' => 'set $".selector" to "value"',
+                    'type' => 'set',
+                    'arguments' => '$".selector"',
+                    'value' => '"value"',
+                ],
+                'expectedAction' => null,
+            ],
+            'value missing' => [
+                'data' => [
+                    'source' => 'set $".selector" to "value"',
+                    'type' => 'set',
+                    'arguments' => '$".selector"',
+                    'identifier' => '$".selector"',
+                ],
+                'expectedAction' => null,
+            ],
+            'source, type, arguments, identifier present' => [
+                'data' => [
+                    'source' => 'set $".selector" to "value"',
+                    'type' => 'set',
+                    'arguments' => '$".selector"',
+                    'identifier' => '$".selector"',
+                    'value' => '"value"',
+                ],
+                'expectedAction' => new InputAction(
+                    'set $".selector" to "value"',
+                    '$".selector"',
+                    '$".selector"',
+                    '"value"'
+                ),
             ],
         ];
     }

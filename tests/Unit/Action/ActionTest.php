@@ -51,4 +51,54 @@ class ActionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider fromArrayDataProvider
+     *
+     * @param array<mixed> $data
+     * @param ActionInterface $expectedAction
+     */
+    public function testFromArray(array $data, ?ActionInterface $expectedAction)
+    {
+        $this->assertEquals($expectedAction, Action::fromArray($data));
+    }
+
+    public function fromArrayDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'data' => [],
+                'expectedAction' => null,
+            ],
+            'source missing' => [
+                'data' => [
+                    'type' => 'back',
+                    'arguments' => '',
+                ],
+                'expectedAction' => null,
+            ],
+            'type missing' => [
+                'data' => [
+                    'source' => 'back',
+                    'arguments' => '',
+                ],
+                'expectedAction' => null,
+            ],
+            'arguments missing' => [
+                'data' => [
+                    'source' => 'back',
+                    'type' => 'back',
+                ],
+                'expectedAction' => null,
+            ],
+            'source, type, arguments present' => [
+                'data' => [
+                    'source' => 'back',
+                    'type' => 'back',
+                    'arguments' => '',
+                ],
+                'expectedAction' => new Action('back', 'back', ''),
+            ],
+        ];
+    }
 }

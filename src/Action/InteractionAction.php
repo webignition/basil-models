@@ -36,4 +36,24 @@ class InteractionAction extends Action implements InteractionActionInterface
             self::KEY_IDENTIFIER => $this->identifier,
         ]);
     }
+
+    public static function fromArray(array $data): ?ActionInterface
+    {
+        $action = Action::fromArray($data);
+        if (!$action instanceof ActionInterface) {
+            return null;
+        }
+
+        $identifier = $data[self::KEY_IDENTIFIER] ?? null;
+        if (null === $identifier) {
+            return null;
+        }
+
+        return new InteractionAction(
+            $action->getSource(),
+            $action->getType(),
+            $action->getArguments(),
+            (string) $identifier
+        );
+    }
 }
