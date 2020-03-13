@@ -72,6 +72,19 @@ class Assertion extends Statement implements AssertionInterface
         ]);
     }
 
+    public static function fromArray(array $data): ?AssertionInterface
+    {
+        $source = $data[self::KEY_SOURCE] ?? null;
+        $identifier = $data[self::KEY_IDENTIFIER] ?? null;
+        $comparison = $data[self::KEY_COMPARISON] ?? null;
+
+        if (null === $source || null === $identifier || null === $comparison) {
+            return null;
+        }
+
+        return new Assertion((string) $source, (string) $identifier, (string) $comparison);
+    }
+
     public function __toString(): string
     {
         return $this->source;

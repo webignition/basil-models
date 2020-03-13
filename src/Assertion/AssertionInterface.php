@@ -13,4 +13,11 @@ interface AssertionInterface extends StatementInterface
     public function withComparison(string $comparison): AssertionInterface;
     public function withIdentifier(string $identifier): AssertionInterface;
     public function equals(AssertionInterface $assertion): bool;
+
+    /**
+     * @param array<mixed> $data
+     *
+     * @return AssertionInterface|null
+     */
+    public static function fromArray(array $data): ?AssertionInterface;
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Assertion;
 
-use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\Assertion\ComparisonAssertionInterface;
@@ -84,6 +83,65 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
                 'source' => new ComparisonAssertion('$".source" is "value"', '$".source"', 'is', '"value"'),
                 'comparator' => new ComparisonAssertion('$".source" is "value"', '$".source"', 'is', '"value"'),
                 'expectedEquals' => true,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider fromArrayDataProvider
+     *
+     * @param array<mixed> $data
+     * @param AssertionInterface|null $expectedAssertion
+     */
+    public function testFromArray(array $data, ?AssertionInterface $expectedAssertion)
+    {
+        $this->assertEquals($expectedAssertion, ComparisonAssertion::fromArray($data));
+    }
+
+    public function fromArrayDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'data' => [],
+                'expectedAssertion' => null,
+            ],
+            'identifier missing' => [
+                'data' => [
+                    'source' => '$".selector" is "value"',
+                    'comparison' => 'is',
+                    'value' => '"value"',
+                ],
+                'expectedAssertion' => null,
+            ],
+            'comparison missing' => [
+                'data' => [
+                    'source' => '$".selector" is "value"',
+                    'identifier' => '$".selector"',
+                    'value' => '"value"',
+                ],
+                'expectedAssertion' => null,
+            ],
+            'value missing' => [
+                'data' => [
+                    'source' => '$".selector" is "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'is',
+                ],
+                'expectedAssertion' => null,
+            ],
+            'source, identifier, comparison, value present' => [
+                'data' => [
+                    'source' => '$".selector" is "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'is',
+                    'value' => '"value"',
+                ],
+                'expectedAssertion' => new ComparisonAssertion(
+                    '$".selector" is "value"',
+                    '$".selector"',
+                    'is',
+                    '"value"'
+                ),
             ],
         ];
     }

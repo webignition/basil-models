@@ -190,4 +190,51 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider fromArrayDataProvider
+     *
+     * @param array<mixed> $data
+     * @param AssertionInterface|null $expectedAssertion
+     */
+    public function testFromArray(array $data, ?AssertionInterface $expectedAssertion)
+    {
+        $this->assertEquals($expectedAssertion, Assertion::fromArray($data));
+    }
+
+    public function fromArrayDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'data' => [],
+                'expectedAssertion' => null,
+            ],
+            'identifier missing' => [
+                'data' => [
+                    'source' => '$".selector" exists',
+                    'comparison' => 'exists',
+                ],
+                'expectedAssertion' => null,
+            ],
+            'comparison missing' => [
+                'data' => [
+                    'source' => '$".selector" exists',
+                    'comparison' => 'is',
+                ],
+                'expectedAssertion' => null,
+            ],
+            'source, identifier, comparison present' => [
+                'data' => [
+                    'source' => '$".selector" exists',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'exists',
+                ],
+                'expectedAssertion' => new Assertion(
+                    '$".selector" exists',
+                    '$".selector"',
+                    'exists'
+                ),
+            ],
+        ];
+    }
 }

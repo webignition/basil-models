@@ -6,7 +6,7 @@ namespace webignition\BasilModels;
 
 abstract class Statement implements StatementInterface
 {
-    private const KEY_SOURCE = 'source';
+    protected const KEY_SOURCE = 'source';
 
     /**
      * @var string
