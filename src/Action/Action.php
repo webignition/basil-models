@@ -39,4 +39,17 @@ class Action extends Statement implements ActionInterface
             self::KEY_ARGUMENTS => $this->arguments,
         ]);
     }
+
+    public static function fromArray(array $data): ?ActionInterface
+    {
+        $source = $data[self::KEY_SOURCE] ?? null;
+        $type = $data[self::KEY_TYPE] ?? null;
+        $arguments = $data[self::KEY_ARGUMENTS] ?? null;
+
+        if (null === $source || null === $type || null === $arguments) {
+            return null;
+        }
+
+        return new Action((string) $source, (string) $type, (string) $arguments);
+    }
 }

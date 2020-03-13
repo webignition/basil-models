@@ -29,4 +29,19 @@ class WaitAction extends Action implements WaitActionInterface
             self::KEY_DURATION => $this->duration,
         ]);
     }
+
+    public static function fromArray(array $data): ?ActionInterface
+    {
+        $action = parent::fromArray($data);
+        if (!$action instanceof ActionInterface) {
+            return null;
+        }
+
+        $duration = $data[self::KEY_DURATION] ?? null;
+        if (null === $duration) {
+            return null;
+        }
+
+        return new WaitAction($action->getSource(), (string) $duration);
+    }
 }

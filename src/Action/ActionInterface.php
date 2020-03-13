@@ -10,4 +10,11 @@ interface ActionInterface extends StatementInterface
 {
     public function getType(): string;
     public function getArguments(): string;
+
+    /**
+     * @param array<mixed> $data
+     *
+     * @return ActionInterface|null
+     */
+    public static function fromArray(array $data): ?ActionInterface;
 }

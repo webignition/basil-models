@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Tests\Unit\Action;
 
 use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\WaitAction;
+use webignition\BasilModels\Action\WaitActionInterface;
 
 class WaitActionTest extends \PHPUnit\Framework\TestCase
 {
@@ -48,6 +49,68 @@ class WaitActionTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '30',
                     'duration' => '30',
                 ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider fromArrayDataProvider
+     *
+     * @param array<mixed> $data
+     * @param WaitActionInterface $expectedAction
+     */
+    public function testFromArray(array $data, ?WaitActionInterface $expectedAction)
+    {
+        $this->assertEquals($expectedAction, WaitAction::fromArray($data));
+    }
+
+    public function fromArrayDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'data' => [],
+                'expectedAction' => null,
+            ],
+            'source missing' => [
+                'data' => [
+                    'type' => 'wait',
+                    'arguments' => '1',
+                    'duration' => '1',
+                ],
+                'expectedAction' => null,
+            ],
+            'type missing' => [
+                'data' => [
+                    'source' => 'wait 1',
+                    'arguments' => '1',
+                    'duration' => '1',
+                ],
+                'expectedAction' => null,
+            ],
+            'arguments missing' => [
+                'data' => [
+                    'source' => 'wait 1',
+                    'type' => 'wait',
+                    'duration' => '1',
+                ],
+                'expectedAction' => null,
+            ],
+            'duration missing' => [
+                'data' => [
+                    'source' => 'wait 1',
+                    'type' => 'wait',
+                    'arguments' => '1',
+                ],
+                'expectedAction' => null,
+            ],
+            'source, type, arguments, duration present' => [
+                'data' => [
+                    'source' => 'wait 1',
+                    'type' => 'wait',
+                    'arguments' => '1',
+                    'duration' => '1',
+                ],
+                'expectedAction' => new WaitAction('wait 1', '1'),
             ],
         ];
     }
