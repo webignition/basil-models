@@ -114,4 +114,50 @@ class WaitActionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider createsFromTypeDataProvider
+     */
+    public function testCreatesFromType(string $type, bool $expectedCreatesFromType)
+    {
+        $this->assertSame($expectedCreatesFromType, WaitAction::createsFromType($type));
+    }
+
+    public function createsFromTypeDataProvider(): array
+    {
+        return [
+            'click' => [
+                'type' => 'click',
+                'expectedCreatesFromType' => false,
+            ],
+            'set' => [
+                'type' => 'set',
+                'expectedCreatesFromType' => false,
+            ],
+            'submit' => [
+                'type' => 'submit',
+                'expectedCreatesFromType' => false,
+            ],
+            'wait' => [
+                'type' => 'wait',
+                'expectedCreatesFromType' => true,
+            ],
+            'wait-for' => [
+                'type' => 'wait-for',
+                'expectedCreatesFromType' => false,
+            ],
+            'reload' => [
+                'type' => 'reload',
+                'expectedCreatesFromType' => false,
+            ],
+            'forward' => [
+                'type' => 'forward',
+                'expectedCreatesFromType' => false,
+            ],
+            'back' => [
+                'type' => 'back',
+                'expectedCreatesFromType' => false,
+            ],
+        ];
+    }
 }

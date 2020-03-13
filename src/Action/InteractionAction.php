@@ -56,4 +56,9 @@ class InteractionAction extends Action implements InteractionActionInterface
             (string) $identifier
         );
     }
+
+    public static function createsFromType(string $type): bool
+    {
+        return in_array($type, ['click', 'submit', 'wait-for']);
+    }
 }
