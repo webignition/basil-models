@@ -44,4 +44,9 @@ class WaitAction extends Action implements WaitActionInterface
 
         return new WaitAction($action->getSource(), (string) $duration);
     }
+
+    public static function createsFromType(string $type): bool
+    {
+        return 'wait' === $type;
+    }
 }

@@ -57,4 +57,9 @@ class InputAction extends InteractionAction implements InputActionInterface
             (string) $value
         );
     }
+
+    public static function createsFromType(string $type): bool
+    {
+        return 'set' === $type;
+    }
 }

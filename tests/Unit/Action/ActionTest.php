@@ -101,4 +101,50 @@ class ActionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider createsFromTypeDataProvider
+     */
+    public function testCreatesFromType(string $type, bool $expectedCreatesFromType)
+    {
+        $this->assertSame($expectedCreatesFromType, Action::createsFromType($type));
+    }
+
+    public function createsFromTypeDataProvider(): array
+    {
+        return [
+            'click' => [
+                'type' => 'click',
+                'expectedCreatesFromType' => false,
+            ],
+            'set' => [
+                'type' => 'set',
+                'expectedCreatesFromType' => false,
+            ],
+            'submit' => [
+                'type' => 'submit',
+                'expectedCreatesFromType' => false,
+            ],
+            'wait' => [
+                'type' => 'wait',
+                'expectedCreatesFromType' => false,
+            ],
+            'wait-for' => [
+                'type' => 'wait-for',
+                'expectedCreatesFromType' => false,
+            ],
+            'reload' => [
+                'type' => 'reload',
+                'expectedCreatesFromType' => true,
+            ],
+            'forward' => [
+                'type' => 'forward',
+                'expectedCreatesFromType' => true,
+            ],
+            'back' => [
+                'type' => 'back',
+                'expectedCreatesFromType' => true,
+            ],
+        ];
+    }
 }

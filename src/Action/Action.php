@@ -52,4 +52,9 @@ class Action extends Statement implements ActionInterface
 
         return new Action((string) $source, (string) $type, (string) $arguments);
     }
+
+    public static function createsFromType(string $type): bool
+    {
+        return in_array($type, ['back', 'forward', 'reload']);
+    }
 }

@@ -140,4 +140,50 @@ class InteractionActionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider createsFromTypeDataProvider
+     */
+    public function testCreatesFromType(string $type, bool $expectedCreatesFromType)
+    {
+        $this->assertSame($expectedCreatesFromType, InteractionAction::createsFromType($type));
+    }
+
+    public function createsFromTypeDataProvider(): array
+    {
+        return [
+            'click' => [
+                'type' => 'click',
+                'expectedCreatesFromType' => true,
+            ],
+            'set' => [
+                'type' => 'set',
+                'expectedCreatesFromType' => false,
+            ],
+            'submit' => [
+                'type' => 'submit',
+                'expectedCreatesFromType' => true,
+            ],
+            'wait' => [
+                'type' => 'wait',
+                'expectedCreatesFromType' => false,
+            ],
+            'wait-for' => [
+                'type' => 'wait-for',
+                'expectedCreatesFromType' => true,
+            ],
+            'reload' => [
+                'type' => 'reload',
+                'expectedCreatesFromType' => false,
+            ],
+            'forward' => [
+                'type' => 'forward',
+                'expectedCreatesFromType' => false,
+            ],
+            'back' => [
+                'type' => 'back',
+                'expectedCreatesFromType' => false,
+            ],
+        ];
+    }
 }

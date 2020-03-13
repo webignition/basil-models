@@ -17,4 +17,6 @@ interface ActionInterface extends StatementInterface
      * @return ActionInterface|null
      */
     public static function fromArray(array $data): ?ActionInterface;
+
+    public static function createsFromType(string $type): bool;
 }
