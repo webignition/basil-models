@@ -200,9 +200,9 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
         try {
             $this->factory->createFromArray($actionData);
             $this->fail('UnknownActionTypeException not throw');
-        } catch (UnknownActionTypeException $malformedDataException) {
-            $this->assertSame($actionData, $malformedDataException->getData());
-            $this->assertSame($actionData['type'] ?? '', $malformedDataException->getType());
+        } catch (UnknownActionTypeException $unknownActionTypeException) {
+            $this->assertSame($actionData, $unknownActionTypeException->getData());
+            $this->assertSame($actionData['type'] ?? '', $unknownActionTypeException->getType());
         }
     }
 
