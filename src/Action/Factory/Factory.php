@@ -18,6 +18,7 @@ class Factory
      * @return ActionInterface
      *
      * @throws MalformedDataException
+     * @throws UnknownActionTypeException
      */
     public function createFromArray(array $actionData): ActionInterface
     {
@@ -29,6 +30,8 @@ class Factory
             if ($action instanceof ActionInterface) {
                 return $action;
             }
+
+            throw new MalformedDataException($actionData);
         }
 
         if (InteractionAction::createsFromType($type)) {
@@ -37,6 +40,8 @@ class Factory
             if ($action instanceof ActionInterface) {
                 return $action;
             }
+
+            throw new MalformedDataException($actionData);
         }
 
         if (InputAction::createsFromType($type)) {
@@ -45,6 +50,8 @@ class Factory
             if ($action instanceof ActionInterface) {
                 return $action;
             }
+
+            throw new MalformedDataException($actionData);
         }
 
         if (WaitAction::createsFromType($type)) {
@@ -53,8 +60,10 @@ class Factory
             if ($action instanceof ActionInterface) {
                 return $action;
             }
+
+            throw new MalformedDataException($actionData);
         }
 
-        throw new MalformedDataException($actionData);
+        throw new UnknownActionTypeException($actionData, $type);
     }
 }

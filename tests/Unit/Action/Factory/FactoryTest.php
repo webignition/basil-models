@@ -8,6 +8,7 @@ use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\Factory\Factory;
 use webignition\BasilModels\Action\Factory\MalformedDataException;
+use webignition\BasilModels\Action\Factory\UnknownActionTypeException;
 use webignition\BasilModels\Action\InputAction;
 use webignition\BasilModels\Action\InteractionAction;
 use webignition\BasilModels\Action\WaitAction;
@@ -154,14 +155,6 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
     public function createFromArrayThrowsMalformedDataExceptionDataProvider(): array
     {
         return [
-            'empty' => [
-                'actionData' => [],
-            ],
-            'unknown type' => [
-                'actionData' => [
-                    'type' => 'foo',
-                ],
-            ],
             'malformed action (lacking source, arguments)' => [
                 'actionData' => [
                     'type' => 'back',
@@ -192,6 +185,36 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     'source' => 'wait 30',
                     'type' => 'wait',
                     'arguments' => '30',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider createFromArrayThrowsUnknownActionTypeExceptionDataProvider
+     *
+     * @param array<mixed> $actionData
+     */
+    public function testCreateFromArrayThrowsUnknownActionTypeException(array $actionData)
+    {
+        try {
+            $this->factory->createFromArray($actionData);
+            $this->fail('UnknownActionTypeException not throw');
+        } catch (UnknownActionTypeException $malformedDataException) {
+            $this->assertSame($actionData, $malformedDataException->getData());
+            $this->assertSame($actionData['type'] ?? '', $malformedDataException->getType());
+        }
+    }
+
+    public function createFromArrayThrowsUnknownActionTypeExceptionDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'actionData' => [],
+            ],
+            'unknown type' => [
+                'actionData' => [
+                    'type' => 'foo',
                 ],
             ],
         ];
