@@ -9,7 +9,7 @@ use webignition\BasilModels\Statement;
 class Assertion extends Statement implements AssertionInterface
 {
     private const KEY_IDENTIFIER = 'identifier';
-    private const KEY_COMPARISON = 'comparison';
+    public const KEY_COMPARISON = 'comparison';
 
     private $identifier;
     private $comparison;
