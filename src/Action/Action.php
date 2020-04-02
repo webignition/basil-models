@@ -8,7 +8,7 @@ use webignition\BasilModels\Statement;
 
 class Action extends Statement implements ActionInterface
 {
-    private const KEY_TYPE = 'type';
+    public const KEY_TYPE = 'type';
     private const KEY_ARGUMENTS = 'arguments';
 
     private $type;
