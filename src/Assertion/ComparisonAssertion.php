@@ -43,6 +43,17 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
         return $this->value === $assertion->getValue();
     }
 
+    public function normalise(): AssertionInterface
+    {
+        $normalised = parent::normalise();
+
+        if ($normalised instanceof ComparisonAssertionInterface) {
+            $normalised = $normalised->withValue($this->value);
+        }
+
+        return $normalised;
+    }
+
     public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [
