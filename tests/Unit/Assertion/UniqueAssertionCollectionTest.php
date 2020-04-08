@@ -125,4 +125,71 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider mergeDataProvider
+     *
+     * @param UniqueAssertionCollection $collection
+     * @param UniqueAssertionCollection $additions
+     * @param AssertionInterface[] $expectedAssertions
+     */
+    public function testMerge(
+        UniqueAssertionCollection $collection,
+        UniqueAssertionCollection $additions,
+        array $expectedAssertions
+    ) {
+        $mergedCollection = $collection->merge($additions);
+
+        foreach ($mergedCollection as $index => $assertion) {
+            $this->assertEquals($expectedAssertions[$index], $assertion);
+        }
+    }
+
+    public function mergeDataProvider(): array
+    {
+        return [
+            'no common assertions between collections' => [
+                'collection' => new UniqueAssertionCollection([
+                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
+                ]),
+                'additions' => new UniqueAssertionCollection([
+                    new Assertion('$".selector3" exists', '$".selector3"', 'exists'),
+                    new Assertion('$".selector4" exists', '$".selector4"', 'exists'),
+                ]),
+                'expectedAssertions' => [
+                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
+                    new Assertion('$".selector3" exists', '$".selector3"', 'exists'),
+                    new Assertion('$".selector4" exists', '$".selector4"', 'exists'),
+                ],
+            ],
+            'common assertions between collections' => [
+                'collection' => new UniqueAssertionCollection([
+                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
+                ]),
+                'additions' => new UniqueAssertionCollection([
+                    new Assertion('$".selector3" exists', '$".selector3"', 'exists'),
+                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                ]),
+                'expectedAssertions' => [
+                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
+                    new Assertion('$".selector3" exists', '$".selector3"', 'exists'),
+                ],
+            ],
+            'is normalised' => [
+                'collection' => new UniqueAssertionCollection([
+                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                ]),
+                'additions' => new UniqueAssertionCollection([
+                    new Assertion('$import_name.elements.selector1 exists', '$".selector1"', 'exists'),
+                ]),
+                'expectedAssertions' => [
+                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                ],
+            ],
+        ];
+    }
 }

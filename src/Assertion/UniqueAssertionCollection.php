@@ -14,11 +14,34 @@ class UniqueAssertionCollection implements \IteratorAggregate
      */
     private $assertions = [];
 
+    /**
+     * @param AssertionInterface[] $assertions
+     */
+    public function __construct(array $assertions = [])
+    {
+        foreach ($assertions as $assertion) {
+            if ($assertion instanceof AssertionInterface) {
+                $this->add($assertion);
+            }
+        }
+    }
+
     public function add(AssertionInterface $assertion): void
     {
         if (!$this->contains($assertion)) {
             $this->assertions[] = $assertion;
         }
+    }
+
+    public function merge(UniqueAssertionCollection $collection): UniqueAssertionCollection
+    {
+        $new = clone $this;
+
+        foreach ($collection as $assertion) {
+            $new->add($assertion);
+        }
+
+        return $new->normalise();
     }
 
     /**
