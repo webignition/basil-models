@@ -64,6 +64,14 @@ class Assertion extends Statement implements AssertionInterface
         return $this->comparison === $assertion->getComparison();
     }
 
+    public function normalise(): AssertionInterface
+    {
+        $new = clone $this;
+        $new->source = $this->identifier . ' ' . $this->comparison;
+
+        return $new;
+    }
+
     public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [

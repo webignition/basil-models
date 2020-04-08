@@ -88,6 +88,51 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider normaliseDataProvider
+     */
+    public function testNormalise(
+        ComparisonAssertionInterface $assertion,
+        ComparisonAssertionInterface $expectedNormalisedAssertion
+    ) {
+        $this->assertTrue($expectedNormalisedAssertion->equals($assertion));
+        $this->assertTrue($assertion->equals($expectedNormalisedAssertion));
+    }
+
+    public function normaliseDataProvider(): array
+    {
+        return [
+            'is, is in normal form' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" is "value"',
+                    '$".selector"',
+                    'is',
+                    '"value"'
+                ),
+                'expectedNormalisedAssertion' => new ComparisonAssertion(
+                    '$".selector" is "value"',
+                    '$".selector"',
+                    'is',
+                    '"value"'
+                ),
+            ],
+            'is, not in normal form' => [
+                'assertion' => new ComparisonAssertion(
+                    '$import_name.elements.selector is "value"',
+                    '$".selector"',
+                    'is',
+                    '"value"'
+                ),
+                'expectedNormalisedAssertion' => new ComparisonAssertion(
+                    '$".selector" is "value"',
+                    '$".selector"',
+                    'is',
+                    '"value"'
+                ),
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider fromArrayDataProvider
      *
      * @param array<mixed> $data

@@ -81,6 +81,37 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider normaliseDataProvider
+     */
+    public function testNormalise(AssertionInterface $assertion, AssertionInterface $expectedNormalisedAssertion)
+    {
+        $this->assertTrue($expectedNormalisedAssertion->equals($assertion));
+        $this->assertTrue($assertion->equals($expectedNormalisedAssertion));
+    }
+
+    public function normaliseDataProvider(): array
+    {
+        return [
+            'exists, is in normal form' => [
+                'assertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                'expectedNormalisedAssertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
+            ],
+            'exists, not in normal form' => [
+                'assertion' => new Assertion('$import_name.elements.selector exists', '$".selector"', 'exists'),
+                'expectedNormalisedAssertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
+            ],
+            'not-exists, is in normal form' => [
+                'assertion' => new Assertion('$".selector" not-exists', '$".selector"', 'not-exists'),
+                'expectedNormalisedAssertion' => new Assertion('$".selector" not-exists', '$".selector"', 'not-exists'),
+            ],
+            'not-exists, not in normal form' => [
+                'assertion' => new Assertion('$import_name.elements.selector not-exists', '$".selector"', 'not-exists'),
+                'expectedNormalisedAssertion' => new Assertion('$".selector" not-exists', '$".selector"', 'not-exists'),
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider jsonSerializeDataProvider
      *
      * @param AssertionInterface $assertion
