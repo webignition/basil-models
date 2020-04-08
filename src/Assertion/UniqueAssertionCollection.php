@@ -29,6 +29,18 @@ class UniqueAssertionCollection implements \IteratorAggregate
         return new \ArrayIterator($this->assertions);
     }
 
+    public function normalise(): UniqueAssertionCollection
+    {
+        $normalisedCollection = new UniqueAssertionCollection();
+
+        foreach ($this as $assertion) {
+            /** @var AssertionInterface $assertion */
+            $normalisedCollection->add($assertion->normalise());
+        }
+
+        return $normalisedCollection;
+    }
+
     private function contains(AssertionInterface $assertion): bool
     {
         foreach ($this->assertions as $comparator) {
