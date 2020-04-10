@@ -12,6 +12,11 @@ use webignition\BasilModels\Action\WaitAction;
 
 class Factory
 {
+    public static function createFactory(): self
+    {
+        return new Factory();
+    }
+
     /**
      * @param array<mixed> $actionData
      *

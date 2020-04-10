@@ -4,22 +4,50 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion\Factory;
 
+use webignition\BasilModels\Action\Factory\Factory as ActionFactory;
+use webignition\BasilModels\Action\Factory\MalformedDataException as MalformedActionDataException;
+use webignition\BasilModels\Action\Factory\UnknownActionTypeException;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
+use webignition\BasilModels\Assertion\DerivedElementExistsAssertion;
+use webignition\BasilModels\Assertion\Factory\MalformedDataException as MalformedAssertionDataException;
 
 class Factory
 {
+    /**
+     * @var ActionFactory
+     */
+    private $actionFactory;
+
+    public function __construct(ActionFactory $actionFactory)
+    {
+        $this->actionFactory = $actionFactory;
+    }
+
+    public static function createFactory(): self
+    {
+        return new Factory(
+            ActionFactory::createFactory()
+        );
+    }
+
     /**
      * @param array<mixed> $assertionData
      *
      * @return AssertionInterface
      *
-     * @throws UnknownComparisonException
+     * @throws MalformedActionDataException
      * @throws MalformedDataException
+     * @throws UnknownActionTypeException
+     * @throws UnknownComparisonException
      */
     public function createFromArray(array $assertionData): AssertionInterface
     {
+        if (null !== ($assertionData[DerivedElementExistsAssertion::KEY_SOURCE_TYPE] ?? null)) {
+            return $this->createDerivedElementExistsAssertionFromArray($assertionData);
+        }
+
         $comparison = $assertionData[Assertion::KEY_COMPARISON] ?? '';
 
         if (Assertion::createsFromComparison($comparison)) {
@@ -29,7 +57,7 @@ class Factory
                 return $assertion;
             }
 
-            throw new MalformedDataException($assertionData);
+            throw new MalformedAssertionDataException($assertionData);
         }
 
         if (ComparisonAssertion::createsFromComparison($comparison)) {
@@ -39,9 +67,46 @@ class Factory
                 return $assertion;
             }
 
-            throw new MalformedDataException($assertionData);
+            throw new MalformedAssertionDataException($assertionData);
         }
 
         throw new UnknownComparisonException($assertionData, $comparison);
+    }
+
+    /**
+     * @param array<mixed> $assertionData
+     *
+     * @return DerivedElementExistsAssertion
+     *
+     * @throws MalformedActionDataException
+     * @throws MalformedAssertionDataException
+     * @throws UnknownActionTypeException
+     * @throws UnknownComparisonException
+     */
+    private function createDerivedElementExistsAssertionFromArray(array $assertionData): DerivedElementExistsAssertion
+    {
+        $identifier = $assertionData[DerivedElementExistsAssertion::KEY_IDENTIFIER] ?? '';
+        if ('' === $identifier) {
+            throw new MalformedAssertionDataException($assertionData);
+        }
+
+        $source = $assertionData[DerivedElementExistsAssertion::KEY_SOURCE] ?? [];
+        if ([] === $source) {
+            throw new MalformedAssertionDataException($assertionData);
+        }
+
+        $sourceType = $assertionData[DerivedElementExistsAssertion::KEY_SOURCE_TYPE];
+
+        if ('action' === $sourceType) {
+            return new DerivedElementExistsAssertion(
+                $this->actionFactory->createFromArray($source),
+                $identifier
+            );
+        }
+
+        return new DerivedElementExistsAssertion(
+            $this->createFromArray($source),
+            $identifier
+        );
     }
 }
