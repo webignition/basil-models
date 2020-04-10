@@ -71,4 +71,17 @@ class Factory
 
         throw new UnknownActionTypeException($actionData, $type);
     }
+
+    /**
+     * @param string $json
+     *
+     * @return ActionInterface
+     *
+     * @throws MalformedDataException
+     * @throws UnknownActionTypeException
+     */
+    public function createFromJson(string $json): ActionInterface
+    {
+        return $this->createFromArray(json_decode($json, true));
+    }
 }
