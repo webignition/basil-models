@@ -74,6 +74,21 @@ class Factory
     }
 
     /**
+     * @param string $json
+     *
+     * @return AssertionInterface
+     *
+     * @throws MalformedActionDataException
+     * @throws MalformedDataException
+     * @throws UnknownActionTypeException
+     * @throws UnknownComparisonException
+     */
+    public function createFromJson(string $json): AssertionInterface
+    {
+        return $this->createFromArray(json_decode($json, true));
+    }
+
+    /**
      * @param array<mixed> $assertionData
      *
      * @return DerivedElementExistsAssertion
