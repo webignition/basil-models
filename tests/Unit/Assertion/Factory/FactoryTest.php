@@ -256,4 +256,15 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider createFromArrayDataProvider
+     *
+     * @param array<mixed> $assertionData
+     * @param AssertionInterface $expectedAssertion
+     */
+    public function testCreateFromJson(array $assertionData, AssertionInterface $expectedAssertion)
+    {
+        $this->assertEquals($expectedAssertion, $this->factory->createFromJson((string) json_encode($assertionData)));
+    }
 }
