@@ -8,6 +8,10 @@ use webignition\BasilModels\StatementInterface;
 
 class DerivedElementExistsAssertion extends Assertion implements DerivedAssertionInterface
 {
+    public const KEY_SOURCE_TYPE = 'source_type';
+    public const KEY_SOURCE = 'source';
+    public const KEY_IDENTIFIER = 'identifier';
+
     private const COMPARISON = 'exists';
 
     private $sourceStatement;
@@ -31,9 +35,9 @@ class DerivedElementExistsAssertion extends Assertion implements DerivedAssertio
         $sourceStatementData = $this->sourceStatement->jsonSerialize();
 
         return [
-            'source_type' => $this->sourceStatement instanceof AssertionInterface ? 'assertion' : 'action',
-            'source' => $sourceStatementData,
-            'identifier' => $this->identifier,
+            self::KEY_SOURCE_TYPE => $this->sourceStatement instanceof AssertionInterface ? 'assertion' : 'action',
+            self::KEY_SOURCE => $sourceStatementData,
+            self::KEY_IDENTIFIER => $this->identifier,
         ];
     }
 }
