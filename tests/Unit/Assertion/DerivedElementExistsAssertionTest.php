@@ -32,6 +32,9 @@ class DerivedElementExistsAssertionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider jsonSerializeDataProvider
+     *
+     * @param DerivedElementExistsAssertion $derivedAssertion
+     * @param array<mixed> $expectedSerialisedData
      */
     public function testJsonSerialize(DerivedElementExistsAssertion $derivedAssertion, array $expectedSerialisedData)
     {
