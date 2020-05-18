@@ -8,7 +8,7 @@ use webignition\BasilModels\Action\InteractionAction;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
-use webignition\BasilModels\Assertion\DerivedElementExistsAssertion;
+use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
 use webignition\BasilModels\Assertion\Factory\Factory;
 use webignition\BasilModels\Assertion\Factory\MalformedDataException;
 use webignition\BasilModels\Assertion\Factory\UnknownComparisonException;
@@ -129,6 +129,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
             ],
             'derived exists from action' => [
                 'assertionData' => [
+                    'operator' => 'exists',
                     'source_type' => 'action',
                     'source' => [
                         'source' => 'click $".selector"',
@@ -136,20 +137,22 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                         'arguments' => '$".selector"',
                         'identifier' => '$".selector"',
                     ],
-                    'identifier' => '$".selector"'
+                    'value' => '$".selector"'
                 ],
-                'expectedAssertion' => new DerivedElementExistsAssertion(
+                'expectedAssertion' => new DerivedValueOperationAssertion(
                     new InteractionAction(
                         'click $".selector"',
                         'click',
                         '$".selector"',
                         '$".selector"'
                     ),
-                    '$".selector"'
+                    '$".selector"',
+                    'exists'
                 ),
             ],
             'derived exists from assertion' => [
                 'assertionData' => [
+                    'operator' => 'exists',
                     'source_type' => 'assertion',
                     'source' => [
                         'source' => '$".selector" is "value',
@@ -157,16 +160,17 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                         'comparison' => 'is',
                         'value' => '"value"',
                     ],
-                    'identifier' => '$".selector"'
+                    'value' => '$".selector"'
                 ],
-                'expectedAssertion' => new DerivedElementExistsAssertion(
+                'expectedAssertion' => new DerivedValueOperationAssertion(
                     new ComparisonAssertion(
                         '$".selector" is "value',
                         '$".selector',
                         'is',
                         '"value"'
                     ),
-                    '$".selector"'
+                    '$".selector"',
+                    'exists'
                 ),
             ],
         ];
@@ -204,7 +208,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 'assertionData' => [
                     'source' => '$".selector" is "value"',
                     'comparison' => 'is',
-                    'identifier' => '$".selector"',
+                    'value' => '$".selector"',
                 ],
             ],
             'malformed derived assertion (lacking identifier)' => [
