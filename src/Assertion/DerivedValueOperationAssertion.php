@@ -16,15 +16,12 @@ class DerivedValueOperationAssertion extends Assertion implements DerivedAsserti
     private $sourceStatement;
     private $value;
 
-    public function __construct(
-        StatementInterface $sourceStatement,
-        string $identifier,
-        string $operator
-    ) {
-        parent::__construct($identifier . ' ' . $operator, $identifier, $operator);
+    public function __construct(StatementInterface $sourceStatement, string $value, string $operator)
+    {
+        parent::__construct($value . ' ' . $operator, $value, $operator);
 
         $this->sourceStatement = $sourceStatement;
-        $this->value = $identifier;
+        $this->value = $value;
     }
 
     public function getSourceStatement(): StatementInterface

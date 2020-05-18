@@ -10,7 +10,7 @@ use webignition\BasilModels\Action\Factory\UnknownActionTypeException;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
-use webignition\BasilModels\Assertion\DerivedElementExistsAssertion;
+use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
 use webignition\BasilModels\Assertion\Factory\MalformedDataException as MalformedAssertionDataException;
 
 class Factory
@@ -44,8 +44,8 @@ class Factory
      */
     public function createFromArray(array $assertionData): AssertionInterface
     {
-        if (null !== ($assertionData[DerivedElementExistsAssertion::KEY_SOURCE_TYPE] ?? null)) {
-            return $this->createDerivedElementExistsAssertionFromArray($assertionData);
+        if (null !== ($assertionData[DerivedValueOperationAssertion::KEY_SOURCE_TYPE] ?? null)) {
+            return $this->createDerivedValueOperationAssertionFromArray($assertionData);
         }
 
         $comparison = $assertionData[Assertion::KEY_COMPARISON] ?? '';
@@ -91,37 +91,36 @@ class Factory
     /**
      * @param array<mixed> $assertionData
      *
-     * @return DerivedElementExistsAssertion
+     * @return DerivedValueOperationAssertion
      *
      * @throws MalformedActionDataException
      * @throws MalformedAssertionDataException
      * @throws UnknownActionTypeException
      * @throws UnknownComparisonException
      */
-    private function createDerivedElementExistsAssertionFromArray(array $assertionData): DerivedElementExistsAssertion
+    private function createDerivedValueOperationAssertionFromArray(array $assertionData): DerivedValueOperationAssertion
     {
-        $identifier = $assertionData[DerivedElementExistsAssertion::KEY_IDENTIFIER] ?? '';
-        if ('' === $identifier) {
+        $operator = $assertionData[DerivedValueOperationAssertion::KEY_OPERATOR] ?? '';
+        if ('' === $operator) {
             throw new MalformedAssertionDataException($assertionData);
         }
 
-        $source = $assertionData[DerivedElementExistsAssertion::KEY_SOURCE] ?? [];
+        $value = $assertionData[DerivedValueOperationAssertion::KEY_VALUE] ?? '';
+        if ('' === $value) {
+            throw new MalformedAssertionDataException($assertionData);
+        }
+
+        $source = $assertionData[DerivedValueOperationAssertion::KEY_SOURCE] ?? [];
         if ([] === $source) {
             throw new MalformedAssertionDataException($assertionData);
         }
 
-        $sourceType = $assertionData[DerivedElementExistsAssertion::KEY_SOURCE_TYPE];
+        $sourceType = $assertionData[DerivedValueOperationAssertion::KEY_SOURCE_TYPE];
 
-        if ('action' === $sourceType) {
-            return new DerivedElementExistsAssertion(
-                $this->actionFactory->createFromArray($source),
-                $identifier
-            );
-        }
+        $sourceStatement = 'action' === $sourceType
+            ? $this->actionFactory->createFromArray($source)
+            : $this->createFromArray($source);
 
-        return new DerivedElementExistsAssertion(
-            $this->createFromArray($source),
-            $identifier
-        );
+        return new DerivedValueOperationAssertion($sourceStatement, $value, $operator);
     }
 }
