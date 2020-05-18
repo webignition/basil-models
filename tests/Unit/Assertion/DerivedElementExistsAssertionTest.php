@@ -55,6 +55,7 @@ class DerivedElementExistsAssertionTest extends \PHPUnit\Framework\TestCase
                     '$".selector'
                 ),
                 'expectedSerializedData' => [
+                    'type' => 'derived-element-exists',
                     'source_type' => 'assertion',
                     'source' => [
                         'source' => '$".selector" is "value',
@@ -76,6 +77,7 @@ class DerivedElementExistsAssertionTest extends \PHPUnit\Framework\TestCase
                     '$".selector"'
                 ),
                 'expectedSerializedData' => [
+                    'type' => 'derived-element-exists',
                     'source_type' => 'action',
                     'source' => [
                         'source' => 'click $".selector"',
