@@ -14,24 +14,24 @@ use webignition\BasilModels\DataSet\DataSetCollectionInterface;
 
 class Step implements StepInterface
 {
-    private $actions = [];
-    private $assertions = [];
+    /**
+     * @var ActionInterface[]
+     */
+    private array $actions = [];
 
     /**
-     * @var DataSetCollectionInterface|null
+     * @var AssertionInterface[]
      */
-    private $data = null;
+    private array $assertions = [];
+
+    private ?DataSetCollectionInterface $data = null;
+    private ?string $importName = null;
+    private ?string $dataImportName = null;
 
     /**
-     * @var string|null
+     * @var string[]
      */
-    private $importName = null;
-
-    /**
-     * @var string|null
-     */
-    private $dataImportName = null;
-    private $identifiers = [];
+    private array $identifiers = [];
 
     /**
      * @param array<mixed> $actions
