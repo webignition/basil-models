@@ -11,8 +11,8 @@ class Assertion extends Statement implements AssertionInterface
     private const KEY_IDENTIFIER = 'identifier';
     public const KEY_COMPARISON = 'comparison';
 
-    private $identifier;
-    private $comparison;
+    private string $identifier;
+    private string $comparison;
 
     public function __construct(string $source, string $identifier, string $comparison)
     {

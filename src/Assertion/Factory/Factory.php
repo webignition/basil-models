@@ -15,10 +15,7 @@ use webignition\BasilModels\Assertion\Factory\MalformedDataException as Malforme
 
 class Factory
 {
-    /**
-     * @var ActionFactory
-     */
-    private $actionFactory;
+    private ActionFactory $actionFactory;
 
     public function __construct(ActionFactory $actionFactory)
     {

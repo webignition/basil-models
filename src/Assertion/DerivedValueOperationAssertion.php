@@ -13,8 +13,8 @@ class DerivedValueOperationAssertion extends Assertion implements DerivedAsserti
     public const KEY_VALUE = 'value';
     public const KEY_OPERATOR = 'operator';
 
-    private $sourceStatement;
-    private $value;
+    private StatementInterface $sourceStatement;
+    private string $value;
 
     public function __construct(StatementInterface $sourceStatement, string $value, string $operator)
     {

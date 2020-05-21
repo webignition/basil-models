@@ -6,7 +6,7 @@ namespace webignition\BasilModels\Assertion\Factory;
 
 class UnknownComparisonException extends MalformedDataException
 {
-    private $comparison;
+    public string $comparison;
 
     /**
      * @param array<mixed> $data
@@ -17,10 +17,5 @@ class UnknownComparisonException extends MalformedDataException
         $this->comparison = $comparison;
 
         parent::__construct($data);
-    }
-
-    public function getComparison(): string
-    {
-        return $this->comparison;
     }
 }
