@@ -6,8 +6,12 @@ namespace webignition\BasilModels\DataSet;
 
 class DataSet implements DataSetInterface
 {
-    private $name;
-    private $data = [];
+    private string $name;
+
+    /**
+     * @var array<int|string, string>
+     */
+    private array $data = [];
 
     /**
      * @param string $name
