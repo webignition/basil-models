@@ -10,8 +10,6 @@ use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
 use webignition\BasilModels\Assertion\Factory\Factory;
-use webignition\BasilModels\Assertion\Factory\MalformedDataException;
-use webignition\BasilModels\Assertion\Factory\UnknownComparisonException;
 
 class FactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -169,91 +167,6 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     '$".selector"',
                     'exists'
                 ),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createFromArrayThrowsMalformedDataExceptionDataProvider
-     *
-     * @param array<mixed> $assertionData
-     */
-    public function testCreateFromArrayThrowsMalformedDataException(array $assertionData)
-    {
-        try {
-            $this->factory->createFromArray($assertionData);
-            $this->fail('MalformedDataException not thrown');
-        } catch (MalformedDataException $malformedDataException) {
-            $this->assertSame($assertionData, $malformedDataException->data);
-        }
-    }
-
-    public function createFromArrayThrowsMalformedDataExceptionDataProvider(): array
-    {
-        return [
-            'malformed assertion (lacking source, identifier)' => [
-                'assertionData' => [
-                    'comparison' => 'exists',
-                ],
-            ],
-            'malformed comparison assertion (lacking source, identifier)' => [
-                'assertionData' => [
-                    'comparison' => 'is',
-                ],
-            ],
-            'malformed comparison assertion (lacking value)' => [
-                'assertionData' => [
-                    'source' => '$".selector" is "value"',
-                    'comparison' => 'is',
-                    'value' => '$".selector"',
-                ],
-            ],
-            'malformed derived assertion (lacking identifier)' => [
-                'assertionData' => [
-                    'source_type' => 'action',
-                    'source' => [
-                        'source' => 'click $".selector"',
-                        'type' => 'click',
-                        'arguments' => '$".selector"',
-                        'identifier' => '$".selector"',
-                    ],
-                ],
-            ],
-            'malformed derived assertion (lacking source)' => [
-                'assertionData' => [
-                    'source_type' => 'action',
-                    'identifier' => '$".selector"',
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createFromArrayThrowsUnknownComparisonExceptionDataProvider
-     *
-     * @param array<mixed> $assertionData
-     */
-    public function testCreateFromArrayThrowsUnknownComparisonException(array $assertionData)
-    {
-        try {
-            $this->factory->createFromArray($assertionData);
-            $this->fail('UnknownComparisonException not thrown');
-        } catch (UnknownComparisonException $unknownComparisonException) {
-            $this->assertSame($assertionData, $unknownComparisonException->data);
-            $this->assertSame($assertionData['comparison'] ?? '', $unknownComparisonException->comparison);
-        }
-    }
-
-    public function createFromArrayThrowsUnknownComparisonExceptionDataProvider(): array
-    {
-        return [
-            'empty' => [
-                'assertionData' => [],
-            ],
-            'unknown comparison' => [
-                'assertionData' => [
-                    'comparison' => 'foo',
-                ],
             ],
         ];
     }

@@ -238,21 +238,21 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
         return [
             'empty' => [
                 'data' => [],
-                'expectedAssertion' => null,
+                'expectedAssertion' => new Assertion('', '', ''),
             ],
             'identifier missing' => [
                 'data' => [
                     'source' => '$".selector" exists',
                     'comparison' => 'exists',
                 ],
-                'expectedAssertion' => null,
+                'expectedAssertion' => new Assertion('$".selector" exists', '', 'exists'),
             ],
             'comparison missing' => [
                 'data' => [
                     'source' => '$".selector" exists',
-                    'comparison' => 'is',
+                    'identifier' => '$".selector"',
                 ],
-                'expectedAssertion' => null,
+                'expectedAssertion' => new Assertion('$".selector" exists', '$".selector"', ''),
             ],
             'source, identifier, comparison present' => [
                 'data' => [
@@ -265,48 +265,6 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
                     '$".selector"',
                     'exists'
                 ),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createsFromComparisonDataProvider
-     */
-    public function testCreatesFromComparison(string $comparison, bool $expectedCreatesFromComparison)
-    {
-        $this->assertSame($expectedCreatesFromComparison, Assertion::createsFromComparison($comparison));
-    }
-
-    public function createsFromComparisonDataProvider(): array
-    {
-        return [
-            'is' => [
-                'comparison' => 'is',
-                'expectedCreatesFromComparison' => false,
-            ],
-            'is-not' => [
-                'comparison' => 'is-not',
-                'expectedCreatesFromComparison' => false,
-            ],
-            'exists' => [
-                'comparison' => 'exists',
-                'expectedCreatesFromComparison' => true,
-            ],
-            'not-exists' => [
-                'comparison' => 'not-exists',
-                'expectedCreatesFromComparison' => true,
-            ],
-            'includes' => [
-                'comparison' => 'includes',
-                'expectedCreatesFromComparison' => false,
-            ],
-            'excludes' => [
-                'comparison' => 'excludes',
-                'expectedCreatesFromComparison' => false,
-            ],
-            'matches' => [
-                'comparison' => 'matches',
-                'expectedCreatesFromComparison' => false,
             ],
         ];
     }

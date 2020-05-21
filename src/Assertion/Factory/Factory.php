@@ -9,7 +9,6 @@ use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
-use webignition\BasilModels\Assertion\Factory\MalformedDataException as MalformedAssertionDataException;
 
 class Factory
 {
@@ -31,9 +30,6 @@ class Factory
      * @param array<mixed> $assertionData
      *
      * @return AssertionInterface
-     *
-     * @throws MalformedDataException
-     * @throws UnknownComparisonException
      */
     public function createFromArray(array $assertionData): AssertionInterface
     {
@@ -43,36 +39,17 @@ class Factory
 
         $comparison = $assertionData[Assertion::KEY_COMPARISON] ?? '';
 
-        if (Assertion::createsFromComparison($comparison)) {
-            $assertion = Assertion::fromArray($assertionData);
-
-            if ($assertion instanceof AssertionInterface) {
-                return $assertion;
-            }
-
-            throw new MalformedAssertionDataException($assertionData);
+        if (in_array($comparison, ['is', 'is-not', 'includes', 'excludes', 'matches'])) {
+            return ComparisonAssertion::fromArray($assertionData);
         }
 
-        if (ComparisonAssertion::createsFromComparison($comparison)) {
-            $assertion = ComparisonAssertion::fromArray($assertionData);
-
-            if ($assertion instanceof AssertionInterface) {
-                return $assertion;
-            }
-
-            throw new MalformedAssertionDataException($assertionData);
-        }
-
-        throw new UnknownComparisonException($assertionData, $comparison);
+        return Assertion::fromArray($assertionData);
     }
 
     /**
      * @param string $json
      *
      * @return AssertionInterface
-     *
-     * @throws MalformedDataException
-     * @throws UnknownComparisonException
      */
     public function createFromJson(string $json): AssertionInterface
     {
@@ -83,33 +60,20 @@ class Factory
      * @param array<mixed> $assertionData
      *
      * @return DerivedValueOperationAssertion
-     *
-     * @throws MalformedAssertionDataException
-     * @throws UnknownComparisonException
      */
     private function createDerivedValueOperationAssertionFromArray(array $assertionData): DerivedValueOperationAssertion
     {
-        $operator = $assertionData[DerivedValueOperationAssertion::KEY_OPERATOR] ?? '';
-        if ('' === $operator) {
-            throw new MalformedAssertionDataException($assertionData);
-        }
-
-        $value = $assertionData[DerivedValueOperationAssertion::KEY_VALUE] ?? '';
-        if ('' === $value) {
-            throw new MalformedAssertionDataException($assertionData);
-        }
-
         $source = $assertionData[DerivedValueOperationAssertion::KEY_SOURCE] ?? [];
-        if ([] === $source) {
-            throw new MalformedAssertionDataException($assertionData);
-        }
-
         $sourceType = $assertionData[DerivedValueOperationAssertion::KEY_SOURCE_TYPE];
 
         $sourceStatement = 'action' === $sourceType
             ? $this->actionFactory->createFromArray($source)
             : $this->createFromArray($source);
 
-        return new DerivedValueOperationAssertion($sourceStatement, $value, $operator);
+        return new DerivedValueOperationAssertion(
+            $sourceStatement,
+            (string) ($assertionData[DerivedValueOperationAssertion::KEY_VALUE] ?? ''),
+            (string) ($assertionData[DerivedValueOperationAssertion::KEY_OPERATOR] ?? '')
+        );
     }
 }
