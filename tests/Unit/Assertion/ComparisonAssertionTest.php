@@ -26,25 +26,6 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($value, $assertion->getValue());
     }
 
-    public function testWithValue()
-    {
-        $originalValue = '$elements.element_name';
-        $newValue = '.selector';
-
-        $assertion = new ComparisonAssertion(
-            '$".selector" is $elements.element_name',
-            '$".selector"',
-            'is',
-            $originalValue
-        );
-
-        $mutatedAssertion = $assertion->withValue($newValue);
-
-        $this->assertNotSame($assertion, $mutatedAssertion);
-        $this->assertSame($originalValue, $assertion->getValue());
-        $this->assertSame($newValue, $mutatedAssertion->getValue());
-    }
-
     /**
      * @dataProvider equalsDataProvider
      */
@@ -94,8 +75,7 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
         ComparisonAssertionInterface $assertion,
         ComparisonAssertionInterface $expectedNormalisedAssertion
     ) {
-        $this->assertTrue($expectedNormalisedAssertion->equals($assertion));
-        $this->assertTrue($assertion->equals($expectedNormalisedAssertion));
+        $this->assertEquals($expectedNormalisedAssertion, $assertion->normalise());
     }
 
     public function normaliseDataProvider(): array

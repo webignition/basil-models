@@ -58,8 +58,7 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
      */
     public function testNormalise(AssertionInterface $assertion, AssertionInterface $expectedNormalisedAssertion)
     {
-        $this->assertTrue($expectedNormalisedAssertion->equals($assertion));
-        $this->assertTrue($assertion->equals($expectedNormalisedAssertion));
+        $this->assertEquals($expectedNormalisedAssertion, $assertion->normalise());
     }
 
     public function normaliseDataProvider(): array
