@@ -6,9 +6,20 @@ namespace webignition\BasilModels\Test;
 
 class Imports implements ImportsInterface
 {
-    private $stepPaths = [];
-    private $pagePaths = [];
-    private $dataProviderPaths = [];
+    /**
+     * @var string[]
+     */
+    private array $stepPaths = [];
+
+    /**
+     * @var string[]
+     */
+    private array $pagePaths = [];
+
+    /**
+     * @var string[]
+     */
+    private array $dataProviderPaths = [];
 
     public function __construct()
     {

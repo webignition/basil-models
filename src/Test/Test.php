@@ -8,12 +8,13 @@ use webignition\BasilModels\Step\StepInterface;
 
 class Test implements TestInterface
 {
+    private ?string $path = null;
+    private ConfigurationInterface $configuration;
+
     /**
-     * @var string|null
+     * @var StepInterface[]
      */
-    private $path = null;
-    private $configuration;
-    private $steps = [];
+    private array $steps = [];
 
     /**
      * @param ConfigurationInterface $configuration
