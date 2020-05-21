@@ -148,7 +148,7 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
         return [
             'empty' => [
                 'data' => [],
-                'expectedAssertion' => null,
+                'expectedAssertion' => new ComparisonAssertion('', '', '', ''),
             ],
             'identifier missing' => [
                 'data' => [
@@ -156,7 +156,7 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
                     'comparison' => 'is',
                     'value' => '"value"',
                 ],
-                'expectedAssertion' => null,
+                'expectedAssertion' => new ComparisonAssertion('$".selector" is "value"', '', 'is', '"value"'),
             ],
             'comparison missing' => [
                 'data' => [
@@ -164,7 +164,12 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
                     'identifier' => '$".selector"',
                     'value' => '"value"',
                 ],
-                'expectedAssertion' => null,
+                'expectedAssertion' => new ComparisonAssertion(
+                    '$".selector" is "value"',
+                    '$".selector"',
+                    '',
+                    '"value"'
+                ),
             ],
             'value missing' => [
                 'data' => [
@@ -172,7 +177,7 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
                     'identifier' => '$".selector"',
                     'comparison' => 'is',
                 ],
-                'expectedAssertion' => null,
+                'expectedAssertion' => new ComparisonAssertion('$".selector" is "value"', '$".selector"', 'is', ''),
             ],
             'source, identifier, comparison, value present' => [
                 'data' => [
@@ -187,48 +192,6 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
                     'is',
                     '"value"'
                 ),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createsFromComparisonDataProvider
-     */
-    public function testCreatesFromComparison(string $comparison, bool $expectedCreatesFromComparison)
-    {
-        $this->assertSame($expectedCreatesFromComparison, ComparisonAssertion::createsFromComparison($comparison));
-    }
-
-    public function createsFromComparisonDataProvider(): array
-    {
-        return [
-            'is' => [
-                'comparison' => 'is',
-                'expectedCreatesFromComparison' => true,
-            ],
-            'is-not' => [
-                'comparison' => 'is-not',
-                'expectedCreatesFromComparison' => true,
-            ],
-            'exists' => [
-                'comparison' => 'exists',
-                'expectedCreatesFromComparison' => false,
-            ],
-            'not-exists' => [
-                'comparison' => 'not-exists',
-                'expectedCreatesFromComparison' => false,
-            ],
-            'includes' => [
-                'comparison' => 'includes',
-                'expectedCreatesFromComparison' => true,
-            ],
-            'excludes' => [
-                'comparison' => 'excludes',
-                'expectedCreatesFromComparison' => true,
-            ],
-            'matches' => [
-                'comparison' => 'matches',
-                'expectedCreatesFromComparison' => true,
             ],
         ];
     }

@@ -18,9 +18,7 @@ interface AssertionInterface extends StatementInterface
     /**
      * @param array<mixed> $data
      *
-     * @return AssertionInterface|null
+     * @return AssertionInterface
      */
-    public static function fromArray(array $data): ?AssertionInterface;
-
-    public static function createsFromComparison(string $comparison): bool;
+    public static function fromArray(array $data): AssertionInterface;
 }
