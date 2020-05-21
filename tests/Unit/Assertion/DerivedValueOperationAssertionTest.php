@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Tests\Unit\Assertion;
 
 use webignition\BasilModels\Action\InteractionAction;
+use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
+use webignition\BasilModels\Assertion\ResolvedAssertion;
+use webignition\BasilModels\Assertion\ResolvedAssertionInterface;
 use webignition\BasilModels\StatementInterface;
 
 class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase

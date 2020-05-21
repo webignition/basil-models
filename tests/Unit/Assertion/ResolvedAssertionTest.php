@@ -25,46 +25,6 @@ class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider normaliseDataProvider
-     */
-    public function testNormalise(
-        ResolvedAssertionInterface $assertion,
-        ResolvedAssertionInterface $expectedNormalisedAssertion
-    ) {
-        $this->assertEquals($expectedNormalisedAssertion, $assertion->normalise());
-    }
-
-    public function normaliseDataProvider(): array
-    {
-        return [
-            'exists, is in normal form' => [
-                'assertion' => new ResolvedAssertion(
-                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
-                    '$".selector" exists',
-                    '$".selector"'
-                ),
-                'expectedNormalisedAssertion' => new ResolvedAssertion(
-                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
-                    '$".selector" exists',
-                    '$".selector"'
-                ),
-            ],
-            'exists, not in normal form' => [
-                'assertion' => new ResolvedAssertion(
-                    new Assertion('$import_name.elements.selector exists', '$".selector"', 'exists'),
-                    '$page_import_name.elements.selector exists',
-                    '$".selector"'
-                ),
-                'expectedNormalisedAssertion' => new ResolvedAssertion(
-                    new Assertion('$import_name.elements.selector exists', '$".selector"', 'exists'),
-                    '$".selector" exists',
-                    '$".selector"'
-                ),
-            ],
-        ];
-    }
-
-    /**
      * @dataProvider jsonSerializeDataProvider
      *
      * @param ResolvedAssertionInterface $assertion

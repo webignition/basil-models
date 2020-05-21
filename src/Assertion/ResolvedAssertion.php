@@ -6,14 +6,11 @@ namespace webignition\BasilModels\Assertion;
 
 class ResolvedAssertion extends Assertion implements ResolvedAssertionInterface
 {
-    public const KEY_ENCAPSULATION = 'encapsulation';
-    public const KEY_ENCAPSULATION_TYPE = 'type';
-    public const KEY_ENCAPSULATION_SOURCE_TYPE = 'source_type';
     public const KEY_ENCAPSULATION_SOURCE = 'source';
     public const KEY_ENCAPSULATION_IDENTIFIER = 'identifier';
-    public const KEY_ENCAPSULATES = 'encapsulates';
 
     private AssertionInterface $sourceAssertion;
+    private EncapsulatingAssertionData $encapsulatingAssertionData;
 
     public function __construct(
         AssertionInterface $sourceAssertion,
@@ -23,6 +20,15 @@ class ResolvedAssertion extends Assertion implements ResolvedAssertionInterface
         parent::__construct($source, $identifier, $sourceAssertion->getComparison());
 
         $this->sourceAssertion = $sourceAssertion;
+        $this->encapsulatingAssertionData = new EncapsulatingAssertionData($sourceAssertion, 'resolved-assertion', [
+            self::KEY_ENCAPSULATION_SOURCE => $source,
+            self::KEY_ENCAPSULATION_IDENTIFIER => $identifier,
+        ]);
+    }
+
+    public function normalise(): AssertionInterface
+    {
+        return $this;
     }
 
     public function getSourceAssertion(): AssertionInterface
@@ -32,14 +38,6 @@ class ResolvedAssertion extends Assertion implements ResolvedAssertionInterface
 
     public function jsonSerialize(): array
     {
-        return [
-            self::KEY_ENCAPSULATION => [
-                self::KEY_ENCAPSULATION_TYPE => 'resolved-assertion',
-                self::KEY_ENCAPSULATION_SOURCE_TYPE => 'assertion',
-                self::KEY_ENCAPSULATION_SOURCE => $this->getSource(),
-                self::KEY_ENCAPSULATION_IDENTIFIER => $this->getIdentifier(),
-            ],
-            self::KEY_ENCAPSULATES => $this->sourceAssertion->jsonSerialize(),
-        ];
+        return $this->encapsulatingAssertionData->jsonSerialize();
     }
 }

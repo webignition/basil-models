@@ -31,50 +31,6 @@ class ResolvedComparisonAssertionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider normaliseDataProvider
-     */
-    public function testNormalise(
-        ResolvedComparisonAssertionInterface $assertion,
-        ResolvedComparisonAssertionInterface $expectedNormalisedAssertion
-    ) {
-        $this->assertEquals($expectedNormalisedAssertion, $assertion->normalise());
-    }
-
-    public function normaliseDataProvider(): array
-    {
-        return [
-            'is, is in normal form' => [
-                'assertion' => new ResolvedComparisonAssertion(
-                    new ComparisonAssertion('$".selector" is $".value"', '$".selector"', 'is', '$".value"'),
-                    '$".selector" is $".value"',
-                    '$".selector"',
-                    '$".value"'
-                ),
-                'expectedNormalisedAssertion' => new ResolvedComparisonAssertion(
-                    new ComparisonAssertion('$".selector" is $".value"', '$".selector"', 'is', '$".value"'),
-                    '$".selector" is $".value"',
-                    '$".selector"',
-                    '$".value"'
-                ),
-            ],
-            'is, not in normal form' => [
-                'assertion' => new ResolvedComparisonAssertion(
-                    new ComparisonAssertion('$".selector" is $".value"', '$".selector"', 'is', '$".value"'),
-                    '$page_import_name.elements.selector is $page_import_name.elements.value',
-                    '$".selector"',
-                    '$".value"'
-                ),
-                'expectedNormalisedAssertion' => new ResolvedComparisonAssertion(
-                    new ComparisonAssertion('$".selector" is $".value"', '$".selector"', 'is', '$".value"'),
-                    '$".selector" is $".value"',
-                    '$".selector"',
-                    '$".value"'
-                ),
-            ],
-        ];
-    }
-
-    /**
      * @dataProvider jsonSerializeDataProvider
      *
      * @param ResolvedComparisonAssertionInterface $assertion

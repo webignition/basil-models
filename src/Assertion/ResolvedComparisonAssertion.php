@@ -6,15 +6,12 @@ namespace webignition\BasilModels\Assertion;
 
 class ResolvedComparisonAssertion extends ComparisonAssertion implements ResolvedComparisonAssertionInterface
 {
-    public const KEY_ENCAPSULATION = 'encapsulation';
-    public const KEY_ENCAPSULATION_TYPE = 'type';
-    public const KEY_ENCAPSULATION_SOURCE_TYPE = 'source_type';
     public const KEY_ENCAPSULATION_SOURCE = 'source';
     public const KEY_ENCAPSULATION_IDENTIFIER = 'identifier';
     public const KEY_ENCAPSULATION_VALUE = 'value';
-    public const KEY_ENCAPSULATES = 'encapsulates';
 
     private ComparisonAssertionInterface $sourceAssertion;
+    private EncapsulatingAssertionData $encapsulatingAssertionData;
 
     public function __construct(
         ComparisonAssertionInterface $sourceAssertion,
@@ -25,6 +22,15 @@ class ResolvedComparisonAssertion extends ComparisonAssertion implements Resolve
         parent::__construct($source, $identifier, $sourceAssertion->getComparison(), $value);
 
         $this->sourceAssertion = $sourceAssertion;
+        $this->encapsulatingAssertionData = new EncapsulatingAssertionData(
+            $sourceAssertion,
+            'resolved-comparison-assertion',
+            [
+                self::KEY_ENCAPSULATION_SOURCE => $this->getSource(),
+                self::KEY_ENCAPSULATION_IDENTIFIER => $this->getIdentifier(),
+                self::KEY_ENCAPSULATION_VALUE => $this->getValue(),
+            ]
+        );
     }
 
     public function getSourceAssertion(): ComparisonAssertionInterface
@@ -32,17 +38,13 @@ class ResolvedComparisonAssertion extends ComparisonAssertion implements Resolve
         return $this->sourceAssertion;
     }
 
+    public function normalise(): AssertionInterface
+    {
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
-        return [
-            self::KEY_ENCAPSULATION => [
-                self::KEY_ENCAPSULATION_TYPE => 'resolved-comparison-assertion',
-                self::KEY_ENCAPSULATION_SOURCE_TYPE => 'assertion',
-                self::KEY_ENCAPSULATION_SOURCE => $this->getSource(),
-                self::KEY_ENCAPSULATION_IDENTIFIER => $this->getIdentifier(),
-                self::KEY_ENCAPSULATION_VALUE => $this->getValue(),
-            ],
-            self::KEY_ENCAPSULATES => $this->sourceAssertion->jsonSerialize(),
-        ];
+        return $this->encapsulatingAssertionData->jsonSerialize();
     }
 }
