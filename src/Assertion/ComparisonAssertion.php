@@ -8,7 +8,7 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
 {
     private const KEY_VALUE = 'value';
 
-    private $value;
+    private string $value;
 
     public function __construct(string $source, string $identifier, string $comparison, string $value)
     {

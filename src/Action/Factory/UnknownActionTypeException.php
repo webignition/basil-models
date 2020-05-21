@@ -6,7 +6,7 @@ namespace webignition\BasilModels\Action\Factory;
 
 class UnknownActionTypeException extends MalformedDataException
 {
-    private $type;
+    public string $type;
 
     /**
      * @param array<mixed> $data
@@ -17,10 +17,5 @@ class UnknownActionTypeException extends MalformedDataException
         parent::__construct($data);
 
         $this->type = $type;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
     }
 }

@@ -9,7 +9,7 @@ class InputAction extends InteractionAction implements InputActionInterface
     public const TYPE = 'set';
     private const KEY_VALUE = 'value';
 
-    private $value;
+    private string $value;
 
     public function __construct(string $source, string $arguments, string $identifier, string $value)
     {

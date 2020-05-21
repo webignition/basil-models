@@ -9,9 +9,9 @@ class DataSetCollection implements DataSetCollectionInterface
     /**
      * @var DataSet[]
      */
-    private $dataSets = [];
+    private array $dataSets = [];
 
-    private $iteratorPosition = 0;
+    private int $iteratorPosition = 0;
 
     /**
      * @param array<int|string, array<int|string, string>> $data

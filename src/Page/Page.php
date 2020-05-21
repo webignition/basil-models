@@ -6,9 +6,13 @@ namespace webignition\BasilModels\Page;
 
 class Page implements PageInterface
 {
-    private $importName;
-    private $url;
-    private $identifiers;
+    private string $importName;
+    private string $url;
+
+    /**
+     * @var string[]
+     */
+    private array $identifiers;
 
     /**
      * @param string $importName

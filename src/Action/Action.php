@@ -11,8 +11,8 @@ class Action extends Statement implements ActionInterface
     public const KEY_TYPE = 'type';
     private const KEY_ARGUMENTS = 'arguments';
 
-    private $type;
-    private $arguments;
+    private string $type;
+    private string $arguments;
 
     public function __construct(string $source, string $type, string $arguments)
     {

@@ -8,7 +8,7 @@ class InteractionAction extends Action implements InteractionActionInterface
 {
     private const KEY_IDENTIFIER = 'identifier';
 
-    private $identifier;
+    private string $identifier;
 
     public function __construct(string $source, string $type, string $arguments, string $identifier)
     {

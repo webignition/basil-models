@@ -12,7 +12,7 @@ class UniqueAssertionCollection implements \IteratorAggregate
     /**
      * @var AssertionInterface[]
      */
-    private $assertions = [];
+    private array $assertions = [];
 
     /**
      * @param AssertionInterface[] $assertions

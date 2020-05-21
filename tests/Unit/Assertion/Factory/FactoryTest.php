@@ -15,10 +15,7 @@ use webignition\BasilModels\Assertion\Factory\UnknownComparisonException;
 
 class FactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Factory
-     */
-    private $factory;
+    private Factory $factory;
 
     protected function setUp(): void
     {
@@ -187,7 +184,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
             $this->factory->createFromArray($assertionData);
             $this->fail('MalformedDataException not thrown');
         } catch (MalformedDataException $malformedDataException) {
-            $this->assertSame($assertionData, $malformedDataException->getData());
+            $this->assertSame($assertionData, $malformedDataException->data);
         }
     }
 
@@ -242,8 +239,8 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
             $this->factory->createFromArray($assertionData);
             $this->fail('UnknownComparisonException not thrown');
         } catch (UnknownComparisonException $unknownComparisonException) {
-            $this->assertSame($assertionData, $unknownComparisonException->getData());
-            $this->assertSame($assertionData['comparison'] ?? '', $unknownComparisonException->getComparison());
+            $this->assertSame($assertionData, $unknownComparisonException->data);
+            $this->assertSame($assertionData['comparison'] ?? '', $unknownComparisonException->comparison);
         }
     }
 

@@ -9,7 +9,7 @@ class MalformedDataException extends \Exception
     /**
      * @var array<mixed>
      */
-    private $data;
+    public array $data;
 
     /**
      * @param array<mixed> $data
@@ -19,13 +19,5 @@ class MalformedDataException extends \Exception
         parent::__construct('');
 
         $this->data = $data;
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    public function getData(): array
-    {
-        return $this->data;
     }
 }

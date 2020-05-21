@@ -8,10 +8,7 @@ abstract class Statement implements StatementInterface
 {
     protected const KEY_SOURCE = 'source';
 
-    /**
-     * @var string
-     */
-    protected $source;
+    protected string $source;
 
     public function __construct(string $source)
     {
