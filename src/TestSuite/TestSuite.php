@@ -8,15 +8,12 @@ use webignition\BasilModels\Test\TestInterface;
 
 class TestSuite implements TestSuiteInterface
 {
-    /**
-     * @var string
-     */
-    private $name = '';
+    private string $name = '';
 
     /**
      * @var TestInterface[]
      */
-    private $tests = [];
+    private array $tests = [];
 
     /**
      * @param string $name
