@@ -7,8 +7,6 @@ namespace webignition\BasilModels\Tests\Unit\Action\Factory;
 use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\Factory\Factory;
-use webignition\BasilModels\Action\Factory\MalformedDataException;
-use webignition\BasilModels\Action\Factory\UnknownActionTypeException;
 use webignition\BasilModels\Action\InputAction;
 use webignition\BasilModels\Action\InteractionAction;
 use webignition\BasilModels\Action\WaitAction;
@@ -130,89 +128,6 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     'wait 30',
                     '30'
                 ),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createFromArrayThrowsMalformedDataExceptionDataProvider
-     *
-     * @param array<mixed> $actionData
-     */
-    public function testCreateFromArrayThrowsMalformedDataException(array $actionData)
-    {
-        try {
-            $this->factory->createFromArray($actionData);
-            $this->fail('MalformedDataException not throw');
-        } catch (MalformedDataException $malformedDataException) {
-            $this->assertSame($actionData, $malformedDataException->data);
-        }
-    }
-
-    public function createFromArrayThrowsMalformedDataExceptionDataProvider(): array
-    {
-        return [
-            'malformed action (lacking source, arguments)' => [
-                'actionData' => [
-                    'type' => 'back',
-                ],
-            ],
-            'malformed interaction action (lacking source, arguments)' => [
-                'actionData' => [
-                    'type' => 'click',
-                ],
-            ],
-            'malformed interaction action (lacking identifier)' => [
-                'actionData' => [
-                    'source' => 'click $".selector"',
-                    'type' => 'click',
-                    'arguments' => '$".selector"',
-                ],
-            ],
-            'malformed input action (lacking value)' => [
-                'actionData' => [
-                    'source' => 'set $".selector" to "value"',
-                    'type' => 'set',
-                    'arguments' => '$".selector" to "value"',
-                    'identifier' => '$".selector"',
-                ],
-            ],
-            'malformed wait action (lacking duration)' => [
-                'actionData' => [
-                    'source' => 'wait 30',
-                    'type' => 'wait',
-                    'arguments' => '30',
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createFromArrayThrowsUnknownActionTypeExceptionDataProvider
-     *
-     * @param array<mixed> $actionData
-     */
-    public function testCreateFromArrayThrowsUnknownActionTypeException(array $actionData)
-    {
-        try {
-            $this->factory->createFromArray($actionData);
-            $this->fail('UnknownActionTypeException not throw');
-        } catch (UnknownActionTypeException $unknownActionTypeException) {
-            $this->assertSame($actionData, $unknownActionTypeException->data);
-            $this->assertSame($actionData['type'] ?? '', $unknownActionTypeException->type);
-        }
-    }
-
-    public function createFromArrayThrowsUnknownActionTypeExceptionDataProvider(): array
-    {
-        return [
-            'empty' => [
-                'actionData' => [],
-            ],
-            'unknown type' => [
-                'actionData' => [
-                    'type' => 'foo',
-                ],
             ],
         ];
     }

@@ -30,23 +30,10 @@ class WaitAction extends Action implements WaitActionInterface
         ]);
     }
 
-    public static function fromArray(array $data): ?ActionInterface
+    public static function fromArray(array $data): WaitAction
     {
         $action = parent::fromArray($data);
-        if (!$action instanceof ActionInterface) {
-            return null;
-        }
 
-        $duration = $data[self::KEY_DURATION] ?? null;
-        if (null === $duration) {
-            return null;
-        }
-
-        return new WaitAction($action->getSource(), (string) $duration);
-    }
-
-    public static function createsFromType(string $type): bool
-    {
-        return 'wait' === $type;
+        return new WaitAction($action->getSource(), (string) ($data[self::KEY_DURATION] ?? ''));
     }
 }

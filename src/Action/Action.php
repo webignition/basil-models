@@ -40,21 +40,12 @@ class Action extends Statement implements ActionInterface
         ]);
     }
 
-    public static function fromArray(array $data): ?ActionInterface
+    public static function fromArray(array $data): ActionInterface
     {
-        $source = $data[self::KEY_SOURCE] ?? null;
-        $type = $data[self::KEY_TYPE] ?? null;
-        $arguments = $data[self::KEY_ARGUMENTS] ?? null;
-
-        if (null === $source || null === $type || null === $arguments) {
-            return null;
-        }
-
-        return new Action((string) $source, (string) $type, (string) $arguments);
-    }
-
-    public static function createsFromType(string $type): bool
-    {
-        return in_array($type, ['back', 'forward', 'reload']);
+        return new Action(
+            (string) ($data[self::KEY_SOURCE] ?? ''),
+            (string) ($data[self::KEY_TYPE] ?? ''),
+            (string) ($data[self::KEY_ARGUMENTS] ?? '')
+        );
     }
 }

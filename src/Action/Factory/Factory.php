@@ -21,64 +21,30 @@ class Factory
      * @param array<mixed> $actionData
      *
      * @return ActionInterface
-     *
-     * @throws MalformedDataException
-     * @throws UnknownActionTypeException
      */
     public function createFromArray(array $actionData): ActionInterface
     {
         $type = $actionData[Action::KEY_TYPE] ?? '';
 
-        if (Action::createsFromType($type)) {
-            $action = Action::fromArray($actionData);
-
-            if ($action instanceof ActionInterface) {
-                return $action;
-            }
-
-            throw new MalformedDataException($actionData);
+        if (in_array($type, ['click', 'submit', 'wait-for'])) {
+            return InteractionAction::fromArray($actionData);
         }
 
-        if (InteractionAction::createsFromType($type)) {
-            $action = InteractionAction::fromArray($actionData);
-
-            if ($action instanceof ActionInterface) {
-                return $action;
-            }
-
-            throw new MalformedDataException($actionData);
+        if ('set' === $type) {
+            return InputAction::fromArray($actionData);
         }
 
-        if (InputAction::createsFromType($type)) {
-            $action = InputAction::fromArray($actionData);
-
-            if ($action instanceof ActionInterface) {
-                return $action;
-            }
-
-            throw new MalformedDataException($actionData);
+        if ('wait' === $type) {
+            return WaitAction::fromArray($actionData);
         }
 
-        if (WaitAction::createsFromType($type)) {
-            $action = WaitAction::fromArray($actionData);
-
-            if ($action instanceof ActionInterface) {
-                return $action;
-            }
-
-            throw new MalformedDataException($actionData);
-        }
-
-        throw new UnknownActionTypeException($actionData, $type);
+        return Action::fromArray($actionData);
     }
 
     /**
      * @param string $json
      *
      * @return ActionInterface
-     *
-     * @throws MalformedDataException
-     * @throws UnknownActionTypeException
      */
     public function createFromJson(string $json): ActionInterface
     {

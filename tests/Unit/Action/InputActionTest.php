@@ -111,7 +111,7 @@ class InputActionTest extends \PHPUnit\Framework\TestCase
         return [
             'empty' => [
                 'data' => [],
-                'expectedAction' => null,
+                'expectedAction' => new InputAction('', '', '', ''),
             ],
             'source missing' => [
                 'data' => [
@@ -120,16 +120,21 @@ class InputActionTest extends \PHPUnit\Framework\TestCase
                     'identifier' => '$".selector"',
                     'value' => '"value"',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new InputAction('', '$".selector"', '$".selector"', '"value"'),
             ],
             'type missing' => [
                 'data' => [
                     'source' => 'set $".selector" to "value"',
-                        'arguments' => '$".selector"',
+                    'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                     'value' => '"value"',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new InputAction(
+                    'set $".selector" to "value"',
+                    '$".selector"',
+                    '$".selector"',
+                    '"value"'
+                ),
             ],
             'arguments missing' => [
                 'data' => [
@@ -138,7 +143,7 @@ class InputActionTest extends \PHPUnit\Framework\TestCase
                     'identifier' => '$".selector"',
                     'value' => '"value"',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new InputAction('set $".selector" to "value"', '', '$".selector"', '"value"'),
             ],
             'identifier missing' => [
                 'data' => [
@@ -147,7 +152,12 @@ class InputActionTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'value' => '"value"',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new InputAction(
+                    'set $".selector" to "value"',
+                    '$".selector"',
+                    '',
+                    '"value"'
+                ),
             ],
             'value missing' => [
                 'data' => [
@@ -156,7 +166,12 @@ class InputActionTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new InputAction(
+                    'set $".selector" to "value"',
+                    '$".selector"',
+                    '$".selector"',
+                    ''
+                ),
             ],
             'source, type, arguments, identifier present' => [
                 'data' => [
@@ -172,52 +187,6 @@ class InputActionTest extends \PHPUnit\Framework\TestCase
                     '$".selector"',
                     '"value"'
                 ),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createsFromTypeDataProvider
-     */
-    public function testCreatesFromType(string $type, bool $expectedCreatesFromType)
-    {
-        $this->assertSame($expectedCreatesFromType, InputAction::createsFromType($type));
-    }
-
-    public function createsFromTypeDataProvider(): array
-    {
-        return [
-            'click' => [
-                'type' => 'click',
-                'expectedCreatesFromType' => false,
-            ],
-            'set' => [
-                'type' => 'set',
-                'expectedCreatesFromType' => true,
-            ],
-            'submit' => [
-                'type' => 'submit',
-                'expectedCreatesFromType' => false,
-            ],
-            'wait' => [
-                'type' => 'wait',
-                'expectedCreatesFromType' => false,
-            ],
-            'wait-for' => [
-                'type' => 'wait-for',
-                'expectedCreatesFromType' => false,
-            ],
-            'reload' => [
-                'type' => 'reload',
-                'expectedCreatesFromType' => false,
-            ],
-            'forward' => [
-                'type' => 'forward',
-                'expectedCreatesFromType' => false,
-            ],
-            'back' => [
-                'type' => 'back',
-                'expectedCreatesFromType' => false,
             ],
         ];
     }

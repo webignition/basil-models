@@ -69,7 +69,7 @@ class WaitActionTest extends \PHPUnit\Framework\TestCase
         return [
             'empty' => [
                 'data' => [],
-                'expectedAction' => null,
+                'expectedAction' => new WaitAction('', ''),
             ],
             'source missing' => [
                 'data' => [
@@ -77,7 +77,7 @@ class WaitActionTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '1',
                     'duration' => '1',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new WaitAction('', '1'),
             ],
             'type missing' => [
                 'data' => [
@@ -85,7 +85,7 @@ class WaitActionTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '1',
                     'duration' => '1',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new WaitAction('wait 1', '1'),
             ],
             'arguments missing' => [
                 'data' => [
@@ -93,7 +93,7 @@ class WaitActionTest extends \PHPUnit\Framework\TestCase
                     'type' => 'wait',
                     'duration' => '1',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new WaitAction('wait 1', '1'),
             ],
             'duration missing' => [
                 'data' => [
@@ -101,7 +101,7 @@ class WaitActionTest extends \PHPUnit\Framework\TestCase
                     'type' => 'wait',
                     'arguments' => '1',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new WaitAction('wait 1', ''),
             ],
             'source, type, arguments, duration present' => [
                 'data' => [
@@ -111,52 +111,6 @@ class WaitActionTest extends \PHPUnit\Framework\TestCase
                     'duration' => '1',
                 ],
                 'expectedAction' => new WaitAction('wait 1', '1'),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createsFromTypeDataProvider
-     */
-    public function testCreatesFromType(string $type, bool $expectedCreatesFromType)
-    {
-        $this->assertSame($expectedCreatesFromType, WaitAction::createsFromType($type));
-    }
-
-    public function createsFromTypeDataProvider(): array
-    {
-        return [
-            'click' => [
-                'type' => 'click',
-                'expectedCreatesFromType' => false,
-            ],
-            'set' => [
-                'type' => 'set',
-                'expectedCreatesFromType' => false,
-            ],
-            'submit' => [
-                'type' => 'submit',
-                'expectedCreatesFromType' => false,
-            ],
-            'wait' => [
-                'type' => 'wait',
-                'expectedCreatesFromType' => true,
-            ],
-            'wait-for' => [
-                'type' => 'wait-for',
-                'expectedCreatesFromType' => false,
-            ],
-            'reload' => [
-                'type' => 'reload',
-                'expectedCreatesFromType' => false,
-            ],
-            'forward' => [
-                'type' => 'forward',
-                'expectedCreatesFromType' => false,
-            ],
-            'back' => [
-                'type' => 'back',
-                'expectedCreatesFromType' => false,
             ],
         ];
     }

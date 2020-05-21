@@ -90,7 +90,7 @@ class InteractionActionTest extends \PHPUnit\Framework\TestCase
         return [
             'empty' => [
                 'data' => [],
-                'expectedAction' => null,
+                'expectedAction' => new InteractionAction('', '', '', ''),
             ],
             'source missing' => [
                 'data' => [
@@ -98,7 +98,7 @@ class InteractionActionTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new InteractionAction('', 'click', '$".selector"', '$".selector"'),
             ],
             'type missing' => [
                 'data' => [
@@ -106,7 +106,7 @@ class InteractionActionTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new InteractionAction('click $".selector"', '', '$".selector"', '$".selector"'),
             ],
             'arguments missing' => [
                 'data' => [
@@ -114,7 +114,7 @@ class InteractionActionTest extends \PHPUnit\Framework\TestCase
                     'type' => 'click',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new InteractionAction('click $".selector"', 'click', '', '$".selector"'),
             ],
             'identifier missing' => [
                 'data' => [
@@ -122,7 +122,7 @@ class InteractionActionTest extends \PHPUnit\Framework\TestCase
                     'type' => 'click',
                     'arguments' => '$".selector"',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new InteractionAction('click $".selector"', 'click', '$".selector"', ''),
             ],
             'source, type, arguments, identifier present' => [
                 'data' => [
@@ -137,52 +137,6 @@ class InteractionActionTest extends \PHPUnit\Framework\TestCase
                     '$".selector"',
                     '$".selector"'
                 ),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createsFromTypeDataProvider
-     */
-    public function testCreatesFromType(string $type, bool $expectedCreatesFromType)
-    {
-        $this->assertSame($expectedCreatesFromType, InteractionAction::createsFromType($type));
-    }
-
-    public function createsFromTypeDataProvider(): array
-    {
-        return [
-            'click' => [
-                'type' => 'click',
-                'expectedCreatesFromType' => true,
-            ],
-            'set' => [
-                'type' => 'set',
-                'expectedCreatesFromType' => false,
-            ],
-            'submit' => [
-                'type' => 'submit',
-                'expectedCreatesFromType' => true,
-            ],
-            'wait' => [
-                'type' => 'wait',
-                'expectedCreatesFromType' => false,
-            ],
-            'wait-for' => [
-                'type' => 'wait-for',
-                'expectedCreatesFromType' => true,
-            ],
-            'reload' => [
-                'type' => 'reload',
-                'expectedCreatesFromType' => false,
-            ],
-            'forward' => [
-                'type' => 'forward',
-                'expectedCreatesFromType' => false,
-            ],
-            'back' => [
-                'type' => 'back',
-                'expectedCreatesFromType' => false,
             ],
         ];
     }

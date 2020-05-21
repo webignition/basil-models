@@ -38,28 +38,15 @@ class InputAction extends InteractionAction implements InputActionInterface
         ]);
     }
 
-    public static function fromArray(array $data): ?ActionInterface
+    public static function fromArray(array $data): InputActionInterface
     {
         $action = InteractionAction::fromArray($data);
-        if (!$action instanceof InteractionActionInterface) {
-            return null;
-        }
-
-        $value = $data[self::KEY_VALUE] ?? null;
-        if (null === $value) {
-            return null;
-        }
 
         return new InputAction(
             $action->getSource(),
             $action->getArguments(),
             $action->getIdentifier(),
-            (string) $value
+            (string) ($data[self::KEY_VALUE] ?? '')
         );
-    }
-
-    public static function createsFromType(string $type): bool
-    {
-        return 'set' === $type;
     }
 }

@@ -68,28 +68,28 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         return [
             'empty' => [
                 'data' => [],
-                'expectedAction' => null,
+                'expectedAction' => new Action('', '', ''),
             ],
             'source missing' => [
                 'data' => [
                     'type' => 'back',
                     'arguments' => '',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new Action('', 'back', ''),
             ],
             'type missing' => [
                 'data' => [
                     'source' => 'back',
                     'arguments' => '',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new Action('back', '', ''),
             ],
             'arguments missing' => [
                 'data' => [
                     'source' => 'back',
                     'type' => 'back',
                 ],
-                'expectedAction' => null,
+                'expectedAction' => new Action('back', 'back', ''),
             ],
             'source, type, arguments present' => [
                 'data' => [
@@ -98,52 +98,6 @@ class ActionTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '',
                 ],
                 'expectedAction' => new Action('back', 'back', ''),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider createsFromTypeDataProvider
-     */
-    public function testCreatesFromType(string $type, bool $expectedCreatesFromType)
-    {
-        $this->assertSame($expectedCreatesFromType, Action::createsFromType($type));
-    }
-
-    public function createsFromTypeDataProvider(): array
-    {
-        return [
-            'click' => [
-                'type' => 'click',
-                'expectedCreatesFromType' => false,
-            ],
-            'set' => [
-                'type' => 'set',
-                'expectedCreatesFromType' => false,
-            ],
-            'submit' => [
-                'type' => 'submit',
-                'expectedCreatesFromType' => false,
-            ],
-            'wait' => [
-                'type' => 'wait',
-                'expectedCreatesFromType' => false,
-            ],
-            'wait-for' => [
-                'type' => 'wait-for',
-                'expectedCreatesFromType' => false,
-            ],
-            'reload' => [
-                'type' => 'reload',
-                'expectedCreatesFromType' => true,
-            ],
-            'forward' => [
-                'type' => 'forward',
-                'expectedCreatesFromType' => true,
-            ],
-            'back' => [
-                'type' => 'back',
-                'expectedCreatesFromType' => true,
             ],
         ];
     }
