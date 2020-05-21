@@ -9,7 +9,7 @@ class WaitAction extends Action implements WaitActionInterface
     public const TYPE = 'wait';
     private const KEY_DURATION = 'duration';
 
-    private $duration;
+    private string $duration;
 
     public function __construct(string $source, string $duration)
     {
