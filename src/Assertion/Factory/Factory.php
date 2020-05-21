@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Assertion\Factory;
 
 use webignition\BasilModels\Action\Factory\Factory as ActionFactory;
-use webignition\BasilModels\Action\Factory\MalformedDataException as MalformedActionDataException;
-use webignition\BasilModels\Action\Factory\UnknownActionTypeException;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
@@ -34,9 +32,7 @@ class Factory
      *
      * @return AssertionInterface
      *
-     * @throws MalformedActionDataException
      * @throws MalformedDataException
-     * @throws UnknownActionTypeException
      * @throws UnknownComparisonException
      */
     public function createFromArray(array $assertionData): AssertionInterface
@@ -75,9 +71,7 @@ class Factory
      *
      * @return AssertionInterface
      *
-     * @throws MalformedActionDataException
      * @throws MalformedDataException
-     * @throws UnknownActionTypeException
      * @throws UnknownComparisonException
      */
     public function createFromJson(string $json): AssertionInterface
@@ -90,9 +84,7 @@ class Factory
      *
      * @return DerivedValueOperationAssertion
      *
-     * @throws MalformedActionDataException
      * @throws MalformedAssertionDataException
-     * @throws UnknownActionTypeException
      * @throws UnknownComparisonException
      */
     private function createDerivedValueOperationAssertionFromArray(array $assertionData): DerivedValueOperationAssertion

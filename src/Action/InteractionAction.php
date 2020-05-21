@@ -37,28 +37,15 @@ class InteractionAction extends Action implements InteractionActionInterface
         ]);
     }
 
-    public static function fromArray(array $data): ?ActionInterface
+    public static function fromArray(array $data): InteractionActionInterface
     {
         $action = Action::fromArray($data);
-        if (!$action instanceof ActionInterface) {
-            return null;
-        }
-
-        $identifier = $data[self::KEY_IDENTIFIER] ?? null;
-        if (null === $identifier) {
-            return null;
-        }
 
         return new InteractionAction(
             $action->getSource(),
             $action->getType(),
             $action->getArguments(),
-            (string) $identifier
+            (string) ($data[self::KEY_IDENTIFIER] ?? '')
         );
-    }
-
-    public static function createsFromType(string $type): bool
-    {
-        return in_array($type, ['click', 'submit', 'wait-for']);
     }
 }
