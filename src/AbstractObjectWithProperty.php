@@ -9,9 +9,9 @@ abstract class AbstractObjectWithProperty
     protected const PART_DELIMITER = '.';
     private const PATTERN_DELIMITER = '/';
 
-    private $value  = '';
-    private $property = '';
-    private $isValid = false;
+    private string $value  = '';
+    private string $property = '';
+    private bool $isValid = false;
 
     public function __construct(string $value)
     {
