@@ -32,14 +32,6 @@ class Assertion extends Statement implements AssertionInterface
         return $this->comparison;
     }
 
-    public function withIdentifier(string $identifier): AssertionInterface
-    {
-        $new = clone $this;
-        $new->identifier = $identifier;
-
-        return $new;
-    }
-
     public function equals(AssertionInterface $assertion): bool
     {
         if ($this->identifier !== $assertion->getIdentifier()) {
