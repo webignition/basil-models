@@ -4,26 +4,36 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
-class ResolvedAssertion extends Assertion implements ResolvedAssertionInterface
+class ResolvedAssertion implements ResolvedAssertionInterface
 {
-    public const KEY_ENCAPSULATION_SOURCE = 'source';
-    public const KEY_ENCAPSULATION_IDENTIFIER = 'identifier';
-
     private AssertionInterface $sourceAssertion;
+    private AssertionInterface $resolvedAssertion;
     private EncapsulatingAssertionData $encapsulatingAssertionData;
 
-    public function __construct(
-        AssertionInterface $sourceAssertion,
-        string $source,
-        string $identifier
-    ) {
-        parent::__construct($source, $identifier, $sourceAssertion->getComparison());
-
+    public function __construct(AssertionInterface $sourceAssertion, string $source, string $identifier)
+    {
         $this->sourceAssertion = $sourceAssertion;
+        $this->resolvedAssertion = new Assertion($source, $identifier, $sourceAssertion->getComparison());
+
         $this->encapsulatingAssertionData = new EncapsulatingAssertionData($sourceAssertion, 'resolved-assertion', [
-            self::KEY_ENCAPSULATION_SOURCE => $source,
-            self::KEY_ENCAPSULATION_IDENTIFIER => $identifier,
+            'source' => $source,
+            'identifier' => $identifier,
         ]);
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->resolvedAssertion->getIdentifier();
+    }
+
+    public function getComparison(): string
+    {
+        return $this->resolvedAssertion->getComparison();
+    }
+
+    public function equals(AssertionInterface $assertion): bool
+    {
+        return $this->resolvedAssertion->equals($assertion);
     }
 
     public function normalise(): AssertionInterface
@@ -36,6 +46,19 @@ class ResolvedAssertion extends Assertion implements ResolvedAssertionInterface
         return $this->sourceAssertion;
     }
 
+    public function getSource(): string
+    {
+        return $this->resolvedAssertion->getSource();
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->sourceAssertion;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function jsonSerialize(): array
     {
         return $this->encapsulatingAssertionData->jsonSerialize();
