@@ -24,20 +24,6 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($comparison, $assertion->getComparison());
     }
 
-    public function testWithComparison()
-    {
-        $originalComparison = 'not-exists';
-        $newComparison = 'exists';
-
-        $assertion = new Assertion('$".selector" not-exists', '$".selector"', $originalComparison);
-        $mutatedAssertion = $assertion->withComparison($newComparison);
-
-        $this->assertNotSame($assertion, $mutatedAssertion);
-        $this->assertSame($originalComparison, $assertion->getComparison());
-        $this->assertSame($newComparison, $mutatedAssertion->getComparison());
-        $this->assertSame('$".selector" exists', $mutatedAssertion->getSource());
-    }
-
     public function testWithIdentifier()
     {
         $originalIdentifier = '$elements.element_name';
