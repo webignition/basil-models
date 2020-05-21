@@ -10,6 +10,8 @@ use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
 use webignition\BasilModels\Assertion\Factory\Factory;
+use webignition\BasilModels\Assertion\ResolvedAssertion;
+use webignition\BasilModels\Assertion\ResolvedComparisonAssertion;
 
 class FactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,19 +27,19 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider createFromArrayDataProvider
      *
-     * @param array<mixed> $assertionData
+     * @param array<mixed> $data
      * @param AssertionInterface $expectedAssertion
      */
-    public function testCreateFromArray(array $assertionData, AssertionInterface $expectedAssertion)
+    public function testCreateFromArray(array $data, AssertionInterface $expectedAssertion)
     {
-        $this->assertEquals($expectedAssertion, $this->factory->createFromArray($assertionData));
+        $this->assertEquals($expectedAssertion, $this->factory->createFromArray($data));
     }
 
     public function createFromArrayDataProvider(): array
     {
         return [
             'exists' => [
-                'assertionData' => [
+                'data' => [
                     'source' => '$".selector" exists',
                     'identifier' => '$".selector"',
                     'comparison' => 'exists',
@@ -45,7 +47,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 'expectedAssertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
             ],
             'not-exists' => [
-                'assertionData' => [
+                'data' => [
                     'source' => '$".selector" not-exists',
                     'identifier' => '$".selector"',
                     'comparison' => 'not-exists',
@@ -53,7 +55,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 'expectedAssertion' => new Assertion('$".selector" not-exists', '$".selector"', 'not-exists'),
             ],
             'is' => [
-                'assertionData' => [
+                'data' => [
                     'source' => '$".selector" is "value"',
                     'identifier' => '$".selector"',
                     'comparison' => 'is',
@@ -67,7 +69,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 ),
             ],
             'is-not' => [
-                'assertionData' => [
+                'data' => [
                     'source' => '$".selector" is-not "value"',
                     'identifier' => '$".selector"',
                     'comparison' => 'is-not',
@@ -81,7 +83,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 ),
             ],
             'includes' => [
-                'assertionData' => [
+                'data' => [
                     'source' => '$".selector" includes "value"',
                     'identifier' => '$".selector"',
                     'comparison' => 'includes',
@@ -95,7 +97,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 ),
             ],
             'excludes' => [
-                'assertionData' => [
+                'data' => [
                     'source' => '$".selector" excludes "value"',
                     'identifier' => '$".selector"',
                     'comparison' => 'excludes',
@@ -109,7 +111,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 ),
             ],
             'matches' => [
-                'assertionData' => [
+                'data' => [
                     'source' => '$".selector" matches "value"',
                     'identifier' => '$".selector"',
                     'comparison' => 'matches',
@@ -123,16 +125,19 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 ),
             ],
             'derived exists from action' => [
-                'assertionData' => [
-                    'operator' => 'exists',
-                    'source_type' => 'action',
-                    'source' => [
+                'data' => [
+                    'encapsulation' => [
+                        'type' => 'derived-value-operation-assertion',
+                        'source_type' => 'action',
+                        'operator' => 'exists',
+                        'value' => '$".selector"',
+                    ],
+                    'encapsulates' => [
                         'source' => 'click $".selector"',
                         'type' => 'click',
                         'arguments' => '$".selector"',
                         'identifier' => '$".selector"',
                     ],
-                    'value' => '$".selector"'
                 ],
                 'expectedAssertion' => new DerivedValueOperationAssertion(
                     new InteractionAction(
@@ -146,26 +151,81 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 ),
             ],
             'derived exists from assertion' => [
-                'assertionData' => [
-                    'operator' => 'exists',
-                    'source_type' => 'assertion',
-                    'source' => [
+                'data' => [
+                    'encapsulation' => [
+                        'type' => 'derived-value-operation-assertion',
+                        'source_type' => 'assertion',
+                        'operator' => 'exists',
+                        'value' => '$".selector"',
+                    ],
+                    'encapsulates' => [
                         'source' => '$".selector" is "value',
-                        'identifier' => '$".selector',
+                        'identifier' => '$".selector"',
                         'comparison' => 'is',
                         'value' => '"value"',
                     ],
-                    'value' => '$".selector"'
                 ],
                 'expectedAssertion' => new DerivedValueOperationAssertion(
                     new ComparisonAssertion(
                         '$".selector" is "value',
-                        '$".selector',
+                        '$".selector"',
                         'is',
                         '"value"'
                     ),
                     '$".selector"',
                     'exists'
+                ),
+            ],
+            'resolved exists assertion' => [
+                'data' => [
+                    'encapsulation' => [
+                        'type' => 'resolved-assertion',
+                        'source_type' => 'assertion',
+                        'source' => '$".selector" exists',
+                        'identifier' => '$".selector"',
+                    ],
+                    'encapsulates' => [
+                        'source' => '$page_import_name.elements.element_name exists',
+                        'identifier' => '$page_import_name.elements.element_name',
+                        'comparison' => 'exists',
+                    ],
+                ],
+                'expectedAssertion' => new ResolvedAssertion(
+                    new Assertion(
+                        '$page_import_name.elements.element_name exists',
+                        '$page_import_name.elements.element_name',
+                        'exists'
+                    ),
+                    '$".selector" exists',
+                    '$".selector"'
+                ),
+            ],
+            'resolved is assertion' => [
+                'data' => [
+                    'encapsulation' => [
+                        'type' => 'resolved-comparison-assertion',
+                        'source_type' => 'assertion',
+                        'source' => '$".selector" is $".value"',
+                        'identifier' => '$".selector"',
+                        'value' => '$".value"',
+                    ],
+                    'encapsulates' => [
+                        'source' => '$page_import_name.elements.selector is $page_import_name.elements.value',
+                        'identifier' => '$page_import_name.elements.selector',
+                        'comparison' => 'is',
+                        'value' => '$page_import_name.elements.value'
+                    ],
+                ],
+                'expectedAssertion' => new ResolvedComparisonAssertion(
+                    new ComparisonAssertion(
+                        '$page_import_name.elements.selector is $page_import_name.elements.value',
+                        '$page_import_name.elements.selector',
+                        'is',
+                        '$page_import_name.elements.value'
+                    ),
+                    '$".selector" is $".value"',
+                    '$".selector"',
+                    '$".value"'
                 ),
             ],
         ];

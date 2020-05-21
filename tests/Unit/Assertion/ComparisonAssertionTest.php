@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Assertion;
 
+use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\Assertion\ComparisonAssertionInterface;
@@ -24,25 +25,6 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($identifier, $assertion->getIdentifier());
         $this->assertSame($comparison, $assertion->getComparison());
         $this->assertSame($value, $assertion->getValue());
-    }
-
-    public function testWithValue()
-    {
-        $originalValue = '$elements.element_name';
-        $newValue = '.selector';
-
-        $assertion = new ComparisonAssertion(
-            '$".selector" is $elements.element_name',
-            '$".selector"',
-            'is',
-            $originalValue
-        );
-
-        $mutatedAssertion = $assertion->withValue($newValue);
-
-        $this->assertNotSame($assertion, $mutatedAssertion);
-        $this->assertSame($originalValue, $assertion->getValue());
-        $this->assertSame($newValue, $mutatedAssertion->getValue());
     }
 
     /**
@@ -94,8 +76,7 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
         ComparisonAssertionInterface $assertion,
         ComparisonAssertionInterface $expectedNormalisedAssertion
     ) {
-        $this->assertTrue($expectedNormalisedAssertion->equals($assertion));
-        $this->assertTrue($assertion->equals($expectedNormalisedAssertion));
+        $this->assertEquals($expectedNormalisedAssertion, $assertion->normalise());
     }
 
     public function normaliseDataProvider(): array
@@ -128,6 +109,93 @@ class ComparisonAssertionTest extends \PHPUnit\Framework\TestCase
                     'is',
                     '"value"'
                 ),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider jsonSerializeDataProvider
+     *
+     * @param ComparisonAssertionInterface $assertion
+     * @param array<mixed> $expectedSerializedData
+     */
+    public function testJsonSerialize(ComparisonAssertionInterface $assertion, array $expectedSerializedData)
+    {
+        $this->assertEquals($expectedSerializedData, $assertion->jsonSerialize());
+    }
+
+    public function jsonSerializeDataProvider(): array
+    {
+        return [
+            'is' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" is "value"',
+                    '$".selector"',
+                    'is',
+                    '"value"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" is "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'is',
+                    'value' => '"value"',
+                ],
+            ],
+            'is-not' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" is-not "value"',
+                    '$".selector"',
+                    'is-not',
+                    '"value"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" is-not "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'is-not',
+                    'value' => '"value"',
+                ],
+            ],
+            'includes' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" includes "value"',
+                    '$".selector"',
+                    'includes',
+                    '"value"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" includes "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'includes',
+                    'value' => '"value"',
+                ],
+            ],
+            'excludes' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" excludes "value"',
+                    '$".selector"',
+                    'excludes',
+                    '"value"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" excludes "value"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'excludes',
+                    'value' => '"value"',
+                ],
+            ],
+            'matches' => [
+                'assertion' => new ComparisonAssertion(
+                    '$".selector" matches "/$pattern/"',
+                    '$".selector"',
+                    'matches',
+                    '"/$pattern/"'
+                ),
+                'expectedSerializedData' => [
+                    'source' => '$".selector" matches "/$pattern/"',
+                    'identifier' => '$".selector"',
+                    'comparison' => 'matches',
+                    'value' => '"/$pattern/"',
+                ],
             ],
         ];
     }

@@ -22,14 +22,6 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
         return $this->value;
     }
 
-    public function withValue(string $value): ComparisonAssertionInterface
-    {
-        $new = clone $this;
-        $new->value = $value;
-
-        return $new;
-    }
-
     public function equals(AssertionInterface $assertion): bool
     {
         if (!parent::equals($assertion)) {
@@ -47,8 +39,8 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
     {
         $normalised = parent::normalise();
 
-        if ($normalised instanceof ComparisonAssertionInterface) {
-            $normalised = $normalised->withValue($this->value);
+        if ($normalised instanceof ComparisonAssertion) {
+            $normalised->source = $normalised->source . ' ' . $this->value;
         }
 
         return $normalised;
@@ -61,7 +53,7 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
         ]);
     }
 
-    public static function fromArray(array $data): AssertionInterface
+    public static function fromArray(array $data): ComparisonAssertionInterface
     {
         $assertion = parent::fromArray($data);
 

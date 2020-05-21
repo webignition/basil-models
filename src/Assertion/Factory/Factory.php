@@ -9,6 +9,10 @@ use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
+use webignition\BasilModels\Assertion\ResolvedAssertion;
+use webignition\BasilModels\Assertion\ResolvedAssertionInterface;
+use webignition\BasilModels\Assertion\ResolvedComparisonAssertion;
+use webignition\BasilModels\Assertion\ResolvedComparisonAssertionInterface;
 
 class Factory
 {
@@ -27,29 +31,35 @@ class Factory
     }
 
     /**
-     * @param array<mixed> $assertionData
+     * @param array<mixed> $data
      *
      * @return AssertionInterface
+     *
+     * @throws UnknownEncapsulatedAssertionException
      */
-    public function createFromArray(array $assertionData): AssertionInterface
+    public function createFromArray(array $data): AssertionInterface
     {
-        if (null !== ($assertionData[DerivedValueOperationAssertion::KEY_SOURCE_TYPE] ?? null)) {
-            return $this->createDerivedValueOperationAssertionFromArray($assertionData);
+        $encapsulation = $data['encapsulation'] ?? null;
+
+        if (null !== $encapsulation) {
+            return $this->createFromEncapsulation($data);
         }
 
-        $comparison = $assertionData[Assertion::KEY_COMPARISON] ?? '';
+        $comparison = $data[Assertion::KEY_COMPARISON] ?? '';
 
         if (in_array($comparison, ['is', 'is-not', 'includes', 'excludes', 'matches'])) {
-            return ComparisonAssertion::fromArray($assertionData);
+            return ComparisonAssertion::fromArray($data);
         }
 
-        return Assertion::fromArray($assertionData);
+        return Assertion::fromArray($data);
     }
 
     /**
      * @param string $json
      *
      * @return AssertionInterface
+     *
+     * @throws UnknownEncapsulatedAssertionException
      */
     public function createFromJson(string $json): AssertionInterface
     {
@@ -57,23 +67,95 @@ class Factory
     }
 
     /**
-     * @param array<mixed> $assertionData
+     * @param array<mixed> $data
+     *
+     * @return AssertionInterface
+     *
+     * @throws UnknownEncapsulatedAssertionException
+     */
+    private function createFromEncapsulation(array $data): AssertionInterface
+    {
+        $encapsulation = $data['encapsulation'] ?? [];
+        $encapsulates = $data['encapsulates'] ?? [];
+
+        $encapsulationType = $encapsulation['type'] ?? '';
+
+        if ('derived-value-operation-assertion' === $encapsulationType) {
+            return $this->createFromDerivedValueOperationAssertion($encapsulation, $encapsulates);
+        }
+
+        if ('resolved-assertion' === $encapsulationType) {
+            return $this->createFromResolvedAssertion($encapsulation, $encapsulates);
+        }
+
+        if ('resolved-comparison-assertion' === $encapsulationType) {
+            return $this->createFromResolvedComparisonAssertion($encapsulation, $encapsulates);
+        }
+
+        throw new UnknownEncapsulatedAssertionException($data);
+    }
+
+    /**
+     * @param array<mixed> $encapsulation
+     * @param array<mixed> $encapsulates
      *
      * @return DerivedValueOperationAssertion
+     *
+     * @throws UnknownEncapsulatedAssertionException
      */
-    private function createDerivedValueOperationAssertionFromArray(array $assertionData): DerivedValueOperationAssertion
-    {
-        $source = $assertionData[DerivedValueOperationAssertion::KEY_SOURCE] ?? [];
-        $sourceType = $assertionData[DerivedValueOperationAssertion::KEY_SOURCE_TYPE];
+    private function createFromDerivedValueOperationAssertion(
+        array $encapsulation,
+        array $encapsulates
+    ): DerivedValueOperationAssertion {
+        $sourceType = $encapsulation['source_type'] ?? '';
 
         $sourceStatement = 'action' === $sourceType
-            ? $this->actionFactory->createFromArray($source)
-            : $this->createFromArray($source);
+            ? $this->actionFactory->createFromArray($encapsulates)
+            : $this->createFromArray($encapsulates);
 
         return new DerivedValueOperationAssertion(
             $sourceStatement,
-            (string) ($assertionData[DerivedValueOperationAssertion::KEY_VALUE] ?? ''),
-            (string) ($assertionData[DerivedValueOperationAssertion::KEY_OPERATOR] ?? '')
+            (string) ($encapsulation['value'] ?? ''),
+            (string) ($encapsulation['operator'] ?? '')
+        );
+    }
+
+    /**
+     * @param array<mixed> $encapsulation
+     * @param array<mixed> $encapsulates
+     *
+     * @return ResolvedAssertionInterface
+     */
+    private function createFromResolvedAssertion(
+        array $encapsulation,
+        array $encapsulates
+    ): AssertionInterface {
+        $sourceAssertion = Assertion::fromArray($encapsulates);
+
+        return new ResolvedAssertion(
+            $sourceAssertion,
+            (string) ($encapsulation['source'] ?? ''),
+            (string) ($encapsulation['identifier'] ?? '')
+        );
+    }
+
+    /**
+     * @param array<mixed> $encapsulation
+     * @param array<mixed> $encapsulates
+     *
+     * @return ResolvedComparisonAssertionInterface
+     */
+    private function createFromResolvedComparisonAssertion(
+        array $encapsulation,
+        array $encapsulates
+    ): AssertionInterface {
+        $sourceAssertion = ComparisonAssertion::fromArray($encapsulates);
+
+        return new ResolvedComparisonAssertion(
+            $sourceAssertion,
+            (string) ($encapsulation['source'] ?? ''),
+            (string) ($encapsulation['identifier'] ?? ''),
+            (string) ($encapsulation['value'] ?? '')
         );
     }
 }

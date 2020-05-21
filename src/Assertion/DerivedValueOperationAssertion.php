@@ -8,13 +8,12 @@ use webignition\BasilModels\StatementInterface;
 
 class DerivedValueOperationAssertion extends Assertion implements DerivedAssertionInterface
 {
-    public const KEY_SOURCE_TYPE = 'source_type';
-    public const KEY_SOURCE = 'source';
-    public const KEY_VALUE = 'value';
-    public const KEY_OPERATOR = 'operator';
+    public const KEY_ENCAPSULATION_OPERATOR = 'operator';
+    public const KEY_ENCAPSULATION_VALUE = 'value';
 
     private StatementInterface $sourceStatement;
     private string $value;
+    private EncapsulatingAssertionData $encapsulatingAssertionData;
 
     public function __construct(StatementInterface $sourceStatement, string $value, string $operator)
     {
@@ -22,6 +21,20 @@ class DerivedValueOperationAssertion extends Assertion implements DerivedAsserti
 
         $this->sourceStatement = $sourceStatement;
         $this->value = $value;
+
+        $this->encapsulatingAssertionData = new EncapsulatingAssertionData(
+            $sourceStatement,
+            'derived-value-operation-assertion',
+            [
+                self::KEY_ENCAPSULATION_OPERATOR => $operator,
+                self::KEY_ENCAPSULATION_VALUE => $value,
+            ]
+        );
+    }
+
+    public function normalise(): AssertionInterface
+    {
+        return $this;
     }
 
     public function getSourceStatement(): StatementInterface
@@ -31,13 +44,6 @@ class DerivedValueOperationAssertion extends Assertion implements DerivedAsserti
 
     public function jsonSerialize(): array
     {
-        $sourceStatement = $this->getSourceStatement();
-
-        return [
-            self::KEY_OPERATOR => $this->getComparison(),
-            self::KEY_SOURCE_TYPE => $sourceStatement instanceof AssertionInterface ? 'assertion' : 'action',
-            self::KEY_SOURCE => $sourceStatement->jsonSerialize(),
-            self::KEY_VALUE => $this->value,
-        ];
+        return $this->encapsulatingAssertionData->jsonSerialize();
     }
 }

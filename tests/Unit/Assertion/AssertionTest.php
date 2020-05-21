@@ -24,33 +24,6 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($comparison, $assertion->getComparison());
     }
 
-    public function testWithComparison()
-    {
-        $originalComparison = 'not-exists';
-        $newComparison = 'exists';
-
-        $assertion = new Assertion('$".selector" not-exists', '$".selector"', $originalComparison);
-        $mutatedAssertion = $assertion->withComparison($newComparison);
-
-        $this->assertNotSame($assertion, $mutatedAssertion);
-        $this->assertSame($originalComparison, $assertion->getComparison());
-        $this->assertSame($newComparison, $mutatedAssertion->getComparison());
-        $this->assertSame('$".selector" exists', $mutatedAssertion->getSource());
-    }
-
-    public function testWithIdentifier()
-    {
-        $originalIdentifier = '$elements.element_name';
-        $newIdentifier = '.selector';
-
-        $assertion = new Assertion('$elements.element_name exists', $originalIdentifier, 'exists');
-        $mutatedAssertion = $assertion->withIdentifier($newIdentifier);
-
-        $this->assertNotSame($assertion, $mutatedAssertion);
-        $this->assertSame($originalIdentifier, $assertion->getIdentifier());
-        $this->assertSame($newIdentifier, $mutatedAssertion->getIdentifier());
-    }
-
     /**
      * @dataProvider equalsDataProvider
      */
@@ -85,8 +58,7 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
      */
     public function testNormalise(AssertionInterface $assertion, AssertionInterface $expectedNormalisedAssertion)
     {
-        $this->assertTrue($expectedNormalisedAssertion->equals($assertion));
-        $this->assertTrue($assertion->equals($expectedNormalisedAssertion));
+        $this->assertEquals($expectedNormalisedAssertion, $assertion->normalise());
     }
 
     public function normaliseDataProvider(): array
@@ -125,34 +97,6 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
     public function jsonSerializeDataProvider(): array
     {
         return [
-            'is' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" is "value"',
-                    '$".selector"',
-                    'is',
-                    '"value"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" is "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'is',
-                    'value' => '"value"',
-                ],
-            ],
-            'is-not' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" is-not "value"',
-                    '$".selector"',
-                    'is-not',
-                    '"value"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" is-not "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'is-not',
-                    'value' => '"value"',
-                ],
-            ],
             'exists' => [
                 'assertion' => new Assertion(
                     '$".selector" exists',
@@ -175,48 +119,6 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
                     'source' => '$".selector" not-exists',
                     'identifier' => '$".selector"',
                     'comparison' => 'not-exists',
-                ],
-            ],
-            'includes' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" includes "value"',
-                    '$".selector"',
-                    'includes',
-                    '"value"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" includes "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'includes',
-                    'value' => '"value"',
-                ],
-            ],
-            'excludes' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" excludes "value"',
-                    '$".selector"',
-                    'excludes',
-                    '"value"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" excludes "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'excludes',
-                    'value' => '"value"',
-                ],
-            ],
-            'matches' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" matches "/$pattern/"',
-                    '$".selector"',
-                    'matches',
-                    '"/$pattern/"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" matches "/$pattern/"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'matches',
-                    'value' => '"/$pattern/"',
                 ],
             ],
         ];
