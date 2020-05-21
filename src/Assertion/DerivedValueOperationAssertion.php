@@ -11,13 +11,16 @@ class DerivedValueOperationAssertion extends Assertion implements DerivedAsserti
     public const KEY_ENCAPSULATION_OPERATOR = 'operator';
     public const KEY_ENCAPSULATION_VALUE = 'value';
 
+    private StatementInterface $sourceStatement;
     private string $value;
-
     private EncapsulatingAssertionData $encapsulatingAssertionData;
 
     public function __construct(StatementInterface $sourceStatement, string $value, string $operator)
     {
         parent::__construct($value . ' ' . $operator, $value, $operator);
+
+        $this->sourceStatement = $sourceStatement;
+        $this->value = $value;
 
         $this->encapsulatingAssertionData = new EncapsulatingAssertionData(
             $sourceStatement,
@@ -27,8 +30,6 @@ class DerivedValueOperationAssertion extends Assertion implements DerivedAsserti
                 self::KEY_ENCAPSULATION_VALUE => $value,
             ]
         );
-
-        $this->value = $value;
     }
 
     public function normalise(): AssertionInterface
@@ -38,7 +39,7 @@ class DerivedValueOperationAssertion extends Assertion implements DerivedAsserti
 
     public function getSourceStatement(): StatementInterface
     {
-        return $this->encapsulatingAssertionData->getStatement();
+        return $this->sourceStatement;
     }
 
     public function jsonSerialize(): array

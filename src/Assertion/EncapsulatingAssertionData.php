@@ -13,13 +13,19 @@ class EncapsulatingAssertionData
     public const KEY_ENCAPSULATION_SOURCE_TYPE = 'source_type';
     public const KEY_ENCAPSULATES = 'encapsulates';
 
-    private StatementInterface $statement;
     private string $encapsulationType;
 
     /**
      * @var array<mixed>
      */
     private array $encapsulationData = [];
+
+    private string $sourceType = '';
+
+    /**
+     * @var array<mixed>
+     */
+    private array $sourceData = [];
 
     /**
      * @param StatementInterface $statement
@@ -28,14 +34,11 @@ class EncapsulatingAssertionData
      */
     public function __construct(StatementInterface $statement, string $encapsulationType, array $encapsulationData)
     {
-        $this->statement = $statement;
         $this->encapsulationType = $encapsulationType;
         $this->encapsulationData = $encapsulationData;
-    }
 
-    public function getStatement(): StatementInterface
-    {
-        return $this->statement;
+        $this->sourceType = $statement instanceof AssertionInterface ? 'assertion' : 'action';
+        $this->sourceData = $statement->jsonSerialize();
     }
 
     /**
@@ -47,13 +50,11 @@ class EncapsulatingAssertionData
             self::KEY_ENCAPSULATION => array_merge(
                 [
                     self::KEY_ENCAPSULATION_TYPE => $this->encapsulationType,
-                    self::KEY_ENCAPSULATION_SOURCE_TYPE => $this->statement instanceof AssertionInterface
-                        ? 'assertion'
-                        : 'action',
+                    self::KEY_ENCAPSULATION_SOURCE_TYPE => $this->sourceType,
                 ],
                 $this->encapsulationData
             ),
-            self::KEY_ENCAPSULATES => $this->statement->jsonSerialize(),
+            self::KEY_ENCAPSULATES => $this->sourceData,
         ];
     }
 }
