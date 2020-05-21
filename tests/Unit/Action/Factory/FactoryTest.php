@@ -15,10 +15,7 @@ use webignition\BasilModels\Action\WaitAction;
 
 class FactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Factory
-     */
-    private $factory;
+    private Factory $factory;
 
     protected function setUp(): void
     {
@@ -148,7 +145,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
             $this->factory->createFromArray($actionData);
             $this->fail('MalformedDataException not throw');
         } catch (MalformedDataException $malformedDataException) {
-            $this->assertSame($actionData, $malformedDataException->getData());
+            $this->assertSame($actionData, $malformedDataException->data);
         }
     }
 
@@ -201,8 +198,8 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
             $this->factory->createFromArray($actionData);
             $this->fail('UnknownActionTypeException not throw');
         } catch (UnknownActionTypeException $unknownActionTypeException) {
-            $this->assertSame($actionData, $unknownActionTypeException->getData());
-            $this->assertSame($actionData['type'] ?? '', $unknownActionTypeException->getType());
+            $this->assertSame($actionData, $unknownActionTypeException->data);
+            $this->assertSame($actionData['type'] ?? '', $unknownActionTypeException->type);
         }
     }
 
