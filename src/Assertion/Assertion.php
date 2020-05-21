@@ -80,6 +80,11 @@ class Assertion extends Statement implements AssertionInterface
         ]);
     }
 
+    /**
+     * @param array<mixed> $data
+     *
+     * @return AssertionInterface
+     */
     public static function fromArray(array $data): AssertionInterface
     {
         return new Assertion(
