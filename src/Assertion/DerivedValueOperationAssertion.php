@@ -8,10 +8,12 @@ use webignition\BasilModels\StatementInterface;
 
 class DerivedValueOperationAssertion extends Assertion implements DerivedAssertionInterface
 {
-    public const KEY_SOURCE_TYPE = 'source_type';
-    public const KEY_SOURCE = 'source';
-    public const KEY_VALUE = 'value';
-    public const KEY_OPERATOR = 'operator';
+    public const KEY_ENCAPSULATION = 'encapsulation';
+    public const KEY_ENCAPSULATION_TYPE = 'type';
+    public const KEY_ENCAPSULATION_SOURCE_TYPE = 'source_type';
+    public const KEY_ENCAPSULATION_OPERATOR = 'operator';
+    public const KEY_ENCAPSULATION_VALUE = 'value';
+    public const KEY_ENCAPSULATES = 'encapsulates';
 
     private StatementInterface $sourceStatement;
     private string $value;
@@ -31,13 +33,16 @@ class DerivedValueOperationAssertion extends Assertion implements DerivedAsserti
 
     public function jsonSerialize(): array
     {
-        $sourceStatement = $this->getSourceStatement();
-
         return [
-            self::KEY_OPERATOR => $this->getComparison(),
-            self::KEY_SOURCE_TYPE => $sourceStatement instanceof AssertionInterface ? 'assertion' : 'action',
-            self::KEY_SOURCE => $sourceStatement->jsonSerialize(),
-            self::KEY_VALUE => $this->value,
+            self::KEY_ENCAPSULATION => [
+                self::KEY_ENCAPSULATION_TYPE => 'derived-value-operation-assertion',
+                self::KEY_ENCAPSULATION_SOURCE_TYPE => $this->sourceStatement instanceof AssertionInterface
+                    ? 'assertion'
+                    : 'action',
+                self::KEY_ENCAPSULATION_OPERATOR => $this->getComparison(),
+                self::KEY_ENCAPSULATION_VALUE => $this->value,
+            ],
+            self::KEY_ENCAPSULATES => $this->sourceStatement->jsonSerialize(),
         ];
     }
 }

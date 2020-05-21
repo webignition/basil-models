@@ -53,7 +53,7 @@ class ComparisonAssertion extends Assertion implements ComparisonAssertionInterf
         ]);
     }
 
-    public static function fromArray(array $data): AssertionInterface
+    public static function fromArray(array $data): ComparisonAssertionInterface
     {
         $assertion = parent::fromArray($data);
 

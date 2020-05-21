@@ -97,34 +97,6 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
     public function jsonSerializeDataProvider(): array
     {
         return [
-            'is' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" is "value"',
-                    '$".selector"',
-                    'is',
-                    '"value"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" is "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'is',
-                    'value' => '"value"',
-                ],
-            ],
-            'is-not' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" is-not "value"',
-                    '$".selector"',
-                    'is-not',
-                    '"value"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" is-not "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'is-not',
-                    'value' => '"value"',
-                ],
-            ],
             'exists' => [
                 'assertion' => new Assertion(
                     '$".selector" exists',
@@ -147,48 +119,6 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
                     'source' => '$".selector" not-exists',
                     'identifier' => '$".selector"',
                     'comparison' => 'not-exists',
-                ],
-            ],
-            'includes' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" includes "value"',
-                    '$".selector"',
-                    'includes',
-                    '"value"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" includes "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'includes',
-                    'value' => '"value"',
-                ],
-            ],
-            'excludes' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" excludes "value"',
-                    '$".selector"',
-                    'excludes',
-                    '"value"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" excludes "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'excludes',
-                    'value' => '"value"',
-                ],
-            ],
-            'matches' => [
-                'assertion' => new ComparisonAssertion(
-                    '$".selector" matches "/$pattern/"',
-                    '$".selector"',
-                    'matches',
-                    '"/$pattern/"'
-                ),
-                'expectedSerializedData' => [
-                    'source' => '$".selector" matches "/$pattern/"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'matches',
-                    'value' => '"/$pattern/"',
                 ],
             ],
         ];
