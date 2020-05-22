@@ -79,10 +79,10 @@ class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
                     new FooAction('back', 'back')
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
-                        'container' => 'resolved-action',
+                    'container' => [
+                        'type' => 'resolved-action',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
                         'statement-type' => 'action',
                         'source' => 'back',
                         'type' => 'back',
@@ -100,11 +100,11 @@ class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
                     '$".selector"'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
-                        'container' => 'resolved-action',
+                    'container' => [
+                        'type' => 'resolved-action',
                         'identifier' => '$".selector"',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
                         'statement-type' => 'action',
                         'source' => 'click $page_import_name.elements.element_name',
                         'type' => 'click',
@@ -126,12 +126,12 @@ class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
                     '"value"'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
-                        'container' => 'resolved-action',
+                    'container' => [
+                        'type' => 'resolved-action',
                         'identifier' => '$".selector"',
                         'value' => '"value"'
                     ],
-                    'encapsulates' => [
+                    'statement' => [
                         'statement-type' => 'action',
                         'source' => 'set $page_import_name.elements.element_name to "value"',
                         'type' => 'set',

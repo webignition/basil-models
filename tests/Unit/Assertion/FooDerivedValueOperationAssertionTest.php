@@ -96,12 +96,12 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                     'exists'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
-                        'container' => 'derived-value-operation-assertion',
+                    'container' => [
+                        'type' => 'derived-value-operation-assertion',
                         'value' => '$".selector"',
                         'operator' => 'exists',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
                         'statement-type' => 'assertion',
                         'source' => '$".selector" is "value',
                         'identifier' => '$".selector"',
@@ -122,12 +122,12 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                     'exists'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
-                        'container' => 'derived-value-operation-assertion',
+                    'container' => [
+                        'type' => 'derived-value-operation-assertion',
                         'value' => '$".selector"',
                         'operator' => 'exists',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
                         'statement-type' => 'action',
                         'source' => 'click $".selector"',
                         'type' => 'click',
@@ -148,12 +148,12 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                     'is-regexp'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
-                        'container' => 'derived-value-operation-assertion',
+                    'container' => [
+                        'type' => 'derived-value-operation-assertion',
                         'value' => '"value"',
                         'operator' => 'is-regexp',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
                         'statement-type' => 'assertion',
                         'source' => '$".selector" matches "value"',
                         'identifier' => '$".selector"',

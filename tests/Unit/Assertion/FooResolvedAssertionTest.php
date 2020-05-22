@@ -91,11 +91,11 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
                     '$".selector"'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
-                        'container' => 'resolved-assertion',
+                    'container' => [
+                        'type' => 'resolved-assertion',
                         'identifier' => '$".selector"',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
                         'statement-type' => 'assertion',
                         'source' => '$page_import_name.elements.element_name exists',
                         'identifier' => '$page_import_name.elements.element_name',
@@ -115,12 +115,12 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
                     '"value"'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
-                        'container' => 'resolved-assertion',
+                    'container' => [
+                        'type' => 'resolved-assertion',
                         'identifier' => '$".selector"',
                         'value' => '"value"',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
                         'statement-type' => 'assertion',
                         'source' => '$page_import_name.elements.element_name is "value"',
                         'identifier' => '$page_import_name.elements.element_name',

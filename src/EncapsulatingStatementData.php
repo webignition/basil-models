@@ -6,9 +6,9 @@ namespace webignition\BasilModels;
 
 class EncapsulatingStatementData
 {
-    public const KEY_ENCAPSULATION = 'encapsulation';
-    public const KEY_ENCAPSULATION_CONTAINER = 'container';
-    public const KEY_ENCAPSULATES = 'encapsulates';
+    public const KEY_CONTAINER = 'container';
+    public const KEY_CONTAINER_TYPE = 'type';
+    public const KEY_STATEMENT = 'statement';
 
     private string $containerType;
 
@@ -41,13 +41,13 @@ class EncapsulatingStatementData
     public function jsonSerialize(): array
     {
         return [
-            self::KEY_ENCAPSULATION => array_merge(
+            self::KEY_CONTAINER => array_merge(
                 [
-                    self::KEY_ENCAPSULATION_CONTAINER => $this->containerType,
+                    self::KEY_CONTAINER_TYPE => $this->containerType,
                 ],
                 $this->encapsulationData
             ),
-            self::KEY_ENCAPSULATES => $this->sourceData,
+            self::KEY_STATEMENT => $this->sourceData,
         ];
     }
 }
