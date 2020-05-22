@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Action;
 
-use webignition\BasilModels\FooStatement;
+use webignition\BasilModels\Statement;
 
-class FooAction extends FooStatement implements FooActionInterface
+class Action extends Statement implements ActionInterface
 {
     private const KEY_TYPE = 'type';
     private const KEY_ARGUMENTS = 'arguments';

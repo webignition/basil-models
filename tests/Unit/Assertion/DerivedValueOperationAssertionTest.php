@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Assertion;
 
-use webignition\BasilModels\Action\FooAction;
-use webignition\BasilModels\Assertion\FooAssertion;
-use webignition\BasilModels\Assertion\FooDerivedValueOperationAssertion;
-use webignition\BasilModels\FooStatementInterface;
+use webignition\BasilModels\Action\Action;
+use webignition\BasilModels\Assertion\Assertion;
+use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
+use webignition\BasilModels\StatementInterface;
 
-class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
+class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
      */
     public function testCreate(
-        FooStatementInterface $sourceStatement,
+        StatementInterface $sourceStatement,
         string $identifier,
         string $operator,
         string $expectedStringRepresentation
     ) {
-        $derivedAssertion = new FooDerivedValueOperationAssertion($sourceStatement, $identifier, $operator);
+        $derivedAssertion = new DerivedValueOperationAssertion($sourceStatement, $identifier, $operator);
 
         $this->assertSame($expectedStringRepresentation, $derivedAssertion->getSource());
         $this->assertSame($expectedStringRepresentation, (string) $derivedAssertion);
@@ -33,7 +33,7 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'derived exists from action' => [
-                'sourceStatement' => new FooAction(
+                'sourceStatement' => new Action(
                     'click $".selector"',
                     'click',
                     '$".selector"',
@@ -44,7 +44,7 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                 'expectedStringRepresentation' => '$".selector" exists',
             ],
             'derived exists from assertion' => [
-                'sourceStatement' => new FooAssertion(
+                'sourceStatement' => new Assertion(
                     '$".selector" is "value',
                     '$".selector"',
                     'is',
@@ -55,7 +55,7 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                 'expectedStringRepresentation' => '$".selector" exists',
             ],
             'derived is-regexp from assertion' => [
-                'sourceStatement' => new FooAssertion(
+                'sourceStatement' => new Assertion(
                     '$".selector" matches "value',
                     '$".selector"',
                     'matches',
@@ -71,11 +71,11 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param FooDerivedValueOperationAssertion $derivedAssertion
+     * @param DerivedValueOperationAssertion $derivedAssertion
      * @param array<mixed> $expectedSerialisedData
      */
     public function testJsonSerialize(
-        FooDerivedValueOperationAssertion $derivedAssertion,
+        DerivedValueOperationAssertion $derivedAssertion,
         array $expectedSerialisedData
     ) {
         $this->assertSame($expectedSerialisedData, $derivedAssertion->jsonSerialize());
@@ -85,8 +85,8 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'exists from assertion' => [
-                'derivedAssertion' => new FooDerivedValueOperationAssertion(
-                    new FooAssertion(
+                'derivedAssertion' => new DerivedValueOperationAssertion(
+                    new Assertion(
                         '$".selector" is "value',
                         '$".selector"',
                         'is',
@@ -111,8 +111,8 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'exists from action' => [
-                'derivedAssertion' => new FooDerivedValueOperationAssertion(
-                    new FooAction(
+                'derivedAssertion' => new DerivedValueOperationAssertion(
+                    new Action(
                         'click $".selector"',
                         'click',
                         '$".selector"',
@@ -137,8 +137,8 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'is-regexp from assertion' => [
-                'derivedAssertion' => new FooDerivedValueOperationAssertion(
-                    new FooAssertion(
+                'derivedAssertion' => new DerivedValueOperationAssertion(
+                    new Assertion(
                         '$".selector" matches "value"',
                         '$".selector"',
                         'matches',

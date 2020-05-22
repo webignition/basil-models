@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
-use webignition\BasilModels\Action\FooFactory as ActionFactory;
-use webignition\BasilModels\FooStatementInterface;
+use webignition\BasilModels\Action\Factory as ActionFactory;
+use webignition\BasilModels\StatementInterface;
 use webignition\BasilModels\UnknownEncapsulatedStatementException;
 
-class FooFactory
+class Factory
 {
     private ActionFactory $actionFactory;
 
@@ -19,7 +19,7 @@ class FooFactory
 
     public static function createFactory(): self
     {
-        return new FooFactory(
+        return new Factory(
             ActionFactory::createFactory()
         );
     }
@@ -27,11 +27,11 @@ class FooFactory
     /**
      * @param array<mixed> $data
      *
-     * @return FooAssertionInterface
+     * @return AssertionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    public function createFromArray(array $data): FooAssertionInterface
+    public function createFromArray(array $data): AssertionInterface
     {
         $containerData = $data['container'] ?? null;
         $statementData = $data['statement'] ?? null;
@@ -48,17 +48,17 @@ class FooFactory
             ? (string) $data['value']
             : null;
 
-        return new FooAssertion($source, $identifier, $operator, $value);
+        return new Assertion($source, $identifier, $operator, $value);
     }
 
     /**
      * @param string $json
      *
-     * @return FooAssertionInterface
+     * @return AssertionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    public function createFromJson(string $json): FooAssertionInterface
+    public function createFromJson(string $json): AssertionInterface
     {
         return $this->createFromArray(json_decode($json, true));
     }
@@ -67,11 +67,11 @@ class FooFactory
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
      *
-     * @return FooAssertionInterface
+     * @return AssertionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    private function createEncapsulatingAssertion(array $containerData, array $statementData): FooAssertionInterface
+    private function createEncapsulatingAssertion(array $containerData, array $statementData): AssertionInterface
     {
         $containerType = $containerData['type'] ?? null;
 
@@ -93,15 +93,15 @@ class FooFactory
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
      *
-     * @return FooDerivedValueOperationAssertion
+     * @return DerivedValueOperationAssertion
      *
      * @throws UnknownEncapsulatedStatementException
      */
     private function createDerivedValueOperationAssertion(
         array $containerData,
         array $statementData
-    ): FooDerivedValueOperationAssertion {
-        return new FooDerivedValueOperationAssertion(
+    ): DerivedValueOperationAssertion {
+        return new DerivedValueOperationAssertion(
             $this->createStatement($statementData),
             (string) ($containerData['value'] ?? ''),
             (string) ($containerData['operator'] ?? '')
@@ -112,14 +112,14 @@ class FooFactory
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
      *
-     * @return FooResolvedAssertionInterface
+     * @return ResolvedAssertionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
     private function createResolvedAssertion(
         array $containerData,
         array $statementData
-    ): FooResolvedAssertionInterface {
+    ): ResolvedAssertionInterface {
         $sourceAssertion = $this->createFromArray($statementData);
 
         $identifier = (string) ($containerData['identifier'] ?? '');
@@ -128,17 +128,17 @@ class FooFactory
             ? (string) $containerData['value']
             : null;
 
-        return new FooResolvedAssertion($sourceAssertion, $identifier, $value);
+        return new ResolvedAssertion($sourceAssertion, $identifier, $value);
     }
 
     /**
      * @param array<mixed> $statementData
      *
-     * @return FooStatementInterface
+     * @return StatementInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    private function createStatement(array $statementData): FooStatementInterface
+    private function createStatement(array $statementData): StatementInterface
     {
         $type = $statementData['statement-type'];
 

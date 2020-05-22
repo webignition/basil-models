@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Action;
 
-use webignition\BasilModels\Action\FooAction;
-use webignition\BasilModels\Action\FooActionInterface;
+use webignition\BasilModels\Action\Action;
+use webignition\BasilModels\Action\ActionInterface;
 
-class FooActionTest extends \PHPUnit\Framework\TestCase
+class ActionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
      */
     public function testCreate(string $source, string $type, ?string $arguments, ?string $identifier, ?string $value)
     {
-        $action = new FooAction($source, $type, $arguments, $identifier, $value);
+        $action = new Action($source, $type, $arguments, $identifier, $value);
 
         $this->assertSame($source, $action->getSource());
         $this->assertSame($type, $action->getType());
@@ -53,10 +53,10 @@ class FooActionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param FooActionInterface $action
+     * @param ActionInterface $action
      * @param array<string, string> $expectedSerializedData
      */
-    public function testJsonSerialize(FooActionInterface $action, array $expectedSerializedData)
+    public function testJsonSerialize(ActionInterface $action, array $expectedSerializedData)
     {
         $this->assertSame($expectedSerializedData, $action->jsonSerialize());
     }
@@ -65,7 +65,7 @@ class FooActionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'action-only' => [
-                'action' => new FooAction('back', 'back'),
+                'action' => new Action('back', 'back'),
                 'expectedSerializedData' => [
                     'statement-type' => 'action',
                     'source' => 'back',
@@ -73,7 +73,7 @@ class FooActionTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'interaction' => [
-                'action' => new FooAction('click $".selector"', 'click', '$".selector"', '$".selector"'),
+                'action' => new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
                 'expectedSerializedData' => [
                     'statement-type' => 'action',
                     'source' => 'click $".selector"',
@@ -83,7 +83,7 @@ class FooActionTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'input' => [
-                'action' => new FooAction(
+                'action' => new Action(
                     'set $".selector" to "value"',
                     'set',
                     '$".selector" to "value"',
@@ -100,7 +100,7 @@ class FooActionTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'wait' => [
-                'action' => new FooAction('wait', 'wait', '30', null, '30'),
+                'action' => new Action('wait', 'wait', '30', null, '30'),
                 'expectedSerializedData' => [
                     'statement-type' => 'action',
                     'source' => 'wait',

@@ -4,34 +4,34 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Action;
 
-use webignition\BasilModels\Action\FooAction;
-use webignition\BasilModels\Action\FooActionInterface;
-use webignition\BasilModels\Action\FooFactory;
-use webignition\BasilModels\Action\FooResolvedAction;
+use webignition\BasilModels\Action\Action;
+use webignition\BasilModels\Action\ActionInterface;
+use webignition\BasilModels\Action\Factory;
+use webignition\BasilModels\Action\ResolvedAction;
 
-class FooFactoryTest extends \PHPUnit\Framework\TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
-    private FooFactory $factory;
+    private Factory $factory;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->factory = new FooFactory();
+        $this->factory = new Factory();
     }
 
     public function testCreateFactory()
     {
-        $this->assertInstanceOf(FooFactory::class, FooFactory::createFactory());
+        $this->assertInstanceOf(Factory::class, Factory::createFactory());
     }
 
     /**
      * @dataProvider createFromArrayDataProvider
      *
      * @param array<mixed> $actionData
-     * @param FooActionInterface $expectedAction
+     * @param ActionInterface $expectedAction
      */
-    public function testCreateFromArray(array $actionData, FooActionInterface $expectedAction)
+    public function testCreateFromArray(array $actionData, ActionInterface $expectedAction)
     {
         $this->assertEquals($expectedAction, $this->factory->createFromArray($actionData));
     }
@@ -45,7 +45,7 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                     'type' => 'back',
                     'arguments' => '',
                 ],
-                'expectedAction' => new FooAction('back', 'back', ''),
+                'expectedAction' => new Action('back', 'back', ''),
             ],
             'click' => [
                 'actionData' => [
@@ -54,7 +54,7 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => new FooAction(
+                'expectedAction' => new Action(
                     'click $".selector"',
                     'click',
                     '$".selector"',
@@ -68,7 +68,7 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => new FooAction(
+                'expectedAction' => new Action(
                     'submit $".selector"',
                     'submit',
                     '$".selector"',
@@ -82,7 +82,7 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => new FooAction(
+                'expectedAction' => new Action(
                     'wait-for $".selector"',
                     'wait-for',
                     '$".selector"',
@@ -97,7 +97,7 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                     'identifier' => '$".selector"',
                     'value' => '"value"',
                 ],
-                'expectedAction' => new FooAction(
+                'expectedAction' => new Action(
                     'set $".selector" to "value"',
                     'set',
                     '$".selector"',
@@ -112,7 +112,7 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '30',
                     'value' => '30',
                 ],
-                'expectedAction' => new FooAction(
+                'expectedAction' => new Action(
                     'wait 30',
                     'wait',
                     '30',
@@ -131,8 +131,8 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                         'type' => 'back',
                     ],
                 ],
-                'expectedAction' => new FooResolvedAction(
-                    new FooAction('back', 'back')
+                'expectedAction' => new ResolvedAction(
+                    new Action('back', 'back')
                 ),
             ],
             'resolved interaction (click)' => [
@@ -149,8 +149,8 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                         'identifier' => '$page_import_name.elements.element_name',
                     ],
                 ],
-                'expectedAction' => new FooResolvedAction(
-                    new FooAction(
+                'expectedAction' => new ResolvedAction(
+                    new Action(
                         'click $page_import_name.elements.element_name',
                         'click',
                         '$page_import_name.elements.element_name',
@@ -175,8 +175,8 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                         'value' => '"value"',
                     ],
                 ],
-                'expectedAction' => new FooResolvedAction(
-                    new FooAction(
+                'expectedAction' => new ResolvedAction(
+                    new Action(
                         'set $page_import_name.elements.element_name to "value"',
                         'set',
                         '$page_import_name.elements.element_name to "value"',
@@ -194,9 +194,9 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
      * @dataProvider createFromArrayDataProvider
      *
      * @param array<mixed> $actionData
-     * @param FooActionInterface $expectedAction
+     * @param ActionInterface $expectedAction
      */
-    public function testCreateFromJson(array $actionData, FooActionInterface $expectedAction)
+    public function testCreateFromJson(array $actionData, ActionInterface $expectedAction)
     {
         $this->assertEquals($expectedAction, $this->factory->createFromJson((string) json_encode($actionData)));
     }

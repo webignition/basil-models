@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Step;
 
-use webignition\BasilModels\Action\FooActionInterface;
-use webignition\BasilModels\Assertion\FooAssertionInterface;
+use webignition\BasilModels\Action\ActionInterface;
+use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\DataParameter\DataParameter;
 use webignition\BasilModels\DataSet\DataSetCollectionInterface;
 
 class Step implements StepInterface
 {
     /**
-     * @var FooActionInterface[]
+     * @var ActionInterface[]
      */
     private array $actions = [];
 
     /**
-     * @var FooAssertionInterface[]
+     * @var AssertionInterface[]
      */
     private array $assertions = [];
 
@@ -45,7 +45,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @return FooActionInterface[]
+     * @return ActionInterface[]
      */
     public function getActions(): array
     {
@@ -53,7 +53,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @param FooActionInterface[] $actions
+     * @param ActionInterface[] $actions
      *
      * @return StepInterface
      */
@@ -66,7 +66,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @return FooAssertionInterface[]
+     * @return AssertionInterface[]
      */
     public function getAssertions(): array
     {
@@ -74,7 +74,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @param FooAssertionInterface[] $assertions
+     * @param AssertionInterface[] $assertions
      *
      * @return StepInterface
      */
@@ -246,24 +246,24 @@ class Step implements StepInterface
     /**
      * @param array<mixed> $actions
      *
-     * @return FooActionInterface[]
+     * @return ActionInterface[]
      */
     private function filterActions(array $actions): array
     {
         return array_filter($actions, function ($action) {
-            return $action instanceof FooActionInterface;
+            return $action instanceof ActionInterface;
         });
     }
 
     /**
      * @param array<mixed> $assertions
      *
-     * @return FooAssertionInterface[]
+     * @return AssertionInterface[]
      */
     private function filterAssertions(array $assertions): array
     {
         return array_filter($assertions, function ($assertion) {
-            return $assertion instanceof FooAssertionInterface;
+            return $assertion instanceof AssertionInterface;
         });
     }
 

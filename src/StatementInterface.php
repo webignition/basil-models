@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels;
 
-interface FooStatementInterface extends \JsonSerializable
+interface StatementInterface extends \JsonSerializable
 {
     public function getSource(): string;
     public function getStatementType(): string;

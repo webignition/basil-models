@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Assertion;
 
-use webignition\BasilModels\Assertion\FooAssertion;
-use webignition\BasilModels\Assertion\FooAssertionInterface;
+use webignition\BasilModels\Assertion\Assertion;
+use webignition\BasilModels\Assertion\AssertionInterface;
 
-class FooAssertionTest extends \PHPUnit\Framework\TestCase
+class AssertionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
      */
     public function testCreate(string $source, string $identifier, string $operator, ?string $value)
     {
-        $assertion = new FooAssertion($source, $identifier, $operator, $value);
+        $assertion = new Assertion($source, $identifier, $operator, $value);
 
         $this->assertSame($source, $assertion->getSource());
         $this->assertSame($identifier, $assertion->getIdentifier());
@@ -44,8 +44,8 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
      * @dataProvider equalsDataProvider
      */
     public function testEquals(
-        FooAssertionInterface $assertion,
-        FooAssertionInterface $comparator,
+        AssertionInterface $assertion,
+        AssertionInterface $comparator,
         bool $expectedEquals
     ) {
         $this->assertSame($expectedEquals, $assertion->equals($comparator));
@@ -55,28 +55,28 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'identifier not same' => [
-                'assertion' => new FooAssertion('$".selector1" exists', '$".selector1"', 'exists'),
-                'comparator' => new FooAssertion('$".selector2" exists', '$".selector2"', 'exists'),
+                'assertion' => new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                'comparator' => new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
                 'expectedEquals' => false,
             ],
             'operator not same' => [
-                'assertion' => new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
-                'comparator' => new FooAssertion('$".selector" not-exists', '$".selector"', 'not-exists'),
+                'assertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                'comparator' => new Assertion('$".selector" not-exists', '$".selector"', 'not-exists'),
                 'expectedEquals' => false,
             ],
             'value not same' => [
-                'assertion' => new FooAssertion('$".selector" is "value1"', '$".selector"', 'is', '"value1"'),
-                'comparator' => new FooAssertion('$".selector" is "value2"', '$".selector"', 'is', '"value2"'),
+                'assertion' => new Assertion('$".selector" is "value1"', '$".selector"', 'is', '"value1"'),
+                'comparator' => new Assertion('$".selector" is "value2"', '$".selector"', 'is', '"value2"'),
                 'expectedEquals' => false,
             ],
             'identifier, operator same' => [
-                'assertion' => new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
-                'comparator' => new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
+                'assertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                'comparator' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
                 'expectedEquals' => true,
             ],
             'identifier, operator, value same' => [
-                'assertion' => new FooAssertion('$".selector" is "value"', '$".selector"', 'is', '"value"'),
-                'comparator' => new FooAssertion('$".selector" is "value"', '$".selector"', 'is', '"value"'),
+                'assertion' => new Assertion('$".selector" is "value"', '$".selector"', 'is', '"value"'),
+                'comparator' => new Assertion('$".selector" is "value"', '$".selector"', 'is', '"value"'),
                 'expectedEquals' => true,
             ],
         ];
@@ -85,7 +85,7 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider normaliseDataProvider
      */
-    public function testNormalise(FooAssertionInterface $assertion, FooAssertionInterface $expectedNormalisedAssertion)
+    public function testNormalise(AssertionInterface $assertion, AssertionInterface $expectedNormalisedAssertion)
     {
         $this->assertEquals($expectedNormalisedAssertion, $assertion->normalise());
     }
@@ -94,21 +94,21 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'exists, in normal form' => [
-                'assertion' => new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
-                'expectedNormalisedAssertion' => new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
+                'assertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                'expectedNormalisedAssertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
             ],
             'exists, not in normal form' => [
-                'assertion' => new FooAssertion('$import_name.elements.selector exists', '$".selector"', 'exists'),
-                'expectedNormalisedAssertion' => new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
+                'assertion' => new Assertion('$import_name.elements.selector exists', '$".selector"', 'exists'),
+                'expectedNormalisedAssertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
             ],
             'is, in normal form' => [
-                'assertion' => new FooAssertion(
+                'assertion' => new Assertion(
                     '$".selector" is "value"',
                     '$".selector"',
                     'is',
                     '"value"'
                 ),
-                'expectedNormalisedAssertion' => new FooAssertion(
+                'expectedNormalisedAssertion' => new Assertion(
                     '$".selector" is "value"',
                     '$".selector"',
                     'is',
@@ -116,13 +116,13 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
                 ),
             ],
             'is, not in normal form' => [
-                'assertion' => new FooAssertion(
+                'assertion' => new Assertion(
                     '$import_name.elements.selector is "value"',
                     '$".selector"',
                     'is',
                     '"value"'
                 ),
-                'expectedNormalisedAssertion' => new FooAssertion(
+                'expectedNormalisedAssertion' => new Assertion(
                     '$".selector" is "value"',
                     '$".selector"',
                     'is',
@@ -135,10 +135,10 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param FooAssertionInterface $assertion
+     * @param AssertionInterface $assertion
      * @param array<string, string> $expectedSerializedData
      */
-    public function testJsonSerialize(FooAssertionInterface $assertion, array $expectedSerializedData)
+    public function testJsonSerialize(AssertionInterface $assertion, array $expectedSerializedData)
     {
         $this->assertSame($expectedSerializedData, $assertion->jsonSerialize());
     }
@@ -147,7 +147,7 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'exists' => [
-                'assertion' => new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
+                'assertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
                 'expectedSerializedData' => [
                     'statement-type' => 'assertion',
                     'source' => '$".selector" exists',
@@ -156,7 +156,7 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'is' => [
-                'assertion' => new FooAssertion('$".selector" is "value"', '$".selector"', 'is', '"value"'),
+                'assertion' => new Assertion('$".selector" is "value"', '$".selector"', 'is', '"value"'),
                 'expectedSerializedData' => [
                     'statement-type' => 'assertion',
                     'source' => '$".selector" is "value"',

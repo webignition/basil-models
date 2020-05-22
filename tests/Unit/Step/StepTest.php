@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Step;
 
-use webignition\BasilModels\Action\FooAction;
-use webignition\BasilModels\Action\FooActionInterface;
-use webignition\BasilModels\Assertion\FooAssertion;
-use webignition\BasilModels\Assertion\FooAssertionInterface;
+use webignition\BasilModels\Action\Action;
+use webignition\BasilModels\Action\ActionInterface;
+use webignition\BasilModels\Assertion\Assertion;
+use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\DataSet\DataSetCollection;
 use webignition\BasilModels\Step\Step;
 use webignition\BasilModels\Step\StepInterface;
@@ -19,8 +19,8 @@ class StepTest extends \PHPUnit\Framework\TestCase
      *
      * @param array<mixed> $actions
      * @param array<mixed> $assertions
-     * @param FooActionInterface[] $expectedActions
-     * @param FooAssertionInterface[] $expectedAssertions
+     * @param ActionInterface[] $expectedActions
+     * @param AssertionInterface[] $expectedAssertions
      */
     public function testCreate(
         array $actions,
@@ -59,20 +59,20 @@ class StepTest extends \PHPUnit\Framework\TestCase
             ],
             'all valid' => [
                 'actions' => [
-                    new FooAction('wait 1', 'wait', '1', null, '1'),
-                    new FooAction('click $".selector"', 'click', '$".selector"', '$".selector"'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
                 ],
                 'assertions' => [
-                    new FooAssertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
-                    new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
+                    new Assertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
+                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
                 ],
                 'expectedActions' => [
-                    new FooAction('wait 1', 'wait', '1', null, '1'),
-                    new FooAction('click $".selector"', 'click', '$".selector"', '$".selector"'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
                 ],
                 'expectedAssertions' => [
-                    new FooAssertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
-                    new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
+                    new Assertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
+                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
                 ],
             ],
         ];
@@ -170,7 +170,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $step->getActions());
 
         $actions = [
-            new FooAction('click $".selector"', 'click', '$".selector"'),
+            new Action('click $".selector"', 'click', '$".selector"'),
         ];
 
         $mutatedStep = $step->withActions($actions);
@@ -186,7 +186,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $step->getAssertions());
 
         $assertions = [
-            new FooAssertion('$".selector exists', '$".selector"', 'exists'),
+            new Assertion('$".selector exists', '$".selector"', 'exists'),
         ];
 
         $mutatedStep = $step->withAssertions($assertions);
@@ -200,7 +200,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
      * @dataProvider withPrependedActionsDataProvider
      *
      * @param StepInterface $step
-     * @param FooActionInterface[] $actions
+     * @param ActionInterface[] $actions
      * @param StepInterface $expectedStep
      */
     public function testWithPrependedActions(StepInterface $step, array $actions, StepInterface $expectedStep)
@@ -212,7 +212,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
 
     public function withPrependedActionsDataProvider(): array
     {
-        $assertion = new FooAssertion(
+        $assertion = new Assertion(
             '$".selector" exists',
             '$".selector"',
             'exists'
@@ -226,32 +226,32 @@ class StepTest extends \PHPUnit\Framework\TestCase
             ],
             'has actions, empty prepended actions' => [
                 'step' => new Step([
-                    new FooAction('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
                 'actions' => [],
                 'expectedStep' => new Step([
-                    new FooAction('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
             ],
             'has no actions, non-empty prepended actions' => [
                 'step' => new Step([], []),
                 'actions' => [
-                    new FooAction('wait 2', 'wait', '2', null, '2'),
+                    new Action('wait 2', 'wait', '2', null, '2'),
                 ],
                 'expectedStep' => new Step([
-                    new FooAction('wait 2', 'wait', '2', null, '2'),
+                    new Action('wait 2', 'wait', '2', null, '2'),
                 ], []),
             ],
             'has actions, non-empty prepended actions' => [
                 'step' => new Step([
-                    new FooAction('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
                 'actions' => [
-                    new FooAction('wait 2', 'wait', '2', null, '2'),
+                    new Action('wait 2', 'wait', '2', null, '2'),
                 ],
                 'expectedStep' => new Step([
-                    new FooAction('wait 2', 'wait', '2', null, '2'),
-                    new FooAction('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 2', 'wait', '2', null, '2'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
             ],
             'assertions are retained' => [
@@ -292,7 +292,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
      * @dataProvider withPrependedAssertionsDataProvider
      *
      * @param StepInterface $step
-     * @param FooAssertionInterface[] $assertions
+     * @param AssertionInterface[] $assertions
      * @param StepInterface $expectedStep
      */
     public function testWithPrependedAssertions(StepInterface $step, array $assertions, StepInterface $expectedStep)
@@ -304,13 +304,13 @@ class StepTest extends \PHPUnit\Framework\TestCase
 
     public function withPrependedAssertionsDataProvider(): array
     {
-        $assertion1 = new FooAssertion(
+        $assertion1 = new Assertion(
             '$".selector1" exists',
             '$".selector1"',
             'exists'
         );
 
-        $assertion2 = new FooAssertion(
+        $assertion2 = new Assertion(
             '$".selector2" exists',
             '$".selector2"',
             'exists'
@@ -354,11 +354,11 @@ class StepTest extends \PHPUnit\Framework\TestCase
             ],
             'actions are retained' => [
                 'step' => new Step([
-                    new FooAction('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
                 'assertions' => [],
                 'expectedStep' => new Step([
-                    new FooAction('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
             ],
             'data sets are retained' => [
@@ -407,13 +407,13 @@ class StepTest extends \PHPUnit\Framework\TestCase
             'has actions, has assertions, no data parameters' => [
                 'step' => new Step(
                     [
-                        new FooAction(
+                        new Action(
                             'click $".selector"',
                             'click',
                             '$".selector"',
                             '$".selector"'
                         ),
-                        new FooAction(
+                        new Action(
                             'set $".selector" to "value"',
                             '$".selector" to "value"',
                             '$".selector"',
@@ -421,12 +421,12 @@ class StepTest extends \PHPUnit\Framework\TestCase
                         ),
                     ],
                     [
-                        new FooAssertion(
+                        new Assertion(
                             '$".selector" exists',
                             '$".selector"',
                             'exists'
                         ),
-                        new FooAssertion(
+                        new Assertion(
                             '$".selector" is "value"',
                             '$".selector"',
                             'is',
@@ -439,13 +439,13 @@ class StepTest extends \PHPUnit\Framework\TestCase
             'has actions, has assertions, has data parameters' => [
                 'step' => new Step(
                     [
-                        new FooAction(
+                        new Action(
                             'click $".selector"',
                             'click',
                             '$".selector"',
                             '$".selector"'
                         ),
-                        new FooAction(
+                        new Action(
                             'set $".selector" to $data.zebra',
                             '$".selector" to $data.zebra',
                             '$".selector"',
@@ -453,12 +453,12 @@ class StepTest extends \PHPUnit\Framework\TestCase
                         ),
                     ],
                     [
-                        new FooAssertion(
+                        new Assertion(
                             '$data.aardvark exists',
                             '$data.aardvark',
                             'exists'
                         ),
-                        new FooAssertion(
+                        new Assertion(
                             '$data.cow is $data.bee',
                             '$data.cow',
                             'is',

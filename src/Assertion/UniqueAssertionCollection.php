@@ -5,28 +5,28 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Assertion;
 
 /**
- * @implements \IteratorAggregate<FooAssertionInterface>
+ * @implements \IteratorAggregate<AssertionInterface>
  */
 class UniqueAssertionCollection implements \IteratorAggregate
 {
     /**
-     * @var FooAssertionInterface[]
+     * @var AssertionInterface[]
      */
     private array $assertions = [];
 
     /**
-     * @param FooAssertionInterface[] $assertions
+     * @param AssertionInterface[] $assertions
      */
     public function __construct(array $assertions = [])
     {
         foreach ($assertions as $assertion) {
-            if ($assertion instanceof FooAssertionInterface) {
+            if ($assertion instanceof AssertionInterface) {
                 $this->add($assertion);
             }
         }
     }
 
-    public function add(FooAssertionInterface $assertion): void
+    public function add(AssertionInterface $assertion): void
     {
         if (!$this->contains($assertion)) {
             $this->assertions[] = $assertion;
@@ -57,14 +57,14 @@ class UniqueAssertionCollection implements \IteratorAggregate
         $normalisedCollection = new UniqueAssertionCollection();
 
         foreach ($this as $assertion) {
-            /** @var FooAssertionInterface $assertion */
+            /** @var AssertionInterface $assertion */
             $normalisedCollection->add($assertion->normalise());
         }
 
         return $normalisedCollection;
     }
 
-    private function contains(FooAssertionInterface $assertion): bool
+    private function contains(AssertionInterface $assertion): bool
     {
         foreach ($this->assertions as $comparator) {
             if ($assertion->equals($comparator)) {

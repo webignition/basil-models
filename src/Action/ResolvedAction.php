@@ -6,14 +6,14 @@ namespace webignition\BasilModels\Action;
 
 use webignition\BasilModels\EncapsulatingStatementData;
 
-class FooResolvedAction implements FooResolvedActionInterface
+class ResolvedAction implements ResolvedActionInterface
 {
-    private FooActionInterface $sourceAction;
-    private FooActionInterface $action;
+    private ActionInterface $sourceAction;
+    private ActionInterface $action;
     private EncapsulatingStatementData $encapsulatingStatementData;
 
     public function __construct(
-        FooActionInterface $sourceAction,
+        ActionInterface $sourceAction,
         ?string $identifier = null,
         ?string $value = null
     ) {
@@ -47,7 +47,7 @@ class FooResolvedAction implements FooResolvedActionInterface
         return $this->action->getValue();
     }
 
-    public function getSourceAction(): FooActionInterface
+    public function getSourceAction(): ActionInterface
     {
         return $this->sourceAction;
     }
@@ -68,10 +68,10 @@ class FooResolvedAction implements FooResolvedActionInterface
     }
 
     private function createAction(
-        FooActionInterface $sourceAction,
+        ActionInterface $sourceAction,
         ?string $identifier,
         ?string $value
-    ): FooActionInterface {
+    ): ActionInterface {
         $type = $sourceAction->getType();
 
         $source = $type;
@@ -88,7 +88,7 @@ class FooResolvedAction implements FooResolvedActionInterface
             $source .= ' ' . $value;
         }
 
-        return new FooAction(
+        return new Action(
             $source,
             $sourceAction->getType(),
             $sourceAction->getArguments(),
@@ -97,7 +97,7 @@ class FooResolvedAction implements FooResolvedActionInterface
         );
     }
 
-    private function createEncapsulatingStatementData(FooActionInterface $sourceAction): EncapsulatingStatementData
+    private function createEncapsulatingStatementData(ActionInterface $sourceAction): EncapsulatingStatementData
     {
         $encapsulatingData = [];
 

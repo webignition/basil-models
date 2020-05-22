@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Assertion;
 
-use webignition\BasilModels\Assertion\FooAssertion;
-use webignition\BasilModels\Assertion\FooAssertionInterface;
-use webignition\BasilModels\Assertion\FooResolvedAssertion;
-use webignition\BasilModels\Assertion\FooResolvedAssertionInterface;
+use webignition\BasilModels\Assertion\Assertion;
+use webignition\BasilModels\Assertion\AssertionInterface;
+use webignition\BasilModels\Assertion\ResolvedAssertion;
+use webignition\BasilModels\Assertion\ResolvedAssertionInterface;
 
-class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
+class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
      */
     public function testCreate(
-        FooAssertionInterface $sourceAssertion,
+        AssertionInterface $sourceAssertion,
         string $identifier,
         ?string $value,
         string $expectedSource
     ) {
-        $assertion = new FooResolvedAssertion($sourceAssertion, $identifier, $value);
+        $assertion = new ResolvedAssertion($sourceAssertion, $identifier, $value);
 
         $this->assertSame($sourceAssertion, $assertion->getSourceAssertion());
         $this->assertSame($expectedSource, $assertion->getSource());
@@ -33,7 +33,7 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'exists' => [
-                'sourceAssertion' => new FooAssertion(
+                'sourceAssertion' => new Assertion(
                     '$page_import_name.elements.element_name exists',
                     '$page_import_name.elements.element_name',
                     'exists'
@@ -43,7 +43,7 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
                 'expectedSource' => '$".resolved" exists',
             ],
             'is, scalar value' => [
-                'sourceAssertion' => new FooAssertion(
+                'sourceAssertion' => new Assertion(
                     '$page_import_name.elements.element_name is "value"',
                     '$page_import_name.elements.element_name',
                     'is',
@@ -54,7 +54,7 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
                 'expectedSource' => '$".resolved" is "value"',
             ],
             'is, elemental value' => [
-                'sourceAssertion' => new FooAssertion(
+                'sourceAssertion' => new Assertion(
                     '$page_import_name.elements.element_name is $page_import_name.elements.value',
                     '$page_import_name.elements.element_name',
                     'is',
@@ -70,10 +70,10 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param FooResolvedAssertionInterface $assertion
+     * @param ResolvedAssertionInterface $assertion
      * @param array<mixed> $expectedSerializedData
      */
-    public function testJsonSerialize(FooResolvedAssertionInterface $assertion, array $expectedSerializedData)
+    public function testJsonSerialize(ResolvedAssertionInterface $assertion, array $expectedSerializedData)
     {
         $this->assertEquals($expectedSerializedData, $assertion->jsonSerialize());
     }
@@ -82,8 +82,8 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'from exists assertion' => [
-                'derivedAssertion' => new FooResolvedAssertion(
-                    new FooAssertion(
+                'derivedAssertion' => new ResolvedAssertion(
+                    new Assertion(
                         '$page_import_name.elements.element_name exists',
                         '$page_import_name.elements.element_name',
                         'exists'
@@ -104,8 +104,8 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'from is assertion' => [
-                'derivedAssertion' => new FooResolvedAssertion(
-                    new FooAssertion(
+                'derivedAssertion' => new ResolvedAssertion(
+                    new Assertion(
                         '$page_import_name.elements.element_name is "value"',
                         '$page_import_name.elements.element_name',
                         'is',

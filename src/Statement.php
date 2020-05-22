@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels;
 
-abstract class FooStatement implements FooStatementInterface
+abstract class Statement implements StatementInterface
 {
     protected const KEY_STATEMENT_TYPE = 'statement-type';
     protected const KEY_SOURCE = 'source';

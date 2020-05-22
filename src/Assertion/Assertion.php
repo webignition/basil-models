@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
-use webignition\BasilModels\FooStatement;
+use webignition\BasilModels\Statement;
 
-class FooAssertion extends FooStatement implements FooAssertionInterface
+class Assertion extends Statement implements AssertionInterface
 {
     private const KEY_IDENTIFIER = 'identifier';
     private const KEY_OPERATOR = 'operator';
@@ -45,7 +45,7 @@ class FooAssertion extends FooStatement implements FooAssertionInterface
         return $this->value;
     }
 
-    public function equals(FooAssertionInterface $assertion): bool
+    public function equals(AssertionInterface $assertion): bool
     {
         return
             $this->identifier === $assertion->getIdentifier() &&
@@ -53,7 +53,7 @@ class FooAssertion extends FooStatement implements FooAssertionInterface
             $this->value === $assertion->getValue();
     }
 
-    public function normalise(): FooAssertionInterface
+    public function normalise(): AssertionInterface
     {
         $new = clone $this;
         $new->source = $this->identifier . ' ' . $this->operator;

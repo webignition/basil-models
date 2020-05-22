@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Action;
 
-use webignition\BasilModels\Action\FooAction;
-use webignition\BasilModels\Action\FooActionInterface;
-use webignition\BasilModels\Action\FooResolvedAction;
-use webignition\BasilModels\Action\FooResolvedActionInterface;
+use webignition\BasilModels\Action\Action;
+use webignition\BasilModels\Action\ActionInterface;
+use webignition\BasilModels\Action\ResolvedAction;
+use webignition\BasilModels\Action\ResolvedActionInterface;
 
-class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
+class ResolvedActionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider createDataProvider
      */
     public function testCreate(
-        FooActionInterface $sourceAction,
+        ActionInterface $sourceAction,
         ?string $identifier,
         ?string $value,
         string $expectedSource
     ) {
-        $action = new FooResolvedAction($sourceAction, $identifier, $value);
+        $action = new ResolvedAction($sourceAction, $identifier, $value);
 
         $this->assertSame($sourceAction, $action->getSourceAction());
         $this->assertSame($expectedSource, $action->getSource());
@@ -34,19 +34,19 @@ class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'browser operation (back)' => [
-                'sourceAction' => new FooAction('back', 'back'),
+                'sourceAction' => new Action('back', 'back'),
                 'identifier' => null,
                 'value' => null,
                 'expectedSource' => 'back',
             ],
             'interaction action (click)' => [
-                'sourceAction' => new FooAction('click $page_import_name.elements.element_name', 'click'),
+                'sourceAction' => new Action('click $page_import_name.elements.element_name', 'click'),
                 'identifier' => '$".selector"',
                 'value' => null,
                 'expectedSource' => 'click $".selector"',
             ],
             'input action (set)' => [
-                'sourceAction' => new FooAction(
+                'sourceAction' => new Action(
                     'set $page_import_name.elements.element_name to "value"',
                     'set',
                     '$page_import_name.elements.element_name to "value"',
@@ -63,10 +63,10 @@ class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param FooResolvedActionInterface $action
+     * @param ResolvedActionInterface $action
      * @param array<mixed> $expectedSerializedData
      */
-    public function testJsonSerialize(FooResolvedActionInterface $action, array $expectedSerializedData)
+    public function testJsonSerialize(ResolvedActionInterface $action, array $expectedSerializedData)
     {
         $this->assertSame($expectedSerializedData, $action->jsonSerialize());
     }
@@ -75,8 +75,8 @@ class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'browser operation (back)' => [
-                'action' => new FooResolvedAction(
-                    new FooAction('back', 'back')
+                'action' => new ResolvedAction(
+                    new Action('back', 'back')
                 ),
                 'expectedSerializedData' => [
                     'container' => [
@@ -90,8 +90,8 @@ class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'interaction (click)' => [
-                'action' => new FooResolvedAction(
-                    new FooAction(
+                'action' => new ResolvedAction(
+                    new Action(
                         'click $page_import_name.elements.element_name',
                         'click',
                         '$page_import_name.elements.element_name',
@@ -114,8 +114,8 @@ class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             'input' => [
-                'action' => new FooResolvedAction(
-                    new FooAction(
+                'action' => new ResolvedAction(
+                    new Action(
                         'set $page_import_name.elements.element_name to "value"',
                         'set',
                         '$page_import_name.elements.element_name to "value"',

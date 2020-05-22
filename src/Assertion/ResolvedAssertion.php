@@ -6,14 +6,14 @@ namespace webignition\BasilModels\Assertion;
 
 use webignition\BasilModels\EncapsulatingStatementData;
 
-class FooResolvedAssertion implements FooResolvedAssertionInterface
+class ResolvedAssertion implements ResolvedAssertionInterface
 {
-    private FooAssertionInterface $sourceAssertion;
-    private FooAssertionInterface $assertion;
+    private AssertionInterface $sourceAssertion;
+    private AssertionInterface $assertion;
     private EncapsulatingStatementData $encapsulatingStatementData;
 
     public function __construct(
-        FooAssertionInterface $sourceAssertion,
+        AssertionInterface $sourceAssertion,
         string $identifier,
         ?string $value = null
     ) {
@@ -46,17 +46,17 @@ class FooResolvedAssertion implements FooResolvedAssertionInterface
         return $this->assertion->getValue();
     }
 
-    public function equals(FooAssertionInterface $assertion): bool
+    public function equals(AssertionInterface $assertion): bool
     {
         return $this->assertion->equals($assertion);
     }
 
-    public function normalise(): FooAssertionInterface
+    public function normalise(): AssertionInterface
     {
         return $this;
     }
 
-    public function getSourceAssertion(): FooAssertionInterface
+    public function getSourceAssertion(): AssertionInterface
     {
         return $this->sourceAssertion;
     }
@@ -77,10 +77,10 @@ class FooResolvedAssertion implements FooResolvedAssertionInterface
     }
 
     private function createAssertion(
-        FooAssertionInterface $sourceAssertion,
+        AssertionInterface $sourceAssertion,
         ?string $identifier,
         ?string $value
-    ): FooAssertionInterface {
+    ): AssertionInterface {
         $operator = $sourceAssertion->getOperator();
 
         $source = $identifier . ' ' . $operator;
@@ -88,11 +88,11 @@ class FooResolvedAssertion implements FooResolvedAssertionInterface
             $source .= ' ' . $value;
         }
 
-        return new FooAssertion($source, $identifier, $operator, $value);
+        return new Assertion($source, $identifier, $operator, $value);
     }
 
     private function createEncapsulatingStatementData(
-        FooAssertionInterface $sourceAssertion,
+        AssertionInterface $sourceAssertion,
         ?string $identifier,
         ?string $value
     ): EncapsulatingStatementData {

@@ -6,21 +6,21 @@ namespace webignition\BasilModels\Action;
 
 use webignition\BasilModels\UnknownEncapsulatedStatementException;
 
-class FooFactory
+class Factory
 {
     public static function createFactory(): self
     {
-        return new FooFactory();
+        return new Factory();
     }
 
     /**
      * @param array<mixed> $data
      *
-     * @return FooActionInterface
+     * @return ActionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    public function createFromArray(array $data): FooActionInterface
+    public function createFromArray(array $data): ActionInterface
     {
         $containerData = $data['container'] ?? null;
         $statementData = $data['statement'] ?? null;
@@ -44,17 +44,17 @@ class FooFactory
             ? (string) $data['value']
             : null;
 
-        return new FooAction($source, $type, $arguments, $identifier, $value);
+        return new Action($source, $type, $arguments, $identifier, $value);
     }
 
     /**
      * @param string $json
      *
-     * @return FooActionInterface
+     * @return ActionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    public function createFromJson(string $json): FooActionInterface
+    public function createFromJson(string $json): ActionInterface
     {
         return $this->createFromArray(json_decode($json, true));
     }
@@ -63,11 +63,11 @@ class FooFactory
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
      *
-     * @return FooActionInterface
+     * @return ActionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    private function createEncapsulatingAction(array $containerData, array $statementData): FooActionInterface
+    private function createEncapsulatingAction(array $containerData, array $statementData): ActionInterface
     {
         $containerType = $containerData['type'] ?? null;
 
@@ -85,11 +85,11 @@ class FooFactory
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
      *
-     * @return FooResolvedActionInterface
+     * @return ResolvedActionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    private function createResolvedAction(array $containerData, array $statementData): FooResolvedActionInterface
+    private function createResolvedAction(array $containerData, array $statementData): ResolvedActionInterface
     {
         $sourceAction = $this->createFromArray($statementData);
 
@@ -101,6 +101,6 @@ class FooFactory
             ? (string) $containerData['value']
             : null;
 
-        return new FooResolvedAction($sourceAction, $identifier, $value);
+        return new ResolvedAction($sourceAction, $identifier, $value);
     }
 }

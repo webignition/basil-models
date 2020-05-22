@@ -4,39 +4,39 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Assertion;
 
-use webignition\BasilModels\Action\FooAction;
-use webignition\BasilModels\Action\FooFactory as ActionFactory;
-use webignition\BasilModels\Assertion\FooAssertion;
-use webignition\BasilModels\Assertion\FooAssertionInterface;
-use webignition\BasilModels\Assertion\FooDerivedValueOperationAssertion;
-use webignition\BasilModels\Assertion\FooFactory;
-use webignition\BasilModels\Assertion\FooResolvedAssertion;
+use webignition\BasilModels\Action\Action;
+use webignition\BasilModels\Action\Factory as ActionFactory;
+use webignition\BasilModels\Assertion\Assertion;
+use webignition\BasilModels\Assertion\AssertionInterface;
+use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
+use webignition\BasilModels\Assertion\Factory;
+use webignition\BasilModels\Assertion\ResolvedAssertion;
 
-class FooFactoryTest extends \PHPUnit\Framework\TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
-    private FooFactory $factory;
+    private Factory $factory;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->factory = new FooFactory(
+        $this->factory = new Factory(
             ActionFactory::createFactory()
         );
     }
 
     public function testCreateFactory()
     {
-        $this->assertInstanceOf(FooFactory::class, FooFactory::createFactory());
+        $this->assertInstanceOf(Factory::class, Factory::createFactory());
     }
 
     /**
      * @dataProvider createFromArrayDataProvider
      *
      * @param array<mixed> $data
-     * @param FooAssertionInterface $expectedAssertion
+     * @param AssertionInterface $expectedAssertion
      */
-    public function testCreateFromArray(array $data, FooAssertionInterface $expectedAssertion)
+    public function testCreateFromArray(array $data, AssertionInterface $expectedAssertion)
     {
         $this->assertEquals($expectedAssertion, $this->factory->createFromArray($data));
     }
@@ -50,7 +50,7 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                     'identifier' => '$".selector"',
                     'operator' => 'exists',
                 ],
-                'expectedAssertion' => new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
+                'expectedAssertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
             ],
             'is' => [
                 'data' => [
@@ -59,7 +59,7 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                     'operator' => 'is',
                     'value' => '"value"',
                 ],
-                'expectedAssertion' => new FooAssertion(
+                'expectedAssertion' => new Assertion(
                     '$".selector" is "value"',
                     '$".selector"',
                     'is',
@@ -81,8 +81,8 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                         'identifier' => '$".selector"',
                     ],
                 ],
-                'expectedAssertion' => new FooDerivedValueOperationAssertion(
-                    new FooAction(
+                'expectedAssertion' => new DerivedValueOperationAssertion(
+                    new Action(
                         'click $".selector"',
                         'click',
                         '$".selector"',
@@ -107,8 +107,8 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                         'value' => '"value"',
                     ],
                 ],
-                'expectedAssertion' => new FooDerivedValueOperationAssertion(
-                    new FooAssertion(
+                'expectedAssertion' => new DerivedValueOperationAssertion(
+                    new Assertion(
                         '$".selector" is "value',
                         '$".selector"',
                         'is',
@@ -132,8 +132,8 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                         'operator' => 'exists',
                     ],
                 ],
-                'expectedAssertion' => new FooResolvedAssertion(
-                    new FooAssertion(
+                'expectedAssertion' => new ResolvedAssertion(
+                    new Assertion(
                         '$page_import_name.elements.element_name exists',
                         '$page_import_name.elements.element_name',
                         'exists'
@@ -157,8 +157,8 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
                         'value' => '$page_import_name.elements.value'
                     ],
                 ],
-                'expectedAssertion' => new FooResolvedAssertion(
-                    new FooAssertion(
+                'expectedAssertion' => new ResolvedAssertion(
+                    new Assertion(
                         '$page_import_name.elements.selector is $page_import_name.elements.value',
                         '$page_import_name.elements.selector',
                         'is',
@@ -175,9 +175,9 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
      * @dataProvider createFromArrayDataProvider
      *
      * @param array<mixed> $assertionData
-     * @param FooAssertionInterface $expectedAssertion
+     * @param AssertionInterface $expectedAssertion
      */
-    public function testCreateFromJson(array $assertionData, FooAssertionInterface $expectedAssertion)
+    public function testCreateFromJson(array $assertionData, AssertionInterface $expectedAssertion)
     {
         $this->assertEquals($expectedAssertion, $this->factory->createFromJson((string) json_encode($assertionData)));
     }

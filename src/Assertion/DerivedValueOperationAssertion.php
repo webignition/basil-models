@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Assertion;
 
 use webignition\BasilModels\EncapsulatingStatementData;
-use webignition\BasilModels\FooStatementInterface;
+use webignition\BasilModels\StatementInterface;
 
-class FooDerivedValueOperationAssertion implements FooDerivedAssertionInterface
+class DerivedValueOperationAssertion implements DerivedAssertionInterface
 {
-    private FooStatementInterface $sourceStatement;
-    private FooAssertionInterface $assertion;
+    private StatementInterface $sourceStatement;
+    private AssertionInterface $assertion;
     private EncapsulatingStatementData $encapsulatingStatementData;
 
-    public function __construct(FooStatementInterface $sourceStatement, string $value, string $operator)
+    public function __construct(StatementInterface $sourceStatement, string $value, string $operator)
     {
         $this->sourceStatement = $sourceStatement;
-        $this->assertion = new FooAssertion($value . ' ' . $operator, $value, $operator);
+        $this->assertion = new Assertion($value . ' ' . $operator, $value, $operator);
         $this->encapsulatingStatementData = $this->createEncapsulatingStatementData(
             $sourceStatement,
             $value,
@@ -44,17 +44,17 @@ class FooDerivedValueOperationAssertion implements FooDerivedAssertionInterface
         return $this->assertion->getValue();
     }
 
-    public function equals(FooAssertionInterface $assertion): bool
+    public function equals(AssertionInterface $assertion): bool
     {
         return $this->assertion->equals($assertion);
     }
 
-    public function normalise(): FooAssertionInterface
+    public function normalise(): AssertionInterface
     {
         return $this;
     }
 
-    public function getSourceStatement(): FooStatementInterface
+    public function getSourceStatement(): StatementInterface
     {
         return $this->sourceStatement;
     }
@@ -75,7 +75,7 @@ class FooDerivedValueOperationAssertion implements FooDerivedAssertionInterface
     }
 
     private function createEncapsulatingStatementData(
-        FooStatementInterface $sourceStatement,
+        StatementInterface $sourceStatement,
         string $value,
         string $operator
     ): EncapsulatingStatementData {

@@ -23,11 +23,11 @@ class EncapsulatingStatementData
     private array $sourceData = [];
 
     /**
-     * @param FooStatementInterface $statement
+     * @param StatementInterface $statement
      * @param string $containerType
      * @param array<mixed> $encapsulationData
      */
-    public function __construct(FooStatementInterface $statement, string $containerType, array $encapsulationData)
+    public function __construct(StatementInterface $statement, string $containerType, array $encapsulationData)
     {
         $this->containerType = $containerType;
         $this->encapsulationData = $encapsulationData;
