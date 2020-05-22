@@ -74,7 +74,7 @@ class FooResolvedActionTest extends \PHPUnit\Framework\TestCase
     public function jsonSerializeDataProvider(): array
     {
         return [
-            'browser operation (black)' => [
+            'browser operation (back)' => [
                 'action' => new FooResolvedAction(
                     new FooAction('back', 'back')
                 ),

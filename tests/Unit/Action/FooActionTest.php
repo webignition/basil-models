@@ -99,6 +99,16 @@ class FooActionTest extends \PHPUnit\Framework\TestCase
                     'value' => '"value"',
                 ],
             ],
+            'wait' => [
+                'action' => new FooAction('wait', 'wait', '30', null, '30'),
+                'expectedSerializedData' => [
+                    'statement-type' => 'action',
+                    'source' => 'wait',
+                    'type' => 'wait',
+                    'arguments' => '30',
+                    'value' => '30',
+                ],
+            ],
         ];
     }
 }
