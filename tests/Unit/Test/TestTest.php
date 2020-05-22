@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Test;
 
-use webignition\BasilModels\Action\WaitAction;
-use webignition\BasilModels\Assertion\Assertion;
+use webignition\BasilModels\Action\FooAction;
+use webignition\BasilModels\Assertion\FooAssertion;
 use webignition\BasilModels\Step\Step;
 use webignition\BasilModels\Step\StepInterface;
 use webignition\BasilModels\Test\Configuration;
@@ -48,36 +48,36 @@ class TestTest extends \PHPUnit\Framework\TestCase
                     true,
                     new Step(
                         [
-                            new WaitAction('wait 1', '1'),
+                            new FooAction('wait 1', 'wait', '1', null, '1'),
                         ],
                         [
-                            new Assertion('".selector" exists', '".selector"', 'exists'),
+                            new FooAssertion('".selector" exists', '".selector"', 'exists'),
                         ]
                     ),
                     'step name' => new Step(
                         [
-                            new WaitAction('wait 1', '1'),
+                            new FooAction('wait 1', 'wait', '1', null, '1'),
                         ],
                         [
-                            new Assertion('".selector" exists', '".selector"', 'exists'),
+                            new FooAssertion('".selector" exists', '".selector"', 'exists'),
                         ]
                     ),
                 ],
                 'expectedSteps' => [
                     '3' => new Step(
                         [
-                            new WaitAction('wait 1', '1'),
+                            new FooAction('wait 1', 'wait', '1', null, '1'),
                         ],
                         [
-                            new Assertion('".selector" exists', '".selector"', 'exists'),
+                            new FooAssertion('".selector" exists', '".selector"', 'exists'),
                         ]
                     ),
                     'step name' => new Step(
                         [
-                            new WaitAction('wait 1', '1'),
+                            new FooAction('wait 1', 'wait', '1', null, '1'),
                         ],
                         [
-                            new Assertion('".selector" exists', '".selector"', 'exists'),
+                            new FooAssertion('".selector" exists', '".selector"', 'exists'),
                         ]
                     ),
                 ],

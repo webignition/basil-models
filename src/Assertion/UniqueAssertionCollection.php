@@ -10,23 +10,23 @@ namespace webignition\BasilModels\Assertion;
 class UniqueAssertionCollection implements \IteratorAggregate
 {
     /**
-     * @var AssertionInterface[]
+     * @var FooAssertionInterface[]
      */
     private array $assertions = [];
 
     /**
-     * @param AssertionInterface[] $assertions
+     * @param FooAssertionInterface[] $assertions
      */
     public function __construct(array $assertions = [])
     {
         foreach ($assertions as $assertion) {
-            if ($assertion instanceof AssertionInterface) {
+            if ($assertion instanceof FooAssertionInterface) {
                 $this->add($assertion);
             }
         }
     }
 
-    public function add(AssertionInterface $assertion): void
+    public function add(FooAssertionInterface $assertion): void
     {
         if (!$this->contains($assertion)) {
             $this->assertions[] = $assertion;
@@ -57,14 +57,14 @@ class UniqueAssertionCollection implements \IteratorAggregate
         $normalisedCollection = new UniqueAssertionCollection();
 
         foreach ($this as $assertion) {
-            /** @var AssertionInterface $assertion */
+            /** @var FooAssertionInterface $assertion */
             $normalisedCollection->add($assertion->normalise());
         }
 
         return $normalisedCollection;
     }
 
-    private function contains(AssertionInterface $assertion): bool
+    private function contains(FooAssertionInterface $assertion): bool
     {
         foreach ($this->assertions as $comparator) {
             if ($assertion->equals($comparator)) {
