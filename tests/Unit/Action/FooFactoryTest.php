@@ -20,6 +20,11 @@ class FooFactoryTest extends \PHPUnit\Framework\TestCase
         $this->factory = new FooFactory();
     }
 
+    public function testCreateFactory()
+    {
+        $this->assertInstanceOf(FooFactory::class, FooFactory::createFactory());
+    }
+
     /**
      * @dataProvider createFromArrayDataProvider
      *

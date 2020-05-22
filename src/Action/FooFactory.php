@@ -76,29 +76,29 @@ class FooFactory
         }
 
         throw new UnknownEncapsulatedStatementException([
-            'encapsulation' => $containerData,
-            'encapsulates' => $statementData,
+            'container' => $containerData,
+            'statement' => $statementData,
         ]);
     }
 
     /**
-     * @param array<mixed> $encapsulationData
-     * @param array<mixed> $sourceActionData
+     * @param array<mixed> $containerData
+     * @param array<mixed> $statementData
      *
      * @return FooResolvedActionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    private function createResolvedAction(array $encapsulationData, array $sourceActionData): FooResolvedActionInterface
+    private function createResolvedAction(array $containerData, array $statementData): FooResolvedActionInterface
     {
-        $sourceAction = $this->createFromArray($sourceActionData);
+        $sourceAction = $this->createFromArray($statementData);
 
-        $identifier = array_key_exists('identifier', $encapsulationData)
-            ? (string) $encapsulationData['identifier']
+        $identifier = array_key_exists('identifier', $containerData)
+            ? (string) $containerData['identifier']
             : null;
 
-        $value = array_key_exists('value', $encapsulationData)
-            ? (string) $encapsulationData['value']
+        $value = array_key_exists('value', $containerData)
+            ? (string) $containerData['value']
             : null;
 
         return new FooResolvedAction($sourceAction, $identifier, $value);
