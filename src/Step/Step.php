@@ -4,23 +4,20 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Step;
 
-use webignition\BasilModels\Action\ActionInterface;
-use webignition\BasilModels\Action\InputActionInterface;
-use webignition\BasilModels\Action\InteractionActionInterface;
-use webignition\BasilModels\Assertion\AssertionInterface;
-use webignition\BasilModels\Assertion\ComparisonAssertionInterface;
+use webignition\BasilModels\Action\FooActionInterface;
+use webignition\BasilModels\Assertion\FooAssertionInterface;
 use webignition\BasilModels\DataParameter\DataParameter;
 use webignition\BasilModels\DataSet\DataSetCollectionInterface;
 
 class Step implements StepInterface
 {
     /**
-     * @var ActionInterface[]
+     * @var FooActionInterface[]
      */
     private array $actions = [];
 
     /**
-     * @var AssertionInterface[]
+     * @var FooAssertionInterface[]
      */
     private array $assertions = [];
 
@@ -48,7 +45,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @return ActionInterface[]
+     * @return FooActionInterface[]
      */
     public function getActions(): array
     {
@@ -56,7 +53,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @param ActionInterface[] $actions
+     * @param FooAssertionInterface[] $actions
      *
      * @return StepInterface
      */
@@ -69,7 +66,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @return AssertionInterface[]
+     * @return FooAssertionInterface[]
      */
     public function getAssertions(): array
     {
@@ -77,7 +74,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @param AssertionInterface[] $assertions
+     * @param FooAssertionInterface[] $assertions
      *
      * @return StepInterface
      */
@@ -203,27 +200,23 @@ class Step implements StepInterface
         $dataParameterNames = [];
 
         foreach ($this->getActions() as $action) {
-            if ($action instanceof InteractionActionInterface) {
-                $identifier = $action->getIdentifier();
-
+            $identifier = $action->getIdentifier();
+            if (null !== $identifier) {
                 $this->addDataParameterName($identifier, $dataParameterNames);
             }
 
-            if ($action instanceof InputActionInterface) {
-                $value = $action->getValue();
-
+            $value = $action->getValue();
+            if (null !== $value) {
                 $this->addDataParameterName($value, $dataParameterNames);
             }
         }
 
         foreach ($this->getAssertions() as $assertion) {
             $identifier = $assertion->getIdentifier();
-
             $this->addDataParameterName($identifier, $dataParameterNames);
 
-            if ($assertion instanceof ComparisonAssertionInterface) {
-                $value = $assertion->getValue();
-
+            $value = $assertion->getValue();
+            if (null !== $value) {
                 $this->addDataParameterName($value, $dataParameterNames);
             }
         }
@@ -253,24 +246,24 @@ class Step implements StepInterface
     /**
      * @param array<mixed> $actions
      *
-     * @return ActionInterface[]
+     * @return FooActionInterface[]
      */
     private function filterActions(array $actions): array
     {
         return array_filter($actions, function ($action) {
-            return $action instanceof ActionInterface;
+            return $action instanceof FooActionInterface;
         });
     }
 
     /**
      * @param array<mixed> $assertions
      *
-     * @return AssertionInterface[]
+     * @return FooAssertionInterface[]
      */
     private function filterAssertions(array $assertions): array
     {
         return array_filter($assertions, function ($assertion) {
-            return $assertion instanceof AssertionInterface;
+            return $assertion instanceof FooAssertionInterface;
         });
     }
 
