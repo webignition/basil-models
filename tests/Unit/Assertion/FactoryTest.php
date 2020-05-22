@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilModels\Tests\Unit\Assertion\Factory;
+namespace webignition\BasilModels\Tests\Unit\Assertion;
 
-use webignition\BasilModels\Action\InteractionAction;
+use webignition\BasilModels\Action\Action;
+use webignition\BasilModels\Action\Factory as ActionFactory;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
-use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
-use webignition\BasilModels\Assertion\Factory\Factory;
+use webignition\BasilModels\Assertion\Factory;
 use webignition\BasilModels\Assertion\ResolvedAssertion;
-use webignition\BasilModels\Assertion\ResolvedComparisonAssertion;
 
 class FactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +20,14 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->factory = Factory::createFactory();
+        $this->factory = new Factory(
+            ActionFactory::createFactory()
+        );
+    }
+
+    public function testCreateFactory()
+    {
+        $this->assertInstanceOf(Factory::class, Factory::createFactory());
     }
 
     /**
@@ -42,97 +48,33 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 'data' => [
                     'source' => '$".selector" exists',
                     'identifier' => '$".selector"',
-                    'comparison' => 'exists',
+                    'operator' => 'exists',
                 ],
                 'expectedAssertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
-            ],
-            'not-exists' => [
-                'data' => [
-                    'source' => '$".selector" not-exists',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'not-exists',
-                ],
-                'expectedAssertion' => new Assertion('$".selector" not-exists', '$".selector"', 'not-exists'),
             ],
             'is' => [
                 'data' => [
                     'source' => '$".selector" is "value"',
                     'identifier' => '$".selector"',
-                    'comparison' => 'is',
+                    'operator' => 'is',
                     'value' => '"value"',
                 ],
-                'expectedAssertion' => new ComparisonAssertion(
+                'expectedAssertion' => new Assertion(
                     '$".selector" is "value"',
                     '$".selector"',
                     'is',
                     '"value"'
                 ),
             ],
-            'is-not' => [
-                'data' => [
-                    'source' => '$".selector" is-not "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'is-not',
-                    'value' => '"value"',
-                ],
-                'expectedAssertion' => new ComparisonAssertion(
-                    '$".selector" is-not "value"',
-                    '$".selector"',
-                    'is-not',
-                    '"value"'
-                ),
-            ],
-            'includes' => [
-                'data' => [
-                    'source' => '$".selector" includes "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'includes',
-                    'value' => '"value"',
-                ],
-                'expectedAssertion' => new ComparisonAssertion(
-                    '$".selector" includes "value"',
-                    '$".selector"',
-                    'includes',
-                    '"value"'
-                ),
-            ],
-            'excludes' => [
-                'data' => [
-                    'source' => '$".selector" excludes "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'excludes',
-                    'value' => '"value"',
-                ],
-                'expectedAssertion' => new ComparisonAssertion(
-                    '$".selector" excludes "value"',
-                    '$".selector"',
-                    'excludes',
-                    '"value"'
-                ),
-            ],
-            'matches' => [
-                'data' => [
-                    'source' => '$".selector" matches "value"',
-                    'identifier' => '$".selector"',
-                    'comparison' => 'matches',
-                    'value' => '"value"',
-                ],
-                'expectedAssertion' => new ComparisonAssertion(
-                    '$".selector" matches "value"',
-                    '$".selector"',
-                    'matches',
-                    '"value"'
-                ),
-            ],
             'derived exists from action' => [
                 'data' => [
-                    'encapsulation' => [
+                    'container' => [
                         'type' => 'derived-value-operation-assertion',
-                        'source_type' => 'action',
-                        'operator' => 'exists',
                         'value' => '$".selector"',
+                        'operator' => 'exists',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
+                        'statement-type' => 'action',
                         'source' => 'click $".selector"',
                         'type' => 'click',
                         'arguments' => '$".selector"',
@@ -140,7 +82,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     ],
                 ],
                 'expectedAssertion' => new DerivedValueOperationAssertion(
-                    new InteractionAction(
+                    new Action(
                         'click $".selector"',
                         'click',
                         '$".selector"',
@@ -152,21 +94,21 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
             ],
             'derived exists from assertion' => [
                 'data' => [
-                    'encapsulation' => [
+                    'container' => [
                         'type' => 'derived-value-operation-assertion',
-                        'source_type' => 'assertion',
-                        'operator' => 'exists',
                         'value' => '$".selector"',
+                        'operator' => 'exists',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
+                        'statement-type' => 'assertion',
                         'source' => '$".selector" is "value',
                         'identifier' => '$".selector"',
-                        'comparison' => 'is',
+                        'operator' => 'is',
                         'value' => '"value"',
                     ],
                 ],
                 'expectedAssertion' => new DerivedValueOperationAssertion(
-                    new ComparisonAssertion(
+                    new Assertion(
                         '$".selector" is "value',
                         '$".selector"',
                         'is',
@@ -178,16 +120,16 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
             ],
             'resolved exists assertion' => [
                 'data' => [
-                    'encapsulation' => [
+                    'container' => [
                         'type' => 'resolved-assertion',
-                        'source_type' => 'assertion',
                         'source' => '$".selector" exists',
                         'identifier' => '$".selector"',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
+                        'statement-type' => 'assertion',
                         'source' => '$page_import_name.elements.element_name exists',
                         'identifier' => '$page_import_name.elements.element_name',
-                        'comparison' => 'exists',
+                        'operator' => 'exists',
                     ],
                 ],
                 'expectedAssertion' => new ResolvedAssertion(
@@ -196,34 +138,32 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                         '$page_import_name.elements.element_name',
                         'exists'
                     ),
-                    '$".selector" exists',
                     '$".selector"'
                 ),
             ],
             'resolved is assertion' => [
                 'data' => [
-                    'encapsulation' => [
-                        'type' => 'resolved-comparison-assertion',
-                        'source_type' => 'assertion',
+                    'container' => [
+                        'type' => 'resolved-assertion',
                         'source' => '$".selector" is $".value"',
                         'identifier' => '$".selector"',
                         'value' => '$".value"',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
+                        'statement-type' => 'assertion',
                         'source' => '$page_import_name.elements.selector is $page_import_name.elements.value',
                         'identifier' => '$page_import_name.elements.selector',
-                        'comparison' => 'is',
+                        'operator' => 'is',
                         'value' => '$page_import_name.elements.value'
                     ],
                 ],
-                'expectedAssertion' => new ResolvedComparisonAssertion(
-                    new ComparisonAssertion(
+                'expectedAssertion' => new ResolvedAssertion(
+                    new Assertion(
                         '$page_import_name.elements.selector is $page_import_name.elements.value',
                         '$page_import_name.elements.selector',
                         'is',
                         '$page_import_name.elements.value'
                     ),
-                    '$".selector" is $".value"',
                     '$".selector"',
                     '$".value"'
                 ),

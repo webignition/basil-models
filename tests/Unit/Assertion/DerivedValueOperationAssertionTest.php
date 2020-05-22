@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Assertion;
 
-use webignition\BasilModels\Action\InteractionAction;
+use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Assertion\Assertion;
-use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
-use webignition\BasilModels\Assertion\ResolvedAssertion;
-use webignition\BasilModels\Assertion\ResolvedAssertionInterface;
 use webignition\BasilModels\StatementInterface;
 
 class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
@@ -20,15 +17,15 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
     public function testCreate(
         StatementInterface $sourceStatement,
         string $identifier,
-        string $derivedComparison,
+        string $operator,
         string $expectedStringRepresentation
     ) {
-        $derivedAssertion = new DerivedValueOperationAssertion($sourceStatement, $identifier, $derivedComparison);
+        $derivedAssertion = new DerivedValueOperationAssertion($sourceStatement, $identifier, $operator);
 
         $this->assertSame($expectedStringRepresentation, $derivedAssertion->getSource());
         $this->assertSame($expectedStringRepresentation, (string) $derivedAssertion);
         $this->assertSame($identifier, $derivedAssertion->getIdentifier());
-        $this->assertSame($derivedComparison, $derivedAssertion->getComparison());
+        $this->assertSame($operator, $derivedAssertion->getOperator());
         $this->assertSame($sourceStatement, $derivedAssertion->getSourceStatement());
     }
 
@@ -36,36 +33,36 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'derived exists from action' => [
-                'sourceStatement' => new InteractionAction(
+                'sourceStatement' => new Action(
                     'click $".selector"',
                     'click',
                     '$".selector"',
                     '$".selector"'
                 ),
                 'identifier' => '$".selector"',
-                'derivedComparison' => 'exists',
+                '$operator' => 'exists',
                 'expectedStringRepresentation' => '$".selector" exists',
             ],
             'derived exists from assertion' => [
-                'sourceStatement' => new ComparisonAssertion(
+                'sourceStatement' => new Assertion(
                     '$".selector" is "value',
                     '$".selector"',
                     'is',
                     '"value"'
                 ),
                 'identifier' => '$".selector"',
-                'derivedComparison' => 'exists',
+                '$operator' => 'exists',
                 'expectedStringRepresentation' => '$".selector" exists',
             ],
             'derived is-regexp from assertion' => [
-                'sourceStatement' => new ComparisonAssertion(
+                'sourceStatement' => new Assertion(
                     '$".selector" matches "value',
                     '$".selector"',
                     'matches',
                     '"value"'
                 ),
                 'identifier' => '$".selector"',
-                'derivedComparison' => 'is-regexp',
+                '$operator' => 'is-regexp',
                 'expectedStringRepresentation' => '$".selector" is-regexp',
             ],
         ];
@@ -89,7 +86,7 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
         return [
             'exists from assertion' => [
                 'derivedAssertion' => new DerivedValueOperationAssertion(
-                    new ComparisonAssertion(
+                    new Assertion(
                         '$".selector" is "value',
                         '$".selector"',
                         'is',
@@ -99,23 +96,23 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                     'exists'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
+                    'container' => [
                         'type' => 'derived-value-operation-assertion',
-                        'source_type' => 'assertion',
-                        'operator' => 'exists',
                         'value' => '$".selector"',
+                        'operator' => 'exists',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
+                        'statement-type' => 'assertion',
                         'source' => '$".selector" is "value',
                         'identifier' => '$".selector"',
-                        'comparison' => 'is',
+                        'operator' => 'is',
                         'value' => '"value"',
                     ],
                 ],
             ],
             'exists from action' => [
                 'derivedAssertion' => new DerivedValueOperationAssertion(
-                    new InteractionAction(
+                    new Action(
                         'click $".selector"',
                         'click',
                         '$".selector"',
@@ -125,13 +122,13 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                     'exists'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
+                    'container' => [
                         'type' => 'derived-value-operation-assertion',
-                        'source_type' => 'action',
-                        'operator' => 'exists',
                         'value' => '$".selector"',
+                        'operator' => 'exists',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
+                        'statement-type' => 'action',
                         'source' => 'click $".selector"',
                         'type' => 'click',
                         'arguments' => '$".selector"',
@@ -141,7 +138,7 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
             ],
             'is-regexp from assertion' => [
                 'derivedAssertion' => new DerivedValueOperationAssertion(
-                    new ComparisonAssertion(
+                    new Assertion(
                         '$".selector" matches "value"',
                         '$".selector"',
                         'matches',
@@ -151,16 +148,16 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                     'is-regexp'
                 ),
                 'expectedSerializedData' => [
-                    'encapsulation' => [
+                    'container' => [
                         'type' => 'derived-value-operation-assertion',
-                        'source_type' => 'assertion',
-                        'operator' => 'is-regexp',
                         'value' => '"value"',
+                        'operator' => 'is-regexp',
                     ],
-                    'encapsulates' => [
+                    'statement' => [
+                        'statement-type' => 'assertion',
                         'source' => '$".selector" matches "value"',
                         'identifier' => '$".selector"',
-                        'comparison' => 'matches',
+                        'operator' => 'matches',
                         'value' => '"value"',
                     ],
                 ],

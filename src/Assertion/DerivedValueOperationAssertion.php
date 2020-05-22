@@ -4,32 +4,49 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
+use webignition\BasilModels\EncapsulatingStatementData;
 use webignition\BasilModels\StatementInterface;
 
-class DerivedValueOperationAssertion extends Assertion implements DerivedAssertionInterface
+class DerivedValueOperationAssertion implements DerivedAssertionInterface
 {
-    public const KEY_ENCAPSULATION_OPERATOR = 'operator';
-    public const KEY_ENCAPSULATION_VALUE = 'value';
-
     private StatementInterface $sourceStatement;
-    private string $value;
-    private EncapsulatingAssertionData $encapsulatingAssertionData;
+    private AssertionInterface $assertion;
+    private EncapsulatingStatementData $encapsulatingStatementData;
 
     public function __construct(StatementInterface $sourceStatement, string $value, string $operator)
     {
-        parent::__construct($value . ' ' . $operator, $value, $operator);
-
         $this->sourceStatement = $sourceStatement;
-        $this->value = $value;
-
-        $this->encapsulatingAssertionData = new EncapsulatingAssertionData(
+        $this->assertion = new Assertion($value . ' ' . $operator, $value, $operator);
+        $this->encapsulatingStatementData = $this->createEncapsulatingStatementData(
             $sourceStatement,
-            'derived-value-operation-assertion',
-            [
-                self::KEY_ENCAPSULATION_OPERATOR => $operator,
-                self::KEY_ENCAPSULATION_VALUE => $value,
-            ]
+            $value,
+            $operator
         );
+    }
+
+    public function getStatementType(): string
+    {
+        return 'assertion';
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->assertion->getIdentifier();
+    }
+
+    public function getOperator(): string
+    {
+        return $this->assertion->getOperator();
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->assertion->getValue();
+    }
+
+    public function equals(AssertionInterface $assertion): bool
+    {
+        return $this->assertion->equals($assertion);
     }
 
     public function normalise(): AssertionInterface
@@ -42,8 +59,33 @@ class DerivedValueOperationAssertion extends Assertion implements DerivedAsserti
         return $this->sourceStatement;
     }
 
+    public function getSource(): string
+    {
+        return $this->assertion->getSource();
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->assertion;
+    }
+
     public function jsonSerialize(): array
     {
-        return $this->encapsulatingAssertionData->jsonSerialize();
+        return $this->encapsulatingStatementData->jsonSerialize();
+    }
+
+    private function createEncapsulatingStatementData(
+        StatementInterface $sourceStatement,
+        string $value,
+        string $operator
+    ): EncapsulatingStatementData {
+        return new EncapsulatingStatementData(
+            $sourceStatement,
+            'derived-value-operation-assertion',
+            [
+                'value' => $value,
+                'operator' => $operator,
+            ]
+        );
     }
 }

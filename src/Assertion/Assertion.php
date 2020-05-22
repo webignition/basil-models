@@ -9,17 +9,25 @@ use webignition\BasilModels\Statement;
 class Assertion extends Statement implements AssertionInterface
 {
     private const KEY_IDENTIFIER = 'identifier';
-    public const KEY_COMPARISON = 'comparison';
+    private const KEY_OPERATOR = 'operator';
+    private const KEY_VALUE = 'value';
 
     private string $identifier;
-    private string $comparison;
+    private string $operator;
+    private ?string $value;
 
-    public function __construct(string $source, string $identifier, string $comparison)
+    public function __construct(string $source, string $identifier, string $operator, ?string $value = null)
     {
         parent::__construct($source);
 
         $this->identifier = $identifier;
-        $this->comparison = $comparison;
+        $this->operator = $operator;
+        $this->value = $value;
+    }
+
+    public function getStatementType(): string
+    {
+        return 'assertion';
     }
 
     public function getIdentifier(): string
@@ -27,52 +35,50 @@ class Assertion extends Statement implements AssertionInterface
         return $this->identifier;
     }
 
-    public function getComparison(): string
+    public function getOperator(): string
     {
-        return $this->comparison;
+        return $this->operator;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
     }
 
     public function equals(AssertionInterface $assertion): bool
     {
-        if ($this->identifier !== $assertion->getIdentifier()) {
-            return false;
-        }
-
-        return $this->comparison === $assertion->getComparison();
+        return
+            $this->identifier === $assertion->getIdentifier() &&
+            $this->operator === $assertion->getOperator() &&
+            $this->value === $assertion->getValue();
     }
 
     public function normalise(): AssertionInterface
     {
         $new = clone $this;
-        $new->source = $this->identifier . ' ' . $this->comparison;
+        $new->source = $this->identifier . ' ' . $this->operator;
+
+        if (null !== $this->value) {
+            $new->source .= ' ' . $this->value;
+        }
 
         return $new;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function jsonSerialize(): array
     {
-        return array_merge(parent::jsonSerialize(), [
-            self::KEY_IDENTIFIER => $this->identifier,
-            self::KEY_COMPARISON => $this->comparison,
-        ]);
-    }
+        $data = parent::jsonSerialize();
 
-    /**
-     * @param array<mixed> $data
-     *
-     * @return AssertionInterface
-     */
-    public static function fromArray(array $data): AssertionInterface
-    {
-        return new Assertion(
-            (string) ($data[self::KEY_SOURCE] ?? ''),
-            (string) ($data[self::KEY_IDENTIFIER] ?? ''),
-            (string) ($data[self::KEY_COMPARISON] ?? '')
-        );
-    }
+        $data[self::KEY_IDENTIFIER] = $this->identifier;
+        $data[self::KEY_OPERATOR] = $this->operator;
 
-    public function __toString(): string
-    {
-        return $this->source;
+        if (null !== $this->value) {
+            $data[self::KEY_VALUE] = $this->value;
+        }
+
+        return $data;
     }
 }

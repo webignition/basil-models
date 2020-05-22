@@ -6,12 +6,8 @@ namespace webignition\BasilModels\Tests\Unit\Step;
 
 use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Action\ActionInterface;
-use webignition\BasilModels\Action\InputAction;
-use webignition\BasilModels\Action\InteractionAction;
-use webignition\BasilModels\Action\WaitAction;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
-use webignition\BasilModels\Assertion\ComparisonAssertion;
 use webignition\BasilModels\DataSet\DataSetCollection;
 use webignition\BasilModels\Step\Step;
 use webignition\BasilModels\Step\StepInterface;
@@ -63,20 +59,20 @@ class StepTest extends \PHPUnit\Framework\TestCase
             ],
             'all valid' => [
                 'actions' => [
-                    new WaitAction('wait 1', '1'),
-                    new InteractionAction('click ".selector"', 'click', '".selector"', '".selector"'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
                 ],
                 'assertions' => [
-                    new ComparisonAssertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
-                    new Assertion('".selector" exists', '".selector"', 'exists'),
+                    new Assertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
+                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
                 ],
                 'expectedActions' => [
-                    new WaitAction('wait 1', '1'),
-                    new InteractionAction('click ".selector"', 'click', '".selector"', '".selector"'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
                 ],
                 'expectedAssertions' => [
-                    new ComparisonAssertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
-                    new Assertion('".selector" exists', '".selector"', 'exists'),
+                    new Assertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
+                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
                 ],
             ],
         ];
@@ -230,32 +226,32 @@ class StepTest extends \PHPUnit\Framework\TestCase
             ],
             'has actions, empty prepended actions' => [
                 'step' => new Step([
-                    new WaitAction('wait 1', '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
                 'actions' => [],
                 'expectedStep' => new Step([
-                    new WaitAction('wait 1', '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
             ],
             'has no actions, non-empty prepended actions' => [
                 'step' => new Step([], []),
                 'actions' => [
-                    new WaitAction('wait 2', '2'),
+                    new Action('wait 2', 'wait', '2', null, '2'),
                 ],
                 'expectedStep' => new Step([
-                    new WaitAction('wait 2', '2'),
+                    new Action('wait 2', 'wait', '2', null, '2'),
                 ], []),
             ],
             'has actions, non-empty prepended actions' => [
                 'step' => new Step([
-                    new WaitAction('wait 1', '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
                 'actions' => [
-                    new WaitAction('wait 2', '2'),
+                    new Action('wait 2', 'wait', '2', null, '2'),
                 ],
                 'expectedStep' => new Step([
-                    new WaitAction('wait 2', '2'),
-                    new WaitAction('wait 1', '1'),
+                    new Action('wait 2', 'wait', '2', null, '2'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
             ],
             'assertions are retained' => [
@@ -358,11 +354,11 @@ class StepTest extends \PHPUnit\Framework\TestCase
             ],
             'actions are retained' => [
                 'step' => new Step([
-                    new WaitAction('wait 1', '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
                 'assertions' => [],
                 'expectedStep' => new Step([
-                    new WaitAction('wait 1', '1'),
+                    new Action('wait 1', 'wait', '1', null, '1'),
                 ], []),
             ],
             'data sets are retained' => [
@@ -411,13 +407,13 @@ class StepTest extends \PHPUnit\Framework\TestCase
             'has actions, has assertions, no data parameters' => [
                 'step' => new Step(
                     [
-                        new InteractionAction(
+                        new Action(
                             'click $".selector"',
                             'click',
                             '$".selector"',
                             '$".selector"'
                         ),
-                        new InputAction(
+                        new Action(
                             'set $".selector" to "value"',
                             '$".selector" to "value"',
                             '$".selector"',
@@ -430,7 +426,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
                             '$".selector"',
                             'exists'
                         ),
-                        new ComparisonAssertion(
+                        new Assertion(
                             '$".selector" is "value"',
                             '$".selector"',
                             'is',
@@ -443,13 +439,13 @@ class StepTest extends \PHPUnit\Framework\TestCase
             'has actions, has assertions, has data parameters' => [
                 'step' => new Step(
                     [
-                        new InteractionAction(
+                        new Action(
                             'click $".selector"',
                             'click',
                             '$".selector"',
                             '$".selector"'
                         ),
-                        new InputAction(
+                        new Action(
                             'set $".selector" to $data.zebra',
                             '$".selector" to $data.zebra',
                             '$".selector"',
@@ -462,7 +458,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
                             '$data.aardvark',
                             'exists'
                         ),
-                        new ComparisonAssertion(
+                        new Assertion(
                             '$data.cow is $data.bee',
                             '$data.cow',
                             'is',

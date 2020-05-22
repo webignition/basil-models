@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Test;
 
-use webignition\BasilModels\Action\WaitAction;
+use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Step\Step;
 use webignition\BasilModels\Step\StepInterface;
@@ -48,7 +48,7 @@ class TestTest extends \PHPUnit\Framework\TestCase
                     true,
                     new Step(
                         [
-                            new WaitAction('wait 1', '1'),
+                            new Action('wait 1', 'wait', '1', null, '1'),
                         ],
                         [
                             new Assertion('".selector" exists', '".selector"', 'exists'),
@@ -56,7 +56,7 @@ class TestTest extends \PHPUnit\Framework\TestCase
                     ),
                     'step name' => new Step(
                         [
-                            new WaitAction('wait 1', '1'),
+                            new Action('wait 1', 'wait', '1', null, '1'),
                         ],
                         [
                             new Assertion('".selector" exists', '".selector"', 'exists'),
@@ -66,7 +66,7 @@ class TestTest extends \PHPUnit\Framework\TestCase
                 'expectedSteps' => [
                     '3' => new Step(
                         [
-                            new WaitAction('wait 1', '1'),
+                            new Action('wait 1', 'wait', '1', null, '1'),
                         ],
                         [
                             new Assertion('".selector" exists', '".selector"', 'exists'),
@@ -74,7 +74,7 @@ class TestTest extends \PHPUnit\Framework\TestCase
                     ),
                     'step name' => new Step(
                         [
-                            new WaitAction('wait 1', '1'),
+                            new Action('wait 1', 'wait', '1', null, '1'),
                         ],
                         [
                             new Assertion('".selector" exists', '".selector"', 'exists'),

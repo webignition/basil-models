@@ -8,18 +8,35 @@ use webignition\BasilModels\Statement;
 
 class Action extends Statement implements ActionInterface
 {
-    public const KEY_TYPE = 'type';
+    private const KEY_TYPE = 'type';
     private const KEY_ARGUMENTS = 'arguments';
+    private const KEY_IDENTIFIER = 'identifier';
+    private const KEY_VALUE = 'value';
 
     private string $type;
-    private string $arguments;
+    private ?string $arguments;
+    private ?string $identifier;
+    private ?string $value;
 
-    public function __construct(string $source, string $type, string $arguments)
-    {
+    public function __construct(
+        string $source,
+        string $type,
+        ?string $arguments = null,
+        ?string $identifier = null,
+        ?string $value = null
+    ) {
         parent::__construct($source);
 
+        $this->source = $source;
         $this->type = $type;
         $this->arguments = $arguments;
+        $this->identifier = $identifier;
+        $this->value = $value;
+    }
+
+    public function getStatementType(): string
+    {
+        return 'action';
     }
 
     public function getType(): string
@@ -27,25 +44,42 @@ class Action extends Statement implements ActionInterface
         return $this->type;
     }
 
-    public function getArguments(): string
+    public function getArguments(): ?string
     {
         return $this->arguments;
     }
 
-    public function jsonSerialize(): array
+    public function getIdentifier(): ?string
     {
-        return array_merge(parent::jsonSerialize(), [
-            self::KEY_TYPE => $this->type,
-            self::KEY_ARGUMENTS => $this->arguments,
-        ]);
+        return $this->identifier;
     }
 
-    public static function fromArray(array $data): ActionInterface
+    public function getValue(): ?string
     {
-        return new Action(
-            (string) ($data[self::KEY_SOURCE] ?? ''),
-            (string) ($data[self::KEY_TYPE] ?? ''),
-            (string) ($data[self::KEY_ARGUMENTS] ?? '')
-        );
+        return $this->value;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function jsonSerialize(): array
+    {
+        $data = parent::jsonSerialize();
+
+        $data[self::KEY_TYPE] = $this->type;
+
+        if (null !== $this->arguments) {
+            $data[self::KEY_ARGUMENTS] = $this->arguments;
+        }
+
+        if (null !== $this->identifier) {
+            $data[self::KEY_IDENTIFIER] = $this->identifier;
+        }
+
+        if (null !== $this->value) {
+            $data[self::KEY_VALUE] = $this->value;
+        }
+
+        return $data;
     }
 }

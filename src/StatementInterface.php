@@ -7,6 +7,7 @@ namespace webignition\BasilModels;
 interface StatementInterface extends \JsonSerializable
 {
     public function getSource(): string;
+    public function getStatementType(): string;
     public function __toString(): string;
 
     /**

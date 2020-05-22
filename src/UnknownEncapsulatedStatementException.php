@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilModels\Assertion\Factory;
+namespace webignition\BasilModels;
 
-class UnknownEncapsulatedAssertionException extends \Exception
+class UnknownEncapsulatedStatementException extends \Exception
 {
     /**
      * @var array<mixed>

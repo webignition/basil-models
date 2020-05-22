@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilModels\Tests\Unit\Action\Factory;
+namespace webignition\BasilModels\Tests\Unit\Action;
 
 use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Action\ActionInterface;
-use webignition\BasilModels\Action\Factory\Factory;
-use webignition\BasilModels\Action\InputAction;
-use webignition\BasilModels\Action\InteractionAction;
-use webignition\BasilModels\Action\WaitAction;
+use webignition\BasilModels\Action\Factory;
+use webignition\BasilModels\Action\ResolvedAction;
 
 class FactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,6 +18,11 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
 
         $this->factory = new Factory();
+    }
+
+    public function testCreateFactory()
+    {
+        $this->assertInstanceOf(Factory::class, Factory::createFactory());
     }
 
     /**
@@ -44,22 +47,6 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                 ],
                 'expectedAction' => new Action('back', 'back', ''),
             ],
-            'forward' => [
-                'actionData' => [
-                    'source' => 'forward',
-                    'type' => 'forward',
-                    'arguments' => '',
-                ],
-                'expectedAction' => new Action('forward', 'forward', ''),
-            ],
-            'reload' => [
-                'actionData' => [
-                    'source' => 'reload',
-                    'type' => 'reload',
-                    'arguments' => '',
-                ],
-                'expectedAction' => new Action('reload', 'reload', ''),
-            ],
             'click' => [
                 'actionData' => [
                     'source' => 'click $".selector"',
@@ -67,7 +54,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => new InteractionAction(
+                'expectedAction' => new Action(
                     'click $".selector"',
                     'click',
                     '$".selector"',
@@ -81,7 +68,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => new InteractionAction(
+                'expectedAction' => new Action(
                     'submit $".selector"',
                     'submit',
                     '$".selector"',
@@ -95,7 +82,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
-                'expectedAction' => new InteractionAction(
+                'expectedAction' => new Action(
                     'wait-for $".selector"',
                     'wait-for',
                     '$".selector"',
@@ -110,8 +97,9 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     'identifier' => '$".selector"',
                     'value' => '"value"',
                 ],
-                'expectedAction' => new InputAction(
+                'expectedAction' => new Action(
                     'set $".selector" to "value"',
+                    'set',
                     '$".selector"',
                     '$".selector"',
                     '"value"'
@@ -122,11 +110,81 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     'source' => 'wait 30',
                     'type' => 'wait',
                     'arguments' => '30',
-                    'duration' => '30',
+                    'value' => '30',
                 ],
-                'expectedAction' => new WaitAction(
+                'expectedAction' => new Action(
                     'wait 30',
+                    'wait',
+                    '30',
+                    null,
                     '30'
+                ),
+            ],
+            'resolved browser operation (back)' => [
+                'actionData' => [
+                    'container' => [
+                        'type' => 'resolved-action',
+                    ],
+                    'statement' => [
+                        'statement-type' => 'action',
+                        'source' => 'back',
+                        'type' => 'back',
+                    ],
+                ],
+                'expectedAction' => new ResolvedAction(
+                    new Action('back', 'back')
+                ),
+            ],
+            'resolved interaction (click)' => [
+                'actionData' => [
+                    'container' => [
+                        'type' => 'resolved-action',
+                        'identifier' => '$".selector"',
+                    ],
+                    'statement' => [
+                        'statement-type' => 'action',
+                        'source' => 'click $page_import_name.elements.element_name',
+                        'type' => 'click',
+                        'arguments' => '$page_import_name.elements.element_name',
+                        'identifier' => '$page_import_name.elements.element_name',
+                    ],
+                ],
+                'expectedAction' => new ResolvedAction(
+                    new Action(
+                        'click $page_import_name.elements.element_name',
+                        'click',
+                        '$page_import_name.elements.element_name',
+                        '$page_import_name.elements.element_name'
+                    ),
+                    '$".selector"'
+                ),
+            ],
+            'resolved input (set)' => [
+                'actionData' => [
+                    'container' => [
+                        'type' => 'resolved-action',
+                        'identifier' => '$".selector"',
+                        'value' => '"value"'
+                    ],
+                    'statement' => [
+                        'statement-type' => 'action',
+                        'source' => 'set $page_import_name.elements.element_name to "value"',
+                        'type' => 'set',
+                        'arguments' => '$page_import_name.elements.element_name to "value"',
+                        'identifier' => '$page_import_name.elements.element_name',
+                        'value' => '"value"',
+                    ],
+                ],
+                'expectedAction' => new ResolvedAction(
+                    new Action(
+                        'set $page_import_name.elements.element_name to "value"',
+                        'set',
+                        '$page_import_name.elements.element_name to "value"',
+                        '$page_import_name.elements.element_name',
+                        '"value"'
+                    ),
+                    '$".selector"',
+                    '"value"'
                 ),
             ],
         ];

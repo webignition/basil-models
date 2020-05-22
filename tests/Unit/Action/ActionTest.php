@@ -9,95 +9,105 @@ use webignition\BasilModels\Action\ActionInterface;
 
 class ActionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testCreate()
+    /**
+     * @dataProvider createDataProvider
+     */
+    public function testCreate(string $source, string $type, ?string $arguments, ?string $identifier, ?string $value)
     {
-        $source = 'click $".selector"';
-        $type = 'click';
-        $arguments = '$".selector"';
-
-        $action = new Action($source, $type, $arguments);
+        $action = new Action($source, $type, $arguments, $identifier, $value);
 
         $this->assertSame($source, $action->getSource());
-        $this->assertSame($source, (string) $action);
         $this->assertSame($type, $action->getType());
         $this->assertSame($arguments, $action->getArguments());
+        $this->assertSame($identifier, $action->getIdentifier());
+        $this->assertSame($value, $action->getValue());
+    }
+
+    public function createDataProvider(): array
+    {
+        return [
+            'action-only' => [
+                'source' => 'back',
+                'type' => 'back',
+                'arguments' => null,
+                'identifier' => null,
+                'value' => null,
+            ],
+            'interaction' => [
+                'source' => 'click $".selector"',
+                'type' => 'click',
+                'arguments' => '$".selector"',
+                'identifier' => '$".selector"',
+                'value' => null,
+            ],
+            'input' => [
+                'source' => 'set $".selector" to "value"',
+                'type' => 'set',
+                'arguments' => '$".selector"',
+                'identifier' => '$".selector"',
+                'value' => '"value"',
+            ],
+        ];
     }
 
     /**
      * @dataProvider jsonSerializeDataProvider
      *
      * @param ActionInterface $action
-     * @param array<mixed> $expectedSerializedData
+     * @param array<string, string> $expectedSerializedData
      */
     public function testJsonSerialize(ActionInterface $action, array $expectedSerializedData)
     {
-        $this->assertEquals($expectedSerializedData, $action->jsonSerialize());
+        $this->assertSame($expectedSerializedData, $action->jsonSerialize());
     }
 
     public function jsonSerializeDataProvider(): array
     {
         return [
-            'back' => [
+            'action-only' => [
+                'action' => new Action('back', 'back'),
+                'expectedSerializedData' => [
+                    'statement-type' => 'action',
+                    'source' => 'back',
+                    'type' => 'back',
+                ],
+            ],
+            'interaction' => [
+                'action' => new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
+                'expectedSerializedData' => [
+                    'statement-type' => 'action',
+                    'source' => 'click $".selector"',
+                    'type' => 'click',
+                    'arguments' => '$".selector"',
+                    'identifier' => '$".selector"',
+                ],
+            ],
+            'input' => [
                 'action' => new Action(
-                    'back',
-                    'back',
-                    ''
+                    'set $".selector" to "value"',
+                    'set',
+                    '$".selector" to "value"',
+                    '$".selector"',
+                    '"value"'
                 ),
                 'expectedSerializedData' => [
-                    'source' => 'back',
-                    'type' => 'back',
-                    'arguments' => '',
+                    'statement-type' => 'action',
+                    'source' => 'set $".selector" to "value"',
+                    'type' => 'set',
+                    'arguments' => '$".selector" to "value"',
+                    'identifier' => '$".selector"',
+                    'value' => '"value"',
                 ],
             ],
-        ];
-    }
-
-    /**
-     * @dataProvider fromArrayDataProvider
-     *
-     * @param array<mixed> $data
-     * @param ActionInterface $expectedAction
-     */
-    public function testFromArray(array $data, ?ActionInterface $expectedAction)
-    {
-        $this->assertEquals($expectedAction, Action::fromArray($data));
-    }
-
-    public function fromArrayDataProvider(): array
-    {
-        return [
-            'empty' => [
-                'data' => [],
-                'expectedAction' => new Action('', '', ''),
-            ],
-            'source missing' => [
-                'data' => [
-                    'type' => 'back',
-                    'arguments' => '',
+            'wait' => [
+                'action' => new Action('wait', 'wait', '30', null, '30'),
+                'expectedSerializedData' => [
+                    'statement-type' => 'action',
+                    'source' => 'wait',
+                    'type' => 'wait',
+                    'arguments' => '30',
+                    'value' => '30',
                 ],
-                'expectedAction' => new Action('', 'back', ''),
-            ],
-            'type missing' => [
-                'data' => [
-                    'source' => 'back',
-                    'arguments' => '',
-                ],
-                'expectedAction' => new Action('back', '', ''),
-            ],
-            'arguments missing' => [
-                'data' => [
-                    'source' => 'back',
-                    'type' => 'back',
-                ],
-                'expectedAction' => new Action('back', 'back', ''),
-            ],
-            'source, type, arguments present' => [
-                'data' => [
-                    'source' => 'back',
-                    'type' => 'back',
-                    'arguments' => '',
-                ],
-                'expectedAction' => new Action('back', 'back', ''),
             ],
         ];
     }

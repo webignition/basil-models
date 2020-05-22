@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Step;
 
 use webignition\BasilModels\Action\ActionInterface;
-use webignition\BasilModels\Action\InputActionInterface;
-use webignition\BasilModels\Action\InteractionActionInterface;
 use webignition\BasilModels\Assertion\AssertionInterface;
-use webignition\BasilModels\Assertion\ComparisonAssertionInterface;
 use webignition\BasilModels\DataParameter\DataParameter;
 use webignition\BasilModels\DataSet\DataSetCollectionInterface;
 
@@ -203,27 +200,23 @@ class Step implements StepInterface
         $dataParameterNames = [];
 
         foreach ($this->getActions() as $action) {
-            if ($action instanceof InteractionActionInterface) {
-                $identifier = $action->getIdentifier();
-
+            $identifier = $action->getIdentifier();
+            if (null !== $identifier) {
                 $this->addDataParameterName($identifier, $dataParameterNames);
             }
 
-            if ($action instanceof InputActionInterface) {
-                $value = $action->getValue();
-
+            $value = $action->getValue();
+            if (null !== $value) {
                 $this->addDataParameterName($value, $dataParameterNames);
             }
         }
 
         foreach ($this->getAssertions() as $assertion) {
             $identifier = $assertion->getIdentifier();
-
             $this->addDataParameterName($identifier, $dataParameterNames);
 
-            if ($assertion instanceof ComparisonAssertionInterface) {
-                $value = $assertion->getValue();
-
+            $value = $assertion->getValue();
+            if (null !== $value) {
                 $this->addDataParameterName($value, $dataParameterNames);
             }
         }

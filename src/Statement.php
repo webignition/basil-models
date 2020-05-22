@@ -6,6 +6,7 @@ namespace webignition\BasilModels;
 
 abstract class Statement implements StatementInterface
 {
+    protected const KEY_STATEMENT_TYPE = 'statement-type';
     protected const KEY_SOURCE = 'source';
 
     protected string $source;
@@ -28,6 +29,7 @@ abstract class Statement implements StatementInterface
     public function jsonSerialize(): array
     {
         return [
+            self::KEY_STATEMENT_TYPE => $this->getStatementType(),
             self::KEY_SOURCE => $this->source,
         ];
     }
