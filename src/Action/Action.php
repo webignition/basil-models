@@ -59,6 +59,46 @@ class Action extends Statement implements ActionInterface
         return $this->value;
     }
 
+    public static function isBrowserOperationType(string $type): bool
+    {
+        return in_array($type, ['back', 'forward', 'reload']);
+    }
+
+    public static function isInteractionType(string $type): bool
+    {
+        return in_array($type, ['click', 'submit', 'wait-for']);
+    }
+
+    public static function isInputType(string $type): bool
+    {
+        return 'set' === $type;
+    }
+
+    public static function isWaitType(string $type): bool
+    {
+        return 'wait' === $type;
+    }
+
+    public function isBrowserOperation(): bool
+    {
+        return self::isBrowserOperationType($this->type);
+    }
+
+    public function isInteraction(): bool
+    {
+        return self::isInteractionType($this->type);
+    }
+
+    public function isInput(): bool
+    {
+        return self::isInputType($this->type);
+    }
+
+    public function isWait(): bool
+    {
+        return self::isWaitType($this->type);
+    }
+
     /**
      * @return array<string, string>
      */
