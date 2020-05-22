@@ -53,7 +53,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @param FooAssertionInterface[] $actions
+     * @param FooActionInterface[] $actions
      *
      * @return StepInterface
      */

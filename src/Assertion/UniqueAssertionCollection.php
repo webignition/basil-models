@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Assertion;
 
 /**
- * @implements \IteratorAggregate<AssertionInterface>
+ * @implements \IteratorAggregate<FooAssertionInterface>
  */
 class UniqueAssertionCollection implements \IteratorAggregate
 {
