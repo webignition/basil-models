@@ -164,4 +164,17 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    public function testIsComparison()
+    {
+        $source = new Assertion('$"a" foo', '$"a"', 'foo');
+
+        $this->assertTrue((new DerivedValueOperationAssertion($source, '$"a"', 'is'))->isComparison());
+        $this->assertTrue((new DerivedValueOperationAssertion($source, '$"a"', 'is-not'))->isComparison());
+        $this->assertFalse((new DerivedValueOperationAssertion($source, '$"a"', 'exists'))->isComparison());
+        $this->assertFalse((new DerivedValueOperationAssertion($source, '$"a"', 'not-exists'))->isComparison());
+        $this->assertTrue((new DerivedValueOperationAssertion($source, '$"a"', 'includes'))->isComparison());
+        $this->assertTrue((new DerivedValueOperationAssertion($source, '$"a"', 'excludes'))->isComparison());
+        $this->assertTrue((new DerivedValueOperationAssertion($source, '$"a"', 'matches'))->isComparison());
+    }
 }

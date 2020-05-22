@@ -64,6 +64,11 @@ class DerivedValueOperationAssertion implements DerivedAssertionInterface
         return $this->assertion->getSource();
     }
 
+    public function isComparison(): bool
+    {
+        return $this->assertion->isComparison();
+    }
+
     public function __toString(): string
     {
         return (string) $this->assertion;

@@ -13,4 +13,5 @@ interface AssertionInterface extends StatementInterface
     public function getValue(): ?string;
     public function equals(AssertionInterface $assertion): bool;
     public function normalise(): AssertionInterface;
+    public function isComparison(): bool;
 }

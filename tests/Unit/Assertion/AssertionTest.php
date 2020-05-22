@@ -167,4 +167,26 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    public function testIsComparisonOperator()
+    {
+        $this->assertTrue(Assertion::isComparisonOperator('is'));
+        $this->assertTrue(Assertion::isComparisonOperator('is-not'));
+        $this->assertFalse(Assertion::isComparisonOperator('exists'));
+        $this->assertFalse(Assertion::isComparisonOperator('not-exists'));
+        $this->assertTrue(Assertion::isComparisonOperator('includes'));
+        $this->assertTrue(Assertion::isComparisonOperator('excludes'));
+        $this->assertTrue(Assertion::isComparisonOperator('matches'));
+    }
+
+    public function testIsComparison()
+    {
+        $this->assertTrue((new Assertion('$"a" is "a"', '$"a"', 'is', '"a"'))->isComparison());
+        $this->assertTrue((new Assertion('$"a" is-not "a"', '$"a"', 'is-not', '"a"'))->isComparison());
+        $this->assertFalse((new Assertion('$"a" exists', '$"a"', 'exists'))->isComparison());
+        $this->assertFalse((new Assertion('$"a" not-exists', '$"a"', 'not-exists'))->isComparison());
+        $this->assertTrue((new Assertion('$"a" includes "a"', '$"a"', 'includes', '"a"'))->isComparison());
+        $this->assertTrue((new Assertion('$"a" excludes "a"', '$"a"', 'excludes', '"a"'))->isComparison());
+        $this->assertTrue((new Assertion('$"a" matches "a"', '$"a"', 'matches', '"a"'))->isComparison());
+    }
 }
