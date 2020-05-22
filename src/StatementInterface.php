@@ -10,7 +10,7 @@ interface StatementInterface extends \JsonSerializable
     public function __toString(): string;
 
     /**
-     * @return array<string, string>
+     * @return array<mixed>
      */
     public function jsonSerialize(): array;
 }
