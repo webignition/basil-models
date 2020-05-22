@@ -93,7 +93,6 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
                 'expectedSerializedData' => [
                     'encapsulation' => [
                         'container' => 'resolved-assertion',
-                        'source' => '$".selector" exists',
                         'identifier' => '$".selector"',
                     ],
                     'encapsulates' => [
@@ -118,7 +117,6 @@ class FooResolvedAssertionTest extends \PHPUnit\Framework\TestCase
                 'expectedSerializedData' => [
                     'encapsulation' => [
                         'container' => 'resolved-assertion',
-                        'source' => '$".selector" is "value"',
                         'identifier' => '$".selector"',
                         'value' => '"value"',
                     ],

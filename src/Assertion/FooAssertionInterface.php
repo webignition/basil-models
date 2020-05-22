@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
-use webignition\BasilModels\StatementInterface;
+use webignition\BasilModels\FooStatementInterface;
 
-interface FooAssertionInterface extends StatementInterface
+interface FooAssertionInterface extends FooStatementInterface
 {
     public function getIdentifier(): string;
     public function getOperator(): string;

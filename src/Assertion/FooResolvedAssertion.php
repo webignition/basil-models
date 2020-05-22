@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
+use webignition\BasilModels\EncapsulatingStatementData;
+
 class FooResolvedAssertion implements FooResolvedAssertionInterface
 {
     private FooAssertionInterface $sourceAssertion;
     private FooAssertionInterface $assertion;
+    private EncapsulatingStatementData $encapsulatingStatementData;
 
     public function __construct(
         FooAssertionInterface $sourceAssertion,
@@ -15,13 +18,17 @@ class FooResolvedAssertion implements FooResolvedAssertionInterface
         ?string $value = null
     ) {
         $this->sourceAssertion = $sourceAssertion;
+        $this->assertion = $this->createAssertion($sourceAssertion, $identifier, $value);
+        $this->encapsulatingStatementData = $this->createEncapsulatingStatementData(
+            $sourceAssertion,
+            $identifier,
+            $value
+        );
+    }
 
-        $source = $identifier . ' ' . $sourceAssertion->getOperator();
-        if (null !== $value) {
-            $source .= ' ' . $value;
-        }
-
-        $this->assertion = new FooAssertion($source, $identifier, $sourceAssertion->getOperator(), $value);
+    public function getStatementType(): string
+    {
+        return 'assertion';
     }
 
     public function getIdentifier(): string
@@ -66,20 +73,41 @@ class FooResolvedAssertion implements FooResolvedAssertionInterface
 
     public function jsonSerialize(): array
     {
-        $encapsulationData = [
-            'container' => 'resolved-assertion',
-            'source' => $this->assertion->getSource(),
-            'identifier' => $this->assertion->getIdentifier(),
-        ];
+        return $this->encapsulatingStatementData->jsonSerialize();
+    }
 
-        $value = $this->assertion->getValue();
+    private function createAssertion(
+        FooAssertionInterface $sourceAssertion,
+        ?string $identifier,
+        ?string $value
+    ): FooAssertionInterface {
+        $operator = $sourceAssertion->getOperator();
+
+        $source = $identifier . ' ' . $operator;
         if (null !== $value) {
-            $encapsulationData['value'] = $value;
+            $source .= ' ' . $value;
         }
 
-        return [
-            'encapsulation' => $encapsulationData,
-            'encapsulates' => $this->sourceAssertion->jsonSerialize(),
+        return new FooAssertion($source, $identifier, $operator, $value);
+    }
+
+    private function createEncapsulatingStatementData(
+        FooAssertionInterface $sourceAssertion,
+        ?string $identifier,
+        ?string $value
+    ): EncapsulatingStatementData {
+        $encapsulatingStatementData = [
+            'identifier' => $identifier,
         ];
+
+        if (null !== $value) {
+            $encapsulatingStatementData['value'] = $value;
+        }
+
+        return new EncapsulatingStatementData(
+            $sourceAssertion,
+            'resolved-assertion',
+            $encapsulatingStatementData
+        );
     }
 }

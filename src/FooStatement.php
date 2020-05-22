@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels;
 
-abstract class FooStatement implements StatementInterface
+abstract class FooStatement implements FooStatementInterface
 {
     protected const KEY_STATEMENT_TYPE = 'statement-type';
     protected const KEY_SOURCE = 'source';
@@ -15,8 +15,6 @@ abstract class FooStatement implements StatementInterface
     {
         $this->source = $source;
     }
-
-    abstract protected function getStatementType(): string;
 
     public function getSource(): string
     {

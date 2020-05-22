@@ -4,17 +4,29 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
-use webignition\BasilModels\StatementInterface;
+use webignition\BasilModels\EncapsulatingStatementData;
+use webignition\BasilModels\FooStatementInterface;
 
 class FooDerivedValueOperationAssertion implements FooDerivedAssertionInterface
 {
-    private StatementInterface $sourceStatement;
+    private FooStatementInterface $sourceStatement;
     private FooAssertionInterface $assertion;
+    private EncapsulatingStatementData $encapsulatingStatementData;
 
-    public function __construct(StatementInterface $sourceStatement, string $value, string $operator)
+    public function __construct(FooStatementInterface $sourceStatement, string $value, string $operator)
     {
         $this->sourceStatement = $sourceStatement;
         $this->assertion = new FooAssertion($value . ' ' . $operator, $value, $operator);
+        $this->encapsulatingStatementData = $this->createEncapsulatingStatementData(
+            $sourceStatement,
+            $value,
+            $operator
+        );
+    }
+
+    public function getStatementType(): string
+    {
+        return 'assertion';
     }
 
     public function getIdentifier(): string
@@ -42,7 +54,7 @@ class FooDerivedValueOperationAssertion implements FooDerivedAssertionInterface
         return $this;
     }
 
-    public function getSourceStatement(): StatementInterface
+    public function getSourceStatement(): FooStatementInterface
     {
         return $this->sourceStatement;
     }
@@ -59,13 +71,21 @@ class FooDerivedValueOperationAssertion implements FooDerivedAssertionInterface
 
     public function jsonSerialize(): array
     {
-        return [
-            'encapsulation' => [
-                'container' => 'derived-value-operation-assertion',
-                'value' => $this->assertion->getIdentifier(),
-                'operator' => $this->assertion->getOperator(),
-            ],
-            'encapsulates' => $this->sourceStatement->jsonSerialize(),
-        ];
+        return $this->encapsulatingStatementData->jsonSerialize();
+    }
+
+    private function createEncapsulatingStatementData(
+        FooStatementInterface $sourceStatement,
+        string $value,
+        string $operator
+    ): EncapsulatingStatementData {
+        return new EncapsulatingStatementData(
+            $sourceStatement,
+            'derived-value-operation-assertion',
+            [
+                'value' => $value,
+                'operator' => $operator,
+            ]
+        );
     }
 }

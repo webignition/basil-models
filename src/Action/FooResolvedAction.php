@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Action;
 
+use webignition\BasilModels\EncapsulatingStatementData;
+
 class FooResolvedAction implements FooResolvedActionInterface
 {
     private FooActionInterface $sourceAction;
     private FooActionInterface $action;
+    private EncapsulatingStatementData $encapsulatingStatementData;
 
     public function __construct(
         FooActionInterface $sourceAction,
@@ -15,30 +18,13 @@ class FooResolvedAction implements FooResolvedActionInterface
         ?string $value = null
     ) {
         $this->sourceAction = $sourceAction;
+        $this->action = $this->createAction($sourceAction, $identifier, $value);
+        $this->encapsulatingStatementData = $this->createEncapsulatingStatementData($sourceAction);
+    }
 
-        $type = $sourceAction->getType();
-
-        $source = $type;
-
-        if (null !== $identifier) {
-            $source .= ' ' . $identifier;
-        }
-
-        if ('set' === $type) {
-            $source .= ' to';
-        }
-
-        if (null !== $value) {
-            $source .= ' ' . $value;
-        }
-
-        $this->action = new FooAction(
-            $source,
-            $sourceAction->getType(),
-            $sourceAction->getArguments(),
-            $identifier,
-            $value
-        );
+    public function getStatementType(): string
+    {
+        return 'action';
     }
 
     public function getType(): string
@@ -78,23 +64,57 @@ class FooResolvedAction implements FooResolvedActionInterface
 
     public function jsonSerialize(): array
     {
-        $encapsulationData = [
-            'container' => 'resolved-action',
-        ];
+        return $this->encapsulatingStatementData->jsonSerialize();
+    }
+
+    private function createAction(
+        FooActionInterface $sourceAction,
+        ?string $identifier,
+        ?string $value
+    ): FooActionInterface {
+        $type = $sourceAction->getType();
+
+        $source = $type;
+
+        if (null !== $identifier) {
+            $source .= ' ' . $identifier;
+        }
+
+        if ('set' === $type) {
+            $source .= ' to';
+        }
+
+        if (null !== $value) {
+            $source .= ' ' . $value;
+        }
+
+        return new FooAction(
+            $source,
+            $sourceAction->getType(),
+            $sourceAction->getArguments(),
+            $identifier,
+            $value
+        );
+    }
+
+    private function createEncapsulatingStatementData(FooActionInterface $sourceAction): EncapsulatingStatementData
+    {
+        $encapsulatingData = [];
 
         $identifier = $this->action->getIdentifier();
         if (null !== $identifier) {
-            $encapsulationData['identifier'] = $identifier;
+            $encapsulatingData['identifier'] = $identifier;
         }
 
         $value = $this->action->getValue();
         if (null !== $value) {
-            $encapsulationData['value'] = $value;
+            $encapsulatingData['value'] = $value;
         }
 
-        return [
-            'encapsulation' => $encapsulationData,
-            'encapsulates' => $this->sourceAction->jsonSerialize(),
-        ];
+        return new EncapsulatingStatementData(
+            $sourceAction,
+            'resolved-action',
+            $encapsulatingData
+        );
     }
 }

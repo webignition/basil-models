@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
-use webignition\BasilModels\StatementInterface;
+use webignition\BasilModels\FooStatementInterface;
 
 interface FooDerivedAssertionInterface extends FooAssertionInterface
 {
-    public function getSourceStatement(): StatementInterface;
+    public function getSourceStatement(): FooStatementInterface;
 }

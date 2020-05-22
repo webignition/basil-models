@@ -7,7 +7,7 @@ namespace webignition\BasilModels\Tests\Unit\Assertion;
 use webignition\BasilModels\Action\FooAction;
 use webignition\BasilModels\Assertion\FooAssertion;
 use webignition\BasilModels\Assertion\FooDerivedValueOperationAssertion;
-use webignition\BasilModels\StatementInterface;
+use webignition\BasilModels\FooStatementInterface;
 
 class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
 {
@@ -15,7 +15,7 @@ class FooDerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
      * @dataProvider createDataProvider
      */
     public function testCreate(
-        StatementInterface $sourceStatement,
+        FooStatementInterface $sourceStatement,
         string $identifier,
         string $operator,
         string $expectedStringRepresentation

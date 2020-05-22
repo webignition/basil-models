@@ -25,7 +25,7 @@ class FooAssertion extends FooStatement implements FooAssertionInterface
         $this->value = $value;
     }
 
-    protected function getStatementType(): string
+    public function getStatementType(): string
     {
         return 'assertion';
     }
