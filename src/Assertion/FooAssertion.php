@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
-use webignition\BasilModels\Statement;
+use webignition\BasilModels\FooStatement;
 
-class FooAssertion extends Statement implements FooAssertionInterface
+class FooAssertion extends FooStatement implements FooAssertionInterface
 {
     private const KEY_IDENTIFIER = 'identifier';
     private const KEY_OPERATOR = 'operator';
@@ -23,6 +23,11 @@ class FooAssertion extends Statement implements FooAssertionInterface
         $this->identifier = $identifier;
         $this->operator = $operator;
         $this->value = $value;
+    }
+
+    protected function getStatementType(): string
+    {
+        return 'assertion';
     }
 
     public function getIdentifier(): string

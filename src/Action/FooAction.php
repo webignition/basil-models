@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Action;
 
-use webignition\BasilModels\Statement;
+use webignition\BasilModels\FooStatement;
 
-class FooAction extends Statement implements FooActionInterface
+class FooAction extends FooStatement implements FooActionInterface
 {
     private const KEY_TYPE = 'type';
     private const KEY_ARGUMENTS = 'arguments';
@@ -32,6 +32,11 @@ class FooAction extends Statement implements FooActionInterface
         $this->arguments = $arguments;
         $this->identifier = $identifier;
         $this->value = $value;
+    }
+
+    protected function getStatementType(): string
+    {
+        return 'action';
     }
 
     public function getType(): string

@@ -149,6 +149,7 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
             'exists' => [
                 'assertion' => new FooAssertion('$".selector" exists', '$".selector"', 'exists'),
                 'expectedSerializedData' => [
+                    'statement-type' => 'assertion',
                     'source' => '$".selector" exists',
                     'identifier' => '$".selector"',
                     'operator' => 'exists',
@@ -157,6 +158,7 @@ class FooAssertionTest extends \PHPUnit\Framework\TestCase
             'is' => [
                 'assertion' => new FooAssertion('$".selector" is "value"', '$".selector"', 'is', '"value"'),
                 'expectedSerializedData' => [
+                    'statement-type' => 'assertion',
                     'source' => '$".selector" is "value"',
                     'identifier' => '$".selector"',
                     'operator' => 'is',

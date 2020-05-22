@@ -67,6 +67,7 @@ class FooActionTest extends \PHPUnit\Framework\TestCase
             'action-only' => [
                 'action' => new FooAction('back', 'back'),
                 'expectedSerializedData' => [
+                    'statement-type' => 'action',
                     'source' => 'back',
                     'type' => 'back',
                 ],
@@ -74,6 +75,7 @@ class FooActionTest extends \PHPUnit\Framework\TestCase
             'interaction' => [
                 'action' => new FooAction('click $".selector"', 'click', '$".selector"', '$".selector"'),
                 'expectedSerializedData' => [
+                    'statement-type' => 'action',
                     'source' => 'click $".selector"',
                     'type' => 'click',
                     'arguments' => '$".selector"',
@@ -89,6 +91,7 @@ class FooActionTest extends \PHPUnit\Framework\TestCase
                     '"value"'
                 ),
                 'expectedSerializedData' => [
+                    'statement-type' => 'action',
                     'source' => 'set $".selector" to "value"',
                     'type' => 'set',
                     'arguments' => '$".selector" to "value"',
