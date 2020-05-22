@@ -57,6 +57,26 @@ class ResolvedAction implements ResolvedActionInterface
         return $this->action->getSource();
     }
 
+    public function isBrowserOperation(): bool
+    {
+        return $this->action->isBrowserOperation();
+    }
+
+    public function isInteraction(): bool
+    {
+        return $this->action->isInteraction();
+    }
+
+    public function isInput(): bool
+    {
+        return $this->action->isInput();
+    }
+
+    public function isWait(): bool
+    {
+        return $this->action->isWait();
+    }
+
     public function __toString(): string
     {
         return (string) $this->action;
