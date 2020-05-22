@@ -65,6 +65,16 @@ class Assertion extends Statement implements AssertionInterface
         return $new;
     }
 
+    public static function isComparisonOperator(string $operator): bool
+    {
+        return in_array($operator, ['excludes', 'includes', 'is-not', 'is', 'matches']);
+    }
+
+    public function isComparison(): bool
+    {
+        return self::isComparisonOperator($this->operator);
+    }
+
     /**
      * @return array<string, string>
      */
