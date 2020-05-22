@@ -111,4 +111,100 @@ class ActionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    public function testIsBrowserOperationType()
+    {
+        $this->assertTrue(Action::isBrowserOperationType('back'));
+        $this->assertTrue(Action::isBrowserOperationType('forward'));
+        $this->assertTrue(Action::isBrowserOperationType('reload'));
+        $this->assertFalse(Action::isBrowserOperationType('click'));
+        $this->assertFalse(Action::isBrowserOperationType('submit'));
+        $this->assertFalse(Action::isBrowserOperationType('wait-for'));
+        $this->assertFalse(Action::isBrowserOperationType('set'));
+        $this->assertFalse(Action::isBrowserOperationType('wait'));
+    }
+
+    public function testIsInteractionType()
+    {
+        $this->assertFalse(Action::isInteractionType('back'));
+        $this->assertFalse(Action::isInteractionType('forward'));
+        $this->assertFalse(Action::isInteractionType('reload'));
+        $this->assertTrue(Action::isInteractionType('click'));
+        $this->assertTrue(Action::isInteractionType('submit'));
+        $this->assertTrue(Action::isInteractionType('wait-for'));
+        $this->assertFalse(Action::isInteractionType('set'));
+        $this->assertFalse(Action::isInteractionType('wait'));
+    }
+
+    public function testIsInputType()
+    {
+        $this->assertFalse(Action::isInputType('back'));
+        $this->assertFalse(Action::isInputType('forward'));
+        $this->assertFalse(Action::isInputType('reload'));
+        $this->assertFalse(Action::isInputType('click'));
+        $this->assertFalse(Action::isInputType('submit'));
+        $this->assertFalse(Action::isInputType('wait-for'));
+        $this->assertTrue(Action::isInputType('set'));
+        $this->assertFalse(Action::isInputType('wait'));
+    }
+
+    public function testIsWaitType()
+    {
+        $this->assertFalse(Action::isWaitType('back'));
+        $this->assertFalse(Action::isWaitType('forward'));
+        $this->assertFalse(Action::isWaitType('reload'));
+        $this->assertFalse(Action::isWaitType('click'));
+        $this->assertFalse(Action::isWaitType('submit'));
+        $this->assertFalse(Action::isWaitType('wait-for'));
+        $this->assertFalse(Action::isWaitType('set'));
+        $this->assertTrue(Action::isWaitType('wait'));
+    }
+
+    public function testIsBrowserOperation()
+    {
+        $this->assertTrue((new Action('back', 'back'))->isBrowserOperation());
+        $this->assertTrue((new Action('forward', 'forward'))->isBrowserOperation());
+        $this->assertTrue((new Action('reload', 'reload'))->isBrowserOperation());
+        $this->assertFalse((new Action('click $"s"', 'click', '$"s"', '$"s"'))->isBrowserOperation());
+        $this->assertFalse((new Action('submit $"s"', 'submit', '$"s"', '$"s"'))->isBrowserOperation());
+        $this->assertFalse((new Action('wait-for $"s"', 'wait-for', '$"s"', '$"s"'))->isBrowserOperation());
+        $this->assertFalse((new Action('set $"s" to "v"', 'set', '$"s" to "v"', '$"s"', '"v"'))->isBrowserOperation());
+        $this->assertFalse((new Action('wait 1', 'wait', '1', null, '1'))->isBrowserOperation());
+    }
+
+    public function testIsInteraction()
+    {
+        $this->assertFalse((new Action('back', 'back'))->isInteraction());
+        $this->assertFalse((new Action('forward', 'forward'))->isInteraction());
+        $this->assertFalse((new Action('reload', 'reload'))->isInteraction());
+        $this->assertTrue((new Action('click $"s"', 'click', '$"s"', '$"s"'))->isInteraction());
+        $this->assertTrue((new Action('submit $"s"', 'submit', '$"s"', '$"s"'))->isInteraction());
+        $this->assertTrue((new Action('wait-for $"s"', 'wait-for', '$"s"', '$"s"'))->isInteraction());
+        $this->assertFalse((new Action('set $"s" to "v"', 'set', '$"s" to "v"', '$"s"', '"v"'))->isInteraction());
+        $this->assertFalse((new Action('wait 1', 'wait', '1', null, '1'))->isInteraction());
+    }
+
+    public function testIsInput()
+    {
+        $this->assertFalse((new Action('back', 'back'))->isInput());
+        $this->assertFalse((new Action('forward', 'forward'))->isInput());
+        $this->assertFalse((new Action('reload', 'reload'))->isInput());
+        $this->assertFalse((new Action('click $"s"', 'click', '$"s"', '$"s"'))->isInput());
+        $this->assertFalse((new Action('submit $"s"', 'submit', '$"s"', '$"s"'))->isInput());
+        $this->assertFalse((new Action('wait-for $"s"', 'wait-for', '$"s"', '$"s"'))->isInput());
+        $this->assertTrue((new Action('set $"s" to "v"', 'set', '$"s" to "v"', '$"s"', '"v"'))->isInput());
+        $this->assertFalse((new Action('wait 1', 'wait', '1', null, '1'))->isInput());
+    }
+
+    public function testIsWait()
+    {
+        $this->assertFalse((new Action('back', 'back'))->isWait());
+        $this->assertFalse((new Action('forward', 'forward'))->isWait());
+        $this->assertFalse((new Action('reload', 'reload'))->isWait());
+        $this->assertFalse((new Action('click $"s"', 'click', '$"s"', '$"s"'))->isWait());
+        $this->assertFalse((new Action('submit $"s"', 'submit', '$"s"', '$"s"'))->isWait());
+        $this->assertFalse((new Action('wait-for $"s"', 'wait-for', '$"s"', '$"s"'))->isWait());
+        $this->assertFalse((new Action('set $"s" to "v"', 'set', '$"s" to "v"', '$"s"', '"v"'))->isWait());
+        $this->assertTrue((new Action('wait 1', 'wait', '1', null, '1'))->isWait());
+    }
 }
