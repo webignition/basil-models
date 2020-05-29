@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Assertion;
 
+use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\Factory as ActionFactory;
 use webignition\BasilModels\StatementInterface;
 use webignition\BasilModels\UnknownEncapsulatedStatementException;
@@ -33,7 +34,7 @@ class Factory
      */
     public function createFromArray(array $data): AssertionInterface
     {
-        $assertion = $this->createPossibleEncapsulatingAssertion($data);
+        $assertion = $this->createPossibleEncapsulatingStatement($data);
         if ($assertion instanceof AssertionInterface) {
             return $assertion;
         }
@@ -59,32 +60,6 @@ class Factory
     public function createFromJson(string $json): AssertionInterface
     {
         return $this->createFromArray(json_decode($json, true));
-    }
-
-    /**
-     * @param array<mixed> $containerData
-     * @param array<mixed> $statementData
-     *
-     * @return AssertionInterface
-     *
-     * @throws UnknownEncapsulatedStatementException
-     */
-    private function createEncapsulatingAssertion(array $containerData, array $statementData): AssertionInterface
-    {
-        $containerType = $containerData['type'] ?? null;
-
-        if ('derived-value-operation-assertion' === $containerType) {
-            return $this->createDerivedValueOperationAssertion($containerData, $statementData);
-        }
-
-        if ('resolved-assertion' === $containerType) {
-            return $this->createResolvedAssertion($containerData, $statementData);
-        }
-
-        throw new UnknownEncapsulatedStatementException([
-            'container' => $containerData,
-            'statement' => $statementData,
-        ]);
     }
 
     /**
@@ -138,9 +113,14 @@ class Factory
      */
     private function createStatement(array $data): StatementInterface
     {
-        $assertion = $this->createPossibleEncapsulatingAssertion($data);
+        $assertion = $this->createPossibleEncapsulatingStatement($data);
         if ($assertion instanceof AssertionInterface) {
             return $assertion;
+        }
+
+        $action = $this->createPossibleEncapsulatingStatement($data);
+        if ($action instanceof ActionInterface) {
+            return $action;
         }
 
         $type = $data['statement-type'];
@@ -153,19 +133,52 @@ class Factory
     /**
      * @param array<mixed> $data
      *
-     * @return AssertionInterface|null
+     * @return StatementInterface|null
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    private function createPossibleEncapsulatingAssertion(array $data): ?AssertionInterface
+    private function createPossibleEncapsulatingStatement(array $data): ?StatementInterface
     {
         $containerData = $data['container'] ?? null;
         $statementData = $data['statement'] ?? null;
 
         if (is_array($containerData) && is_array($statementData)) {
-            return $this->createEncapsulatingAssertion($containerData, $statementData);
+            return $this->createEncapsulatingStatement($containerData, $statementData);
         }
 
         return null;
+    }
+
+    /**
+     * @param array<mixed> $containerData
+     * @param array<mixed> $statementData
+     *
+     * @return StatementInterface
+     *
+     * @throws UnknownEncapsulatedStatementException
+     */
+    private function createEncapsulatingStatement(array $containerData, array $statementData): StatementInterface
+    {
+        $containerType = $containerData['type'] ?? null;
+
+        if ('derived-value-operation-assertion' === $containerType) {
+            return $this->createDerivedValueOperationAssertion($containerData, $statementData);
+        }
+
+        if ('resolved-assertion' === $containerType) {
+            return $this->createResolvedAssertion($containerData, $statementData);
+        }
+
+        if ('resolved-action' === $containerType) {
+            return $this->actionFactory->createFromArray([
+                'container' => $containerData,
+                'statement' => $statementData,
+            ]);
+        }
+
+        throw new UnknownEncapsulatedStatementException([
+            'container' => $containerData,
+            'statement' => $statementData,
+        ]);
     }
 }
