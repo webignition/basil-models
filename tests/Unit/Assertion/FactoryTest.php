@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Tests\Unit\Assertion;
 
 use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Action\Factory as ActionFactory;
+use webignition\BasilModels\Action\ResolvedAction;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
@@ -201,6 +202,41 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                         ),
                         '$".selector"',
                         '$".value"'
+                    ),
+                    '$".selector"',
+                    'exists'
+                ),
+            ],
+            'derived exists from resolved action' => [
+                'data' => [
+                    'container' => [
+                        'type' => 'derived-value-operation-assertion',
+                        'value' => '$".selector"',
+                        'operator' => 'exists',
+                    ],
+                    'statement' => [
+                        'container' => [
+                            'type' => 'resolved-action',
+                            'identifier' => '$".selector"',
+                        ],
+                        'statement' => [
+                            'statement-type' => 'action',
+                            'source' => 'click $page_import_name.elements.selector',
+                            'type' => 'click',
+                            'arguments' => '$page_import_name.elements.selector',
+                            'identifier' => '$page_import_name.elements.selector',
+                        ],
+                    ],
+                ],
+                'expectedAssertion' => new DerivedValueOperationAssertion(
+                    new ResolvedAction(
+                        new Action(
+                            'click $page_import_name.elements.selector',
+                            'click',
+                            '$page_import_name.elements.selector',
+                            '$page_import_name.elements.selector'
+                        ),
+                        '$".selector"'
                     ),
                     '$".selector"',
                     'exists'
