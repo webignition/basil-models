@@ -168,6 +168,44 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
                     '$".value"'
                 ),
             ],
+            'derived exists from resolved assertion' => [
+                'data' => [
+                    'container' => [
+                        'type' => 'derived-value-operation-assertion',
+                        'value' => '$".selector"',
+                        'operator' => 'exists',
+                    ],
+                    'statement' => [
+                        'container' => [
+                            'type' => 'resolved-assertion',
+                            'source' => '$".selector" is $".value"',
+                            'identifier' => '$".selector"',
+                            'value' => '$".value"',
+                        ],
+                        'statement' => [
+                            'statement-type' => 'assertion',
+                            'source' => '$page_import_name.elements.selector is $page_import_name.elements.value',
+                            'identifier' => '$page_import_name.elements.selector',
+                            'operator' => 'is',
+                            'value' => '$page_import_name.elements.value'
+                        ],
+                    ],
+                ],
+                'expectedAssertion' => new DerivedValueOperationAssertion(
+                    new ResolvedAssertion(
+                        new Assertion(
+                            '$page_import_name.elements.selector is $page_import_name.elements.value',
+                            '$page_import_name.elements.selector',
+                            'is',
+                            '$page_import_name.elements.value'
+                        ),
+                        '$".selector"',
+                        '$".value"'
+                    ),
+                    '$".selector"',
+                    'exists'
+                ),
+            ],
         ];
     }
 

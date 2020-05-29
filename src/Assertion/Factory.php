@@ -33,11 +33,9 @@ class Factory
      */
     public function createFromArray(array $data): AssertionInterface
     {
-        $containerData = $data['container'] ?? null;
-        $statementData = $data['statement'] ?? null;
-
-        if (is_array($containerData) && is_array($statementData)) {
-            return $this->createEncapsulatingAssertion($containerData, $statementData);
+        $assertion = $this->createPossibleEncapsulatingAssertion($data);
+        if ($assertion instanceof AssertionInterface) {
+            return $assertion;
         }
 
         $source = (string) ($data['source'] ?? '');
@@ -132,18 +130,42 @@ class Factory
     }
 
     /**
-     * @param array<mixed> $statementData
+     * @param array<mixed> $data
      *
      * @return StatementInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    private function createStatement(array $statementData): StatementInterface
+    private function createStatement(array $data): StatementInterface
     {
-        $type = $statementData['statement-type'];
+        $assertion = $this->createPossibleEncapsulatingAssertion($data);
+        if ($assertion instanceof AssertionInterface) {
+            return $assertion;
+        }
+
+        $type = $data['statement-type'];
 
         return 'action' === $type
-            ? $this->actionFactory->createFromArray($statementData)
-            : $this->createFromArray($statementData);
+            ? $this->actionFactory->createFromArray($data)
+            : $this->createFromArray($data);
+    }
+
+    /**
+     * @param array<mixed> $data
+     *
+     * @return AssertionInterface|null
+     *
+     * @throws UnknownEncapsulatedStatementException
+     */
+    private function createPossibleEncapsulatingAssertion(array $data): ?AssertionInterface
+    {
+        $containerData = $data['container'] ?? null;
+        $statementData = $data['statement'] ?? null;
+
+        if (is_array($containerData) && is_array($statementData)) {
+            return $this->createEncapsulatingAssertion($containerData, $statementData);
+        }
+
+        return null;
     }
 }
