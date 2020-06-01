@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Assertion;
 
 use webignition\BasilModels\EncapsulatingStatementData;
+use webignition\BasilModels\EncapsulatingStatementInterface;
 use webignition\BasilModels\StatementInterface;
 
-class DerivedValueOperationAssertion implements DerivedAssertionInterface
+class DerivedValueOperationAssertion implements AssertionInterface, EncapsulatingStatementInterface
 {
     private StatementInterface $sourceStatement;
     private AssertionInterface $assertion;

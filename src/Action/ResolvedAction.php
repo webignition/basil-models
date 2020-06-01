@@ -6,7 +6,7 @@ namespace webignition\BasilModels\Action;
 
 use webignition\BasilModels\EncapsulatingStatementData;
 
-class ResolvedAction implements ResolvedActionInterface
+class ResolvedAction implements EncapsulatingActionInterface
 {
     private ActionInterface $sourceAction;
     private ActionInterface $action;
@@ -47,7 +47,7 @@ class ResolvedAction implements ResolvedActionInterface
         return $this->action->getValue();
     }
 
-    public function getSourceAction(): ActionInterface
+    public function getSourceStatement(): ActionInterface
     {
         return $this->sourceAction;
     }

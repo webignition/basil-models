@@ -85,11 +85,11 @@ class Factory
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
      *
-     * @return ResolvedActionInterface
+     * @return EncapsulatingActionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
-    private function createResolvedAction(array $containerData, array $statementData): ResolvedActionInterface
+    private function createResolvedAction(array $containerData, array $statementData): EncapsulatingActionInterface
     {
         $sourceAction = $this->createFromArray($statementData);
 
