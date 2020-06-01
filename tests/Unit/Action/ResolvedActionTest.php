@@ -7,7 +7,7 @@ namespace webignition\BasilModels\Tests\Unit\Action;
 use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\ResolvedAction;
-use webignition\BasilModels\Action\ResolvedActionInterface;
+use webignition\BasilModels\Action\EncapsulatingActionInterface;
 
 class ResolvedActionTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +22,7 @@ class ResolvedActionTest extends \PHPUnit\Framework\TestCase
     ) {
         $action = new ResolvedAction($sourceAction, $identifier, $value);
 
-        $this->assertSame($sourceAction, $action->getSourceAction());
+        $this->assertSame($sourceAction, $action->getSourceStatement());
         $this->assertSame($expectedSource, $action->getSource());
         $this->assertSame($action->getType(), $sourceAction->getType());
         $this->assertSame($action->getArguments(), $sourceAction->getArguments());
@@ -63,10 +63,10 @@ class ResolvedActionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param ResolvedActionInterface $action
+     * @param EncapsulatingActionInterface $action
      * @param array<mixed> $expectedSerializedData
      */
-    public function testJsonSerialize(ResolvedActionInterface $action, array $expectedSerializedData)
+    public function testJsonSerialize(EncapsulatingActionInterface $action, array $expectedSerializedData)
     {
         $this->assertSame($expectedSerializedData, $action->jsonSerialize());
     }

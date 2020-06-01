@@ -6,7 +6,7 @@ namespace webignition\BasilModels\Assertion;
 
 use webignition\BasilModels\EncapsulatingStatementData;
 
-class ResolvedAssertion implements ResolvedAssertionInterface
+class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInterface
 {
     private AssertionInterface $sourceAssertion;
     private AssertionInterface $assertion;
@@ -56,7 +56,7 @@ class ResolvedAssertion implements ResolvedAssertionInterface
         return $this;
     }
 
-    public function getSourceAssertion(): AssertionInterface
+    public function getSourceStatement(): AssertionInterface
     {
         return $this->sourceAssertion;
     }

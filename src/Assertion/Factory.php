@@ -85,14 +85,14 @@ class Factory
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
      *
-     * @return ResolvedAssertionInterface
+     * @return EncapsulatingAssertionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
     private function createResolvedAssertion(
         array $containerData,
         array $statementData
-    ): ResolvedAssertionInterface {
+    ): EncapsulatingAssertionInterface {
         $sourceAssertion = $this->createFromArray($statementData);
 
         $identifier = (string) ($containerData['identifier'] ?? '');

@@ -7,7 +7,7 @@ namespace webignition\BasilModels\Tests\Unit\Assertion;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
 use webignition\BasilModels\Assertion\ResolvedAssertion;
-use webignition\BasilModels\Assertion\ResolvedAssertionInterface;
+use webignition\BasilModels\Assertion\EncapsulatingAssertionInterface;
 
 class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +22,7 @@ class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
     ) {
         $assertion = new ResolvedAssertion($sourceAssertion, $identifier, $value);
 
-        $this->assertSame($sourceAssertion, $assertion->getSourceAssertion());
+        $this->assertSame($sourceAssertion, $assertion->getSourceStatement());
         $this->assertSame($expectedSource, $assertion->getSource());
         $this->assertSame($identifier, $assertion->getIdentifier());
         $this->assertSame($sourceAssertion->getOperator(), $assertion->getOperator());
@@ -70,10 +70,10 @@ class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param ResolvedAssertionInterface $assertion
+     * @param EncapsulatingAssertionInterface $assertion
      * @param array<mixed> $expectedSerializedData
      */
-    public function testJsonSerialize(ResolvedAssertionInterface $assertion, array $expectedSerializedData)
+    public function testJsonSerialize(EncapsulatingAssertionInterface $assertion, array $expectedSerializedData)
     {
         $this->assertEquals($expectedSerializedData, $assertion->jsonSerialize());
     }
