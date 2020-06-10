@@ -32,17 +32,17 @@ class PageUrlReferenceTest extends \PHPUnit\Framework\TestCase
                 'expectedIsValid' => false,
             ],
             'incorrect part count (1)' => [
-                'reference' => 'import_name',
+                'reference' => '$import_name',
                 'expectedImportName' => '',
                 'expectedIsValid' => false,
             ],
             'incorrect part count (2)' => [
-                'reference' => 'import_name.url.superfluous',
+                'reference' => '$import_name.url.superfluous',
                 'expectedImportName' => '',
                 'expectedIsValid' => false,
             ],
             'valid' => [
-                'reference' => 'import_name.url',
+                'reference' => '$import_name.url',
                 'expectedImportName' => 'import_name',
                 'expectedIsValid' => true,
             ],
@@ -65,15 +65,15 @@ class PageUrlReferenceTest extends \PHPUnit\Framework\TestCase
                 'expectedIs' => false,
             ],
             'lacking url part' => [
-                'reference' => 'import_name',
+                'reference' => '$import_name',
                 'expectedIs' => false,
             ],
             'has more than one dot' => [
-                'reference' => 'import_name.url.superfluous',
+                'reference' => '$import_name.url.superfluous',
                 'expectedIs' => false,
             ],
             'valid' => [
-                'reference' => 'import_name.url',
+                'reference' => '$import_name.url',
                 'expectedIs' => true,
             ],
         ];
