@@ -10,7 +10,7 @@ class PageUrlReference extends AbstractObjectWithProperty implements PageUrlRefe
 {
     protected static function getPatternPrefix(): string
     {
-        return '[^\.]+';
+        return '\$[^\.]+';
     }
 
     protected static function getPropertyPattern(): string
@@ -20,6 +20,6 @@ class PageUrlReference extends AbstractObjectWithProperty implements PageUrlRefe
 
     public function getImportName(): string
     {
-        return $this->getValuePart(0);
+        return ltrim($this->getValuePart(0), '$');
     }
 }
