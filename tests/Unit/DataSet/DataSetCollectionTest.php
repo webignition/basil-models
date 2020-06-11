@@ -104,4 +104,61 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider toArrayDataProvider
+     *
+     * @param DataSetCollection $dataSetCollection
+     * @param array<string, array<int|string, string>> $expectedData
+     */
+    public function testToArray(DataSetCollection $dataSetCollection, array $expectedData)
+    {
+        $this->assertSame($expectedData, $dataSetCollection->toArray());
+    }
+
+    public function toArrayDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'dataSetCollection' => new DataSetCollection([]),
+                'expectedData' => [],
+            ],
+            'single data set' => [
+                'dataSetCollection' => new DataSetCollection([
+                    'set1' => [
+                        'key1' => 'value1',
+                        'key2' => 'value2',
+                    ],
+                ]),
+                'expectedData' => [
+                    'set1' => [
+                        'key1' => 'value1',
+                        'key2' => 'value2',
+                    ],
+                ],
+            ],
+            'multiple data sets' => [
+                'dataSetCollection' => new DataSetCollection([
+                    'set1' => [
+                        'key1' => 'value1',
+                        'key2' => 'value2',
+                    ],
+                    'set2' => [
+                        'key1' => 'value3',
+                        'key2' => 'value4',
+                    ],
+                ]),
+                'expectedData' => [
+                    'set1' => [
+                        'key1' => 'value1',
+                        'key2' => 'value2',
+                    ],
+                    'set2' => [
+                        'key1' => 'value3',
+                        'key2' => 'value4',
+                    ],
+                ],
+            ],
+        ];
+    }
 }
