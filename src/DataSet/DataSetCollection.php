@@ -11,7 +11,7 @@ class DataSetCollection implements DataSetCollectionInterface
      */
     private array $dataSets = [];
 
-    private int $iteratorPosition = 0;
+    private int $iteratorPosition;
 
     /**
      * @param array<int|string, array<int|string, string>> $data
@@ -39,6 +39,20 @@ class DataSetCollection implements DataSetCollectionInterface
         }
 
         return $firstDataSet->getParameterNames();
+    }
+
+    /**
+     * @return array<string, array<int|string, string>>
+     */
+    public function toArray(): array
+    {
+        $data = [];
+
+        foreach ($this as $dataSet) {
+            $data[$dataSet->getName()] = $dataSet->getData();
+        }
+
+        return $data;
     }
 
     // \Countable methods

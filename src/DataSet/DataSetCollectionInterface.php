@@ -16,4 +16,9 @@ interface DataSetCollectionInterface extends \Countable, \Iterator
 
     // Iterator method additions
     public function current(): ?DataSetInterface;
+
+    /**
+     * @return array<string, array<int|string, string>>
+     */
+    public function toArray(): array;
 }
