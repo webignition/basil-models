@@ -4,34 +4,25 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Test;
 
+use webignition\BasilModels\Step\StepCollectionInterface;
 use webignition\BasilModels\Step\StepInterface;
 
 class Test implements TestInterface
 {
     private ?string $path = null;
     private ConfigurationInterface $configuration;
-
-    /**
-     * @var StepInterface[]
-     */
-    private array $steps = [];
+    private StepCollectionInterface $steps;
 
     /**
      * @param ConfigurationInterface $configuration
-     * @param StepInterface[] $steps
+     * @param StepCollectionInterface $steps
      */
     public function __construct(
         ConfigurationInterface $configuration,
-        array $steps
+        StepCollectionInterface $steps
     ) {
         $this->configuration = $configuration;
-        $this->steps = [];
-
-        foreach ($steps as $stepName => $step) {
-            if ($step instanceof StepInterface) {
-                $this->steps[(string) $stepName] = $step;
-            }
-        }
+        $this->steps = $steps;
     }
 
     public function getPath(): ?string
@@ -44,10 +35,7 @@ class Test implements TestInterface
         return $this->configuration;
     }
 
-    /**
-     * @return StepInterface[]
-     */
-    public function getSteps(): array
+    public function getSteps(): StepCollectionInterface
     {
         return $this->steps;
     }
