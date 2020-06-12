@@ -7,7 +7,7 @@ namespace webignition\BasilModels\Step;
 /**
  * @extends \Iterator<StepInterface>
  */
-interface StepCollectionInterface extends \Iterator
+interface StepCollectionInterface extends \Countable, \Iterator
 {
     /**
      * @return string[]
@@ -15,4 +15,5 @@ interface StepCollectionInterface extends \Iterator
     public function getStepNames(): array;
 
     public function current(): ?StepInterface;
+    public function count(): int;
 }
