@@ -11,7 +11,7 @@ class DataSet implements DataSetInterface
     /**
      * @var array<int|string, string>
      */
-    private array $data = [];
+    private array $data;
 
     /**
      * @param string $name
@@ -25,6 +25,19 @@ class DataSet implements DataSetInterface
         foreach ($data as $key => $value) {
             $this->data[$key] = (string) $value;
         }
+    }
+
+    /**
+     * @param array<mixed> $data
+     *
+     * @return self
+     */
+    public static function fromArray(array $data): self
+    {
+        return new DataSet(
+            $data['name'] ?? '',
+            $data['data'] ?? []
+        );
     }
 
     public function getName(): string
@@ -72,5 +85,13 @@ class DataSet implements DataSetInterface
         }
 
         return true;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'data' => $this->data,
+        ];
     }
 }

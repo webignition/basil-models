@@ -24,4 +24,9 @@ interface DataSetInterface
      * @return bool
      */
     public function hasParameterNames(array $parameterNames): bool;
+
+    /**
+     * @return array<mixed>
+     */
+    public function toArray(): array;
 }
