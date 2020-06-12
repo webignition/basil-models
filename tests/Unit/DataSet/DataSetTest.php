@@ -239,7 +239,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
                 ],
                 'expectedDataSet' => new DataSet('empty', []),
             ],
-            'name, data present, data set is non-empty' =>  [
+            'name, data present, data set is non-empty, has string name' =>  [
                 'data' => [
                     'name' => 'non-empty',
                     'data' => [
@@ -252,19 +252,51 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
                     'key2' => 'value2',
                 ]),
             ],
+            'name, data present, data set is non-empty, has integer name' =>  [
+                'data' => [
+                    'name' => 0,
+                    'data' => [
+                        'key1' => 'value1',
+                        'key2' => 'value2',
+                    ],
+                ],
+                'expectedDataSet' => new DataSet('0', [
+                    'key1' => 'value1',
+                    'key2' => 'value2',
+                ]),
+            ],
         ];
     }
 
-    public function testToArrayFromArray()
+    /**
+     * @dataProvider toArrayFromArrayDataProvider
+     */
+    public function testToArrayFromArray(DataSetInterface $dataSet)
     {
-        $dataSet = new DataSet('non-empty', [
-            'key1' => 'value1',
-            'key2' => 'value2',
-        ]);
-
         $this->assertEquals(
             $dataSet,
             DataSet::fromArray($dataSet->toArray())
         );
+    }
+
+    public function toArrayFromArrayDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'dataSet' => new DataSet('empty', []),
+            ],
+            'non-empty, string name' => [
+                'dataSet' => new DataSet('non-empty', [
+                    'key1' => 'value1',
+                    'key2' => 'value2',
+                ]),
+            ],
+            'non-empty, integer-ish name' => [
+                'dataSet' => new DataSet('0', [
+                    'key1' => 'value1',
+                    'key2' => 'value2',
+                ]),
+            ],
+        ];
     }
 }

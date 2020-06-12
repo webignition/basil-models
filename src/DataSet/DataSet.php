@@ -35,7 +35,7 @@ class DataSet implements DataSetInterface
     public static function fromArray(array $data): self
     {
         return new DataSet(
-            $data['name'] ?? '',
+            (string) ($data['name'] ?? ''),
             $data['data'] ?? []
         );
     }
