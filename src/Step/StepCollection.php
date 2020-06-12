@@ -59,4 +59,9 @@ class StepCollection implements StepCollectionInterface
     {
         $this->iteratorPosition = 0;
     }
+
+    public function count(): int
+    {
+        return count($this->steps);
+    }
 }
