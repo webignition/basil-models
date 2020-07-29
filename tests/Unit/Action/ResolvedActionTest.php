@@ -6,8 +6,8 @@ namespace webignition\BasilModels\Tests\Unit\Action;
 
 use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Action\ActionInterface;
-use webignition\BasilModels\Action\ResolvedAction;
 use webignition\BasilModels\Action\EncapsulatingActionInterface;
+use webignition\BasilModels\Action\ResolvedAction;
 
 class ResolvedActionTest extends \PHPUnit\Framework\TestCase
 {
