@@ -24,4 +24,17 @@ class Configuration implements ConfigurationInterface
     {
         return $this->url;
     }
+
+    public function validate(): int
+    {
+        if ('' === trim($this->browser)) {
+            return self::VALIDATION_STATE_BROWSER_EMPTY;
+        }
+
+        if ('' === trim($this->url)) {
+            return self::VALIDATION_STATE_URL_EMPTY;
+        }
+
+        return self::VALIDATION_STATE_VALID;
+    }
 }
