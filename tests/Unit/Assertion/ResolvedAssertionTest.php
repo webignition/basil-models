@@ -6,8 +6,8 @@ namespace webignition\BasilModels\Tests\Unit\Assertion;
 
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
-use webignition\BasilModels\Assertion\ResolvedAssertion;
 use webignition\BasilModels\Assertion\EncapsulatingAssertionInterface;
+use webignition\BasilModels\Assertion\ResolvedAssertion;
 
 class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
 {

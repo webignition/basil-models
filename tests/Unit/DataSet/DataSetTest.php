@@ -173,14 +173,14 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     public function toArrayDataProvider(): array
     {
         return [
-            'empty' =>  [
+            'empty' => [
                 'dataSet' => new DataSet('empty', []),
                 'expectedArray' => [
                     'name' => 'empty',
                     'data' => [],
                 ],
             ],
-            'non-empty' =>  [
+            'non-empty' => [
                 'dataSet' => new DataSet('non-empty', [
                     'key1' => 'value1',
                     'key2' => 'value2',
@@ -210,11 +210,11 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     public function fromArrayDataProvider(): array
     {
         return [
-            'empty' =>  [
+            'empty' => [
                 'data' => [],
                 'expectedDataSet' => new DataSet('', []),
             ],
-            'empty name' =>  [
+            'empty name' => [
                 'data' => [
                     'data' => [
                         'key1' => 'value1',
@@ -226,20 +226,20 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
                     'key2' => 'value2',
                 ]),
             ],
-            'empty data' =>  [
+            'empty data' => [
                 'data' => [
                     'name' => 'non-empty',
                 ],
                 'expectedDataSet' => new DataSet('non-empty', []),
             ],
-            'name, data present, data set is empty' =>  [
+            'name, data present, data set is empty' => [
                 'data' => [
                     'name' => 'empty',
                     'data' => [],
                 ],
                 'expectedDataSet' => new DataSet('empty', []),
             ],
-            'name, data present, data set is non-empty, has string name' =>  [
+            'name, data present, data set is non-empty, has string name' => [
                 'data' => [
                     'name' => 'non-empty',
                     'data' => [
@@ -252,7 +252,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
                     'key2' => 'value2',
                 ]),
             ],
-            'name, data present, data set is non-empty, has integer name' =>  [
+            'name, data present, data set is non-empty, has integer name' => [
                 'data' => [
                     'name' => 0,
                     'data' => [

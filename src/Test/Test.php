@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Test;
 
 use webignition\BasilModels\Step\StepCollectionInterface;
-use webignition\BasilModels\Step\StepInterface;
 
 class Test implements TestInterface
 {
