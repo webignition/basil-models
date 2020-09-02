@@ -6,27 +6,18 @@ namespace webignition\BasilModels\Test;
 
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * @var string[]
-     */
-    private array $browsers;
+    private string $browser;
     private string $url;
 
-    /**
-     * @param string[] $browsers
-     * @param string $url
-     */
-    public function __construct(array $browsers, string $url)
+    public function __construct(string $browser, string $url)
     {
-        $this->browsers = array_filter($browsers, function ($item) {
-            return '' !== trim($item);
-        });
+        $this->browser = $browser;
         $this->url = $url;
     }
 
-    public function getBrowsers(): array
+    public function getBrowser(): string
     {
-        return $this->browsers;
+        return $this->browser;
     }
 
     public function getUrl(): string
@@ -36,7 +27,7 @@ class Configuration implements ConfigurationInterface
 
     public function validate(): int
     {
-        if (0 === count($this->browsers)) {
+        if ('' === trim($this->browser)) {
             return self::VALIDATION_STATE_BROWSER_EMPTY;
         }
 

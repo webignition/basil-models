@@ -12,7 +12,7 @@ class TestTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetPath()
     {
-        $test = new Test(new Configuration(['chrome'], 'http://example.com/'), new StepCollection([]));
+        $test = new Test(new Configuration('chrome', 'http://example.com/'), new StepCollection([]));
         $this->assertNull($test->getPath());
 
         $path = 'test.yml';
@@ -22,7 +22,7 @@ class TestTest extends \PHPUnit\Framework\TestCase
 
     public function testGetConfiguration()
     {
-        $configuration = new Configuration(['chrome'], 'http://example.com/');
+        $configuration = new Configuration('chrome', 'http://example.com/');
         $test = new Test($configuration, new StepCollection([]));
         $this->assertSame($configuration, $test->getConfiguration());
     }
@@ -30,7 +30,7 @@ class TestTest extends \PHPUnit\Framework\TestCase
     public function testGetSteps()
     {
         $steps = new StepCollection([]);
-        $test = new Test(new Configuration(['chrome'], 'http://example.com/'), $steps);
+        $test = new Test(new Configuration('chrome', 'http://example.com/'), $steps);
 
         $this->assertSame($steps, $test->getSteps());
     }
