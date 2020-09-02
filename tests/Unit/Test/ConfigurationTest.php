@@ -10,30 +10,23 @@ use webignition\BasilModels\Test\ConfigurationInterface;
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @dataProvider getBrowsersDataProvider
-     *
-     * @param ConfigurationInterface $configuration
-     * @param string[] $expectedBrowsers
+     * @dataProvider getBrowserDataProvider
      */
-    public function testGetBrowsers(ConfigurationInterface $configuration, array $expectedBrowsers)
+    public function testGetBrowser(ConfigurationInterface $configuration, string $expectedBrowser)
     {
-        self::assertSame($expectedBrowsers, $configuration->getBrowsers());
+        self::assertSame($expectedBrowser, $configuration->getBrowser());
     }
 
-    public function getBrowsersDataProvider(): array
+    public function getBrowserDataProvider(): array
     {
         return [
             'empty' => [
-                'configuration' => new Configuration([], ''),
-                'expectedBrowsers' => [],
+                'configuration' => new Configuration('', ''),
+                'expectedBrowser' => '',
             ],
-            'non-empty, single browser' => [
-                'configuration' => new Configuration(['chrome'], ''),
-                'expectedBrowsers' => ['chrome'],
-            ],
-            'non-empty, multiple browsers' => [
-                'configuration' => new Configuration(['chrome', 'firefox'], ''),
-                'expectedBrowsers' => ['chrome', 'firefox'],
+            'non-empty' => [
+                'configuration' => new Configuration('chrome', ''),
+                'expectedBrowser' => 'chrome',
             ],
         ];
     }
@@ -50,11 +43,11 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'empty' => [
-                'configuration' => new Configuration([], ''),
+                'configuration' => new Configuration('', ''),
                 'expectedUrl' => '',
             ],
             'non-empty' => [
-                'configuration' => new Configuration([], 'http://example.com/'),
+                'configuration' => new Configuration('', 'http://example.com/'),
                 'expectedUrl' => 'http://example.com/',
             ],
         ];
@@ -72,23 +65,23 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     {
         return [
             'browser empty' => [
-                'configuration' => new Configuration([], ''),
+                'configuration' => new Configuration('', ''),
                 'expectedValidationState' => ConfigurationInterface::VALIDATION_STATE_BROWSER_EMPTY,
             ],
             'browser whitespace only' => [
-                'configuration' => new Configuration(['   '], ''),
+                'configuration' => new Configuration('   ', ''),
                 'expectedValidationState' => ConfigurationInterface::VALIDATION_STATE_BROWSER_EMPTY,
             ],
             'url empty' => [
-                'configuration' => new Configuration(['chrome'], ''),
+                'configuration' => new Configuration('chrome', ''),
                 'expectedValidationState' => ConfigurationInterface::VALIDATION_STATE_URL_EMPTY,
             ],
             'url whitespace only' => [
-                'configuration' => new Configuration(['chrome'], '  '),
+                'configuration' => new Configuration('chrome', '  '),
                 'expectedValidationState' => ConfigurationInterface::VALIDATION_STATE_URL_EMPTY,
             ],
             'valid' => [
-                'configuration' => new Configuration(['chrome'], 'http://example.com.'),
+                'configuration' => new Configuration('chrome', 'http://example.com.'),
                 'expectedValidationState' => ConfigurationInterface::VALIDATION_STATE_VALID,
             ],
         ];
