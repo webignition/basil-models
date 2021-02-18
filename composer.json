@@ -23,7 +23,7 @@
     },
     "scripts": {
         "cs": [
-            "./vendor/bin/ecs check src tests --ansi --config ecs.yaml",
+            "./vendor/bin/ecs check src tests --ansi --config ecs.php",
             "./vendor/bin/phpcs"
         ],
         "cs-fix": "./vendor/bin/ecs check src tests --ansi --config ecs.yaml --fix",
@@ -44,6 +44,6 @@
         "squizlabs/php_codesniffer": "^3.5",
         "phpstan/phpstan": "^0.12.77",
         "webignition/object-reflector": "^0.1.0",
-        "symplify/easy-coding-standard": "^8.1"
+        "symplify/easy-coding-standard": "^9.1"
     }
 }
