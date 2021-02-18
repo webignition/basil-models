@@ -15,7 +15,7 @@ class DataParameterTest extends \PHPUnit\Framework\TestCase
         string $reference,
         string $expectedProperty,
         bool $expectedIsValid
-    ) {
+    ): void {
         $elementReference = new DataParameter($reference);
 
         $this->assertSame($expectedProperty, $elementReference->getProperty());
@@ -23,6 +23,9 @@ class DataParameterTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($reference, (string) $elementReference);
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -57,11 +60,14 @@ class DataParameterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isDataProvider
      */
-    public function testIs(string $reference, bool $expectedIs)
+    public function testIs(string $reference, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, DataParameter::is($reference));
     }
 
+    /**
+     * @return array[]
+     */
     public function isDataProvider(): array
     {
         return [

@@ -12,7 +12,7 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider createDataProvider
      */
-    public function testCreate(string $source, string $identifier, string $operator, ?string $value)
+    public function testCreate(string $source, string $identifier, string $operator, ?string $value): void
     {
         $assertion = new Assertion($source, $identifier, $operator, $value);
 
@@ -22,6 +22,9 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($value, $assertion->getValue());
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -47,10 +50,13 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
         AssertionInterface $assertion,
         AssertionInterface $comparator,
         bool $expectedEquals
-    ) {
+    ): void {
         $this->assertSame($expectedEquals, $assertion->equals($comparator));
     }
 
+    /**
+     * @return array[]
+     */
     public function equalsDataProvider(): array
     {
         return [
@@ -85,11 +91,14 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider normaliseDataProvider
      */
-    public function testNormalise(AssertionInterface $assertion, AssertionInterface $expectedNormalisedAssertion)
+    public function testNormalise(AssertionInterface $assertion, AssertionInterface $expectedNormalisedAssertion): void
     {
         $this->assertEquals($expectedNormalisedAssertion, $assertion->normalise());
     }
 
+    /**
+     * @return array[]
+     */
     public function normaliseDataProvider(): array
     {
         return [
@@ -138,11 +147,14 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
      * @param AssertionInterface $assertion
      * @param array<string, string> $expectedSerializedData
      */
-    public function testJsonSerialize(AssertionInterface $assertion, array $expectedSerializedData)
+    public function testJsonSerialize(AssertionInterface $assertion, array $expectedSerializedData): void
     {
         $this->assertSame($expectedSerializedData, $assertion->jsonSerialize());
     }
 
+    /**
+     * @return array[]
+     */
     public function jsonSerializeDataProvider(): array
     {
         return [
@@ -168,7 +180,7 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testIsComparisonOperator()
+    public function testIsComparisonOperator(): void
     {
         $this->assertTrue(Assertion::isComparisonOperator('is'));
         $this->assertTrue(Assertion::isComparisonOperator('is-not'));
@@ -179,7 +191,7 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(Assertion::isComparisonOperator('matches'));
     }
 
-    public function testIsComparison()
+    public function testIsComparison(): void
     {
         $this->assertTrue((new Assertion('$"a" is "a"', '$"a"', 'is', '"a"'))->isComparison());
         $this->assertTrue((new Assertion('$"a" is-not "a"', '$"a"', 'is-not', '"a"'))->isComparison());

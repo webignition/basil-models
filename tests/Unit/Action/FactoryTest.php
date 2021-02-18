@@ -20,7 +20,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
         $this->factory = new Factory();
     }
 
-    public function testCreateFactory()
+    public function testCreateFactory(): void
     {
         $this->assertInstanceOf(Factory::class, Factory::createFactory());
     }
@@ -31,11 +31,14 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
      * @param array<mixed> $actionData
      * @param ActionInterface $expectedAction
      */
-    public function testCreateFromArray(array $actionData, ActionInterface $expectedAction)
+    public function testCreateFromArray(array $actionData, ActionInterface $expectedAction): void
     {
         $this->assertEquals($expectedAction, $this->factory->createFromArray($actionData));
     }
 
+    /**
+     * @return array[]
+     */
     public function createFromArrayDataProvider(): array
     {
         return [
@@ -196,7 +199,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
      * @param array<mixed> $actionData
      * @param ActionInterface $expectedAction
      */
-    public function testCreateFromJson(array $actionData, ActionInterface $expectedAction)
+    public function testCreateFromJson(array $actionData, ActionInterface $expectedAction): void
     {
         $this->assertEquals($expectedAction, $this->factory->createFromJson((string) json_encode($actionData)));
     }

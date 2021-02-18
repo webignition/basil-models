@@ -19,7 +19,7 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
         string $identifier,
         string $operator,
         string $expectedStringRepresentation
-    ) {
+    ): void {
         $derivedAssertion = new DerivedValueOperationAssertion($sourceStatement, $identifier, $operator);
 
         $this->assertSame($expectedStringRepresentation, $derivedAssertion->getSource());
@@ -29,6 +29,9 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($sourceStatement, $derivedAssertion->getSourceStatement());
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -77,10 +80,13 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
     public function testJsonSerialize(
         DerivedValueOperationAssertion $derivedAssertion,
         array $expectedSerialisedData
-    ) {
+    ): void {
         $this->assertSame($expectedSerialisedData, $derivedAssertion->jsonSerialize());
     }
 
+    /**
+     * @return array[]
+     */
     public function jsonSerializeDataProvider(): array
     {
         return [
@@ -165,7 +171,7 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testIsComparison()
+    public function testIsComparison(): void
     {
         $source = new Assertion('$"a" foo', '$"a"', 'foo');
 

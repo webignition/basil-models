@@ -12,11 +12,14 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getBrowserDataProvider
      */
-    public function testGetBrowser(ConfigurationInterface $configuration, string $expectedBrowser)
+    public function testGetBrowser(ConfigurationInterface $configuration, string $expectedBrowser): void
     {
         self::assertSame($expectedBrowser, $configuration->getBrowser());
     }
 
+    /**
+     * @return array[]
+     */
     public function getBrowserDataProvider(): array
     {
         return [
@@ -34,11 +37,14 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getUrlDataProvider
      */
-    public function testGetUrl(ConfigurationInterface $configuration, string $expectedUrl)
+    public function testGetUrl(ConfigurationInterface $configuration, string $expectedUrl): void
     {
         self::assertSame($expectedUrl, $configuration->getUrl());
     }
 
+    /**
+     * @return array[]
+     */
     public function getUrlDataProvider(): array
     {
         return [
@@ -56,11 +62,14 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider validateDataProvider
      */
-    public function testValidate(ConfigurationInterface $configuration, int $expectedValidationState)
+    public function testValidate(ConfigurationInterface $configuration, int $expectedValidationState): void
     {
         self::assertSame($expectedValidationState, $configuration->validate());
     }
 
+    /**
+     * @return array[]
+     */
     public function validateDataProvider(): array
     {
         return [

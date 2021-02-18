@@ -16,7 +16,7 @@ class AttributeReferenceTest extends \PHPUnit\Framework\TestCase
         string $expectedElementName,
         string $expectedAttributeName,
         bool $expectedIsValid
-    ) {
+    ): void {
         $attributeReference = new AttributeReference($reference);
 
         $this->assertSame($expectedElementName, $attributeReference->getElementName());
@@ -25,6 +25,9 @@ class AttributeReferenceTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($reference, (string) $attributeReference);
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -64,11 +67,14 @@ class AttributeReferenceTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isDataProvider
      */
-    public function testIs(string $reference, bool $expectedIs)
+    public function testIs(string $reference, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, AttributeReference::is($reference));
     }
 
+    /**
+     * @return array[]
+     */
     public function isDataProvider(): array
     {
         return [

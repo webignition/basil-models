@@ -17,11 +17,14 @@ class StepCollectionTest extends \PHPUnit\Framework\TestCase
      * @param StepCollectionInterface $collection
      * @param string[] $expectedNames
      */
-    public function testGetStepNames(StepCollectionInterface $collection, array $expectedNames)
+    public function testGetStepNames(StepCollectionInterface $collection, array $expectedNames): void
     {
         $this->assertSame($expectedNames, $collection->getStepNames());
     }
 
+    /**
+     * @return array[]
+     */
     public function getStepNamesDataProvider(): array
     {
         return [
@@ -65,7 +68,7 @@ class StepCollectionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $collection = new StepCollection([
             'alpha' => new Step([], []),

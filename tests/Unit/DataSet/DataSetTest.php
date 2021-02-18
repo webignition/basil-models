@@ -15,13 +15,16 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
      * @param array<int|string, string> $data
      * @param string[] $expectedParameterNames
      */
-    public function testGetParameterNames(array $data, array $expectedParameterNames)
+    public function testGetParameterNames(array $data, array $expectedParameterNames): void
     {
         $dataSet = new DataSet('0', $data);
 
         $this->assertSame($expectedParameterNames, $dataSet->getParameterNames());
     }
 
+    /**
+     * @return array[]
+     */
     public function getParameterNamesDataProvider(): array
     {
         return [
@@ -67,10 +70,13 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
         DataSetInterface $dataSet,
         array $parameterNames,
         bool $expectedHasParameterNames
-    ) {
+    ): void {
         $this->assertSame($expectedHasParameterNames, $dataSet->hasParameterNames($parameterNames));
     }
 
+    /**
+     * @return array[]
+     */
     public function hasParameterNamesDataProvider(): array
     {
         return [
@@ -122,13 +128,16 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getNameDataProvider
      */
-    public function testGetName(string $name)
+    public function testGetName(string $name): void
     {
         $dataSet = new DataSet($name, []);
 
         $this->assertSame($name, $dataSet->getName());
     }
 
+    /**
+     * @return array[]
+     */
     public function getNameDataProvider(): array
     {
         return [
@@ -141,7 +150,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testGetData()
+    public function testGetData(): void
     {
         $this->assertEquals([], (new DataSet('name', []))->getData());
         $this->assertEquals(
@@ -165,11 +174,14 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
      * @param DataSetInterface $dataSet
      * @param array<mixed> $expectedArray
      */
-    public function testToArray(DataSetInterface $dataSet, array $expectedArray)
+    public function testToArray(DataSetInterface $dataSet, array $expectedArray): void
     {
         $this->assertEquals($expectedArray, $dataSet->toArray());
     }
 
+    /**
+     * @return array[]
+     */
     public function toArrayDataProvider(): array
     {
         return [
@@ -202,11 +214,14 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
      * @param array<mixed> $data
      * @param DataSetInterface $expectedDataSet
      */
-    public function testFromArray(array $data, DataSetInterface $expectedDataSet)
+    public function testFromArray(array $data, DataSetInterface $expectedDataSet): void
     {
         $this->assertEquals($expectedDataSet, DataSet::fromArray($data));
     }
 
+    /**
+     * @return array[]
+     */
     public function fromArrayDataProvider(): array
     {
         return [
@@ -271,7 +286,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider toArrayFromArrayDataProvider
      */
-    public function testToArrayFromArray(DataSetInterface $dataSet)
+    public function testToArrayFromArray(DataSetInterface $dataSet): void
     {
         $this->assertEquals(
             $dataSet,
@@ -279,6 +294,9 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    /**
+     * @return array[]
+     */
     public function toArrayFromArrayDataProvider(): array
     {
         return [

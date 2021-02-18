@@ -27,13 +27,16 @@ class StepTest extends \PHPUnit\Framework\TestCase
         array $assertions,
         array $expectedActions,
         array $expectedAssertions
-    ) {
+    ): void {
         $step = new Step($actions, $assertions);
 
         $this->assertEquals($expectedActions, $step->getActions());
         $this->assertEquals($expectedAssertions, $step->getAssertions());
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -78,7 +81,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testGetDataWithData()
+    public function testGetDataWithData(): void
     {
         $step = new Step([], []);
         $this->assertNull($step->getData());
@@ -93,7 +96,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($data, $step->getData());
     }
 
-    public function testImportName()
+    public function testImportName(): void
     {
         $step = new Step([], []);
         $this->assertNull($step->getImportName());
@@ -105,7 +108,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($step->getImportName());
     }
 
-    public function testDataImportName()
+    public function testDataImportName(): void
     {
         $step = new Step([], []);
         $this->assertNull($step->getDataImportName());
@@ -117,7 +120,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($step->getDataImportName());
     }
 
-    public function testElements()
+    public function testElements(): void
     {
         $step = new Step([], []);
         $this->assertSame([], $step->getIdentifiers());
@@ -133,11 +136,14 @@ class StepTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider requiresImportResolutionDataProvider
      */
-    public function testRequiresImportResolution(StepInterface $step, bool $expectedRequiresImportResolution)
+    public function testRequiresImportResolution(StepInterface $step, bool $expectedRequiresImportResolution): void
     {
         $this->assertSame($expectedRequiresImportResolution, $step->requiresImportResolution());
     }
 
+    /**
+     * @return array[]
+     */
     public function requiresImportResolutionDataProvider(): array
     {
         return [
@@ -164,7 +170,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testWithActions()
+    public function testWithActions(): void
     {
         $step = new Step([], []);
         $this->assertEquals([], $step->getActions());
@@ -180,7 +186,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($actions, $mutatedStep->getActions());
     }
 
-    public function testWithAssertions()
+    public function testWithAssertions(): void
     {
         $step = new Step([], []);
         $this->assertEquals([], $step->getAssertions());
@@ -203,13 +209,16 @@ class StepTest extends \PHPUnit\Framework\TestCase
      * @param ActionInterface[] $actions
      * @param StepInterface $expectedStep
      */
-    public function testWithPrependedActions(StepInterface $step, array $actions, StepInterface $expectedStep)
+    public function testWithPrependedActions(StepInterface $step, array $actions, StepInterface $expectedStep): void
     {
         $mutatedStep = $step->withPrependedActions($actions);
 
         $this->assertEquals($expectedStep, $mutatedStep);
     }
 
+    /**
+     * @return array[]
+     */
     public function withPrependedActionsDataProvider(): array
     {
         $assertion = new Assertion(
@@ -295,13 +304,19 @@ class StepTest extends \PHPUnit\Framework\TestCase
      * @param AssertionInterface[] $assertions
      * @param StepInterface $expectedStep
      */
-    public function testWithPrependedAssertions(StepInterface $step, array $assertions, StepInterface $expectedStep)
-    {
+    public function testWithPrependedAssertions(
+        StepInterface $step,
+        array $assertions,
+        StepInterface $expectedStep
+    ): void {
         $mutatedStep = $step->withPrependedAssertions($assertions);
 
         $this->assertEquals($expectedStep, $mutatedStep);
     }
 
+    /**
+     * @return array[]
+     */
     public function withPrependedAssertionsDataProvider(): array
     {
         $assertion1 = new Assertion(
@@ -392,11 +407,14 @@ class StepTest extends \PHPUnit\Framework\TestCase
      * @param StepInterface $step
      * @param string[] $expectedDataParameterNames
      */
-    public function testGetDataParameterNames(StepInterface $step, array $expectedDataParameterNames)
+    public function testGetDataParameterNames(StepInterface $step, array $expectedDataParameterNames): void
     {
         $this->assertSame($expectedDataParameterNames, $step->getDataParameterNames());
     }
 
+    /**
+     * @return array[]
+     */
     public function getDataParameterNamesDataProvider(): array
     {
         return [

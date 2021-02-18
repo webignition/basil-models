@@ -10,7 +10,7 @@ use webignition\BasilModels\Assertion\UniqueAssertionCollection;
 
 class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testIterate()
+    public function testIterate(): void
     {
         $assertions = [
             new Assertion('$".zero" exists', '$".zero"', 'exists'),
@@ -35,7 +35,7 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
      * @param AssertionInterface[] $assertionsToAdd
      * @param AssertionInterface[] $expectedAssertions
      */
-    public function testIsUnique(array $assertionsToAdd, array $expectedAssertions)
+    public function testIsUnique(array $assertionsToAdd, array $expectedAssertions): void
     {
         $collection = new UniqueAssertionCollection();
 
@@ -48,6 +48,9 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * @return array[]
+     */
     public function isUniqueDataProvider(): array
     {
         return [
@@ -86,7 +89,7 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
      * @param AssertionInterface[] $assertionsToAdd
      * @param AssertionInterface[] $expectedAssertions
      */
-    public function testNormalise(array $assertionsToAdd, array $expectedAssertions)
+    public function testNormalise(array $assertionsToAdd, array $expectedAssertions): void
     {
         $collection = new UniqueAssertionCollection();
 
@@ -101,6 +104,9 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * @return array[]
+     */
     public function normaliseDataProvider(): array
     {
         return [
@@ -137,7 +143,7 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
         UniqueAssertionCollection $collection,
         UniqueAssertionCollection $additions,
         array $expectedAssertions
-    ) {
+    ): void {
         $mergedCollection = $collection->merge($additions);
 
         foreach ($mergedCollection as $index => $assertion) {
@@ -145,6 +151,9 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * @return array[]
+     */
     public function mergeDataProvider(): array
     {
         return [
