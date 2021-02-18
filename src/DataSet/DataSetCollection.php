@@ -49,7 +49,9 @@ class DataSetCollection implements DataSetCollectionInterface
         $data = [];
 
         foreach ($this as $dataSet) {
-            $data[$dataSet->getName()] = $dataSet->getData();
+            if ($dataSet instanceof DataSetInterface) {
+                $data[$dataSet->getName()] = $dataSet->getData();
+            }
         }
 
         return $data;
