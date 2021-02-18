@@ -19,7 +19,7 @@ class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
         string $identifier,
         ?string $value,
         string $expectedSource
-    ) {
+    ): void {
         $assertion = new ResolvedAssertion($sourceAssertion, $identifier, $value);
 
         $this->assertSame($sourceAssertion, $assertion->getSourceStatement());
@@ -29,6 +29,9 @@ class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($value, $assertion->getValue());
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -73,11 +76,14 @@ class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
      * @param EncapsulatingAssertionInterface $assertion
      * @param array<mixed> $expectedSerializedData
      */
-    public function testJsonSerialize(EncapsulatingAssertionInterface $assertion, array $expectedSerializedData)
+    public function testJsonSerialize(EncapsulatingAssertionInterface $assertion, array $expectedSerializedData): void
     {
         $this->assertEquals($expectedSerializedData, $assertion->jsonSerialize());
     }
 
+    /**
+     * @return array[]
+     */
     public function jsonSerializeDataProvider(): array
     {
         return [
@@ -132,7 +138,7 @@ class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testIsComparison()
+    public function testIsComparison(): void
     {
         $isAssertion = new ResolvedAssertion(
             new Assertion('$"a" is "a"', '$"a"', 'is', '"a"'),

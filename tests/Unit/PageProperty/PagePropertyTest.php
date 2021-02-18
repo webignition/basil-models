@@ -15,7 +15,7 @@ class PagePropertyTest extends \PHPUnit\Framework\TestCase
         string $value,
         string $expectedProperty,
         bool $expectedIsValid
-    ) {
+    ): void {
         $pageUrlReference = new PageProperty($value);
 
         $this->assertSame($expectedProperty, $pageUrlReference->getProperty());
@@ -23,6 +23,9 @@ class PagePropertyTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($value, (string) $pageUrlReference);
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -57,11 +60,14 @@ class PagePropertyTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isDataProvider
      */
-    public function testIs(string $value, bool $expectedIs)
+    public function testIs(string $value, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, PageProperty::is($value));
     }
 
+    /**
+     * @return array[]
+     */
     public function isDataProvider(): array
     {
         return [

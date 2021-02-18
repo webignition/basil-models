@@ -8,7 +8,7 @@ use webignition\BasilModels\Test\Imports;
 
 class ImportsTest extends \PHPUnit\Framework\TestCase
 {
-    public function testGetWithStepPaths()
+    public function testGetWithStepPaths(): void
     {
         $imports = new Imports();
         $this->assertSame([], $imports->getStepPaths());
@@ -27,7 +27,7 @@ class ImportsTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expectedPaths, $imports->getStepPaths());
     }
 
-    public function testGetWithPagePaths()
+    public function testGetWithPagePaths(): void
     {
         $imports = new Imports();
         $this->assertSame([], $imports->getPagePaths());
@@ -46,7 +46,7 @@ class ImportsTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expectedPaths, $imports->getPagePaths());
     }
 
-    public function testGetWithDataProviderPaths()
+    public function testGetWithDataProviderPaths(): void
     {
         $imports = new Imports();
         $this->assertSame([], $imports->getDataProviderPaths());

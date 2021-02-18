@@ -15,7 +15,7 @@ class PageUrlReferenceTest extends \PHPUnit\Framework\TestCase
         string $reference,
         string $expectedImportName,
         bool $expectedIsValid
-    ) {
+    ): void {
         $pageUrlReference = new PageUrlReference($reference);
 
         $this->assertSame($expectedImportName, $pageUrlReference->getImportName());
@@ -23,6 +23,9 @@ class PageUrlReferenceTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($reference, (string) $pageUrlReference);
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -52,11 +55,14 @@ class PageUrlReferenceTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isDataProvider
      */
-    public function testIs(string $reference, bool $expectedIs)
+    public function testIs(string $reference, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, PageUrlReference::is($reference));
     }
 
+    /**
+     * @return array[]
+     */
     public function isDataProvider(): array
     {
         return [

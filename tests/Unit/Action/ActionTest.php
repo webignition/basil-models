@@ -12,8 +12,13 @@ class ActionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider createDataProvider
      */
-    public function testCreate(string $source, string $type, ?string $arguments, ?string $identifier, ?string $value)
-    {
+    public function testCreate(
+        string $source,
+        string $type,
+        ?string $arguments,
+        ?string $identifier,
+        ?string $value
+    ): void {
         $action = new Action($source, $type, $arguments, $identifier, $value);
 
         $this->assertSame($source, $action->getSource());
@@ -23,6 +28,9 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($value, $action->getValue());
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -56,11 +64,14 @@ class ActionTest extends \PHPUnit\Framework\TestCase
      * @param ActionInterface $action
      * @param array<string, string> $expectedSerializedData
      */
-    public function testJsonSerialize(ActionInterface $action, array $expectedSerializedData)
+    public function testJsonSerialize(ActionInterface $action, array $expectedSerializedData): void
     {
         $this->assertSame($expectedSerializedData, $action->jsonSerialize());
     }
 
+    /**
+     * @return array[]
+     */
     public function jsonSerializeDataProvider(): array
     {
         return [
@@ -112,7 +123,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testIsBrowserOperationType()
+    public function testIsBrowserOperationType(): void
     {
         $this->assertTrue(Action::isBrowserOperationType('back'));
         $this->assertTrue(Action::isBrowserOperationType('forward'));
@@ -124,7 +135,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(Action::isBrowserOperationType('wait'));
     }
 
-    public function testIsInteractionType()
+    public function testIsInteractionType(): void
     {
         $this->assertFalse(Action::isInteractionType('back'));
         $this->assertFalse(Action::isInteractionType('forward'));
@@ -136,7 +147,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(Action::isInteractionType('wait'));
     }
 
-    public function testIsInputType()
+    public function testIsInputType(): void
     {
         $this->assertFalse(Action::isInputType('back'));
         $this->assertFalse(Action::isInputType('forward'));
@@ -148,7 +159,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(Action::isInputType('wait'));
     }
 
-    public function testIsWaitType()
+    public function testIsWaitType(): void
     {
         $this->assertFalse(Action::isWaitType('back'));
         $this->assertFalse(Action::isWaitType('forward'));
@@ -160,7 +171,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(Action::isWaitType('wait'));
     }
 
-    public function testIsBrowserOperation()
+    public function testIsBrowserOperation(): void
     {
         $this->assertTrue((new Action('back', 'back'))->isBrowserOperation());
         $this->assertTrue((new Action('forward', 'forward'))->isBrowserOperation());
@@ -172,7 +183,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse((new Action('wait 1', 'wait', '1', null, '1'))->isBrowserOperation());
     }
 
-    public function testIsInteraction()
+    public function testIsInteraction(): void
     {
         $this->assertFalse((new Action('back', 'back'))->isInteraction());
         $this->assertFalse((new Action('forward', 'forward'))->isInteraction());
@@ -184,7 +195,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse((new Action('wait 1', 'wait', '1', null, '1'))->isInteraction());
     }
 
-    public function testIsInput()
+    public function testIsInput(): void
     {
         $this->assertFalse((new Action('back', 'back'))->isInput());
         $this->assertFalse((new Action('forward', 'forward'))->isInput());
@@ -196,7 +207,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse((new Action('wait 1', 'wait', '1', null, '1'))->isInput());
     }
 
-    public function testIsWait()
+    public function testIsWait(): void
     {
         $this->assertFalse((new Action('back', 'back'))->isWait());
         $this->assertFalse((new Action('forward', 'forward'))->isWait());

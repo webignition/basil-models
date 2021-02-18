@@ -16,7 +16,7 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
      * @param array<mixed> $data
      * @param DataSetInterface[] $expectedDataSets
      */
-    public function testCreate(array $data, array $expectedDataSets)
+    public function testCreate(array $data, array $expectedDataSets): void
     {
         $dataSetCollection = new DataSetCollection($data);
 
@@ -29,6 +29,9 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -76,13 +79,16 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
      * @param DataSetCollection $dataSetCollection
      * @param string[] $expectedKeys
      */
-    public function testGetParameterNames(DataSetCollection $dataSetCollection, array $expectedKeys)
+    public function testGetParameterNames(DataSetCollection $dataSetCollection, array $expectedKeys): void
     {
         $keys = $dataSetCollection->getParameterNames();
 
         $this->assertSame($expectedKeys, $keys);
     }
 
+    /**
+     * @return array[]
+     */
     public function getParameterNamesDataProvider(): array
     {
         return [
@@ -111,11 +117,14 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
      * @param DataSetCollection $dataSetCollection
      * @param array<string, array<int|string, string>> $expectedData
      */
-    public function testToArray(DataSetCollection $dataSetCollection, array $expectedData)
+    public function testToArray(DataSetCollection $dataSetCollection, array $expectedData): void
     {
         $this->assertSame($expectedData, $dataSetCollection->toArray());
     }
 
+    /**
+     * @return array[]
+     */
     public function toArrayDataProvider(): array
     {
         return [

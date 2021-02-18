@@ -19,7 +19,7 @@ class TestSuiteTest extends \PHPUnit\Framework\TestCase
      * @param array<mixed> $tests
      * @param TestInterface[] $expectedTests
      */
-    public function testCreate(string $name, array $tests, array $expectedTests)
+    public function testCreate(string $name, array $tests, array $expectedTests): void
     {
         $testSuite = new TestSuite($name, $tests);
 
@@ -27,6 +27,9 @@ class TestSuiteTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expectedTests, $testSuite->getTests());
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         $testOne = new Test(

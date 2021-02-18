@@ -10,7 +10,7 @@ use webignition\BasilModels\Test\Test;
 
 class TestTest extends \PHPUnit\Framework\TestCase
 {
-    public function testGetPath()
+    public function testGetPath(): void
     {
         $test = new Test(new Configuration('chrome', 'http://example.com/'), new StepCollection([]));
         $this->assertNull($test->getPath());
@@ -20,14 +20,14 @@ class TestTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($path, $test->getPath());
     }
 
-    public function testGetConfiguration()
+    public function testGetConfiguration(): void
     {
         $configuration = new Configuration('chrome', 'http://example.com/');
         $test = new Test($configuration, new StepCollection([]));
         $this->assertSame($configuration, $test->getConfiguration());
     }
 
-    public function testGetSteps()
+    public function testGetSteps(): void
     {
         $steps = new StepCollection([]);
         $test = new Test(new Configuration('chrome', 'http://example.com/'), $steps);

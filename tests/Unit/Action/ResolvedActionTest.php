@@ -19,7 +19,7 @@ class ResolvedActionTest extends \PHPUnit\Framework\TestCase
         ?string $identifier,
         ?string $value,
         string $expectedSource
-    ) {
+    ): void {
         $action = new ResolvedAction($sourceAction, $identifier, $value);
 
         $this->assertSame($sourceAction, $action->getSourceStatement());
@@ -30,6 +30,9 @@ class ResolvedActionTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($value, $action->getValue());
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -66,11 +69,14 @@ class ResolvedActionTest extends \PHPUnit\Framework\TestCase
      * @param EncapsulatingActionInterface $action
      * @param array<mixed> $expectedSerializedData
      */
-    public function testJsonSerialize(EncapsulatingActionInterface $action, array $expectedSerializedData)
+    public function testJsonSerialize(EncapsulatingActionInterface $action, array $expectedSerializedData): void
     {
         $this->assertSame($expectedSerializedData, $action->jsonSerialize());
     }
 
+    /**
+     * @return array[]
+     */
     public function jsonSerializeDataProvider(): array
     {
         return [
@@ -144,7 +150,7 @@ class ResolvedActionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testIsBrowserOperationIsInteractionIsInputIsWait()
+    public function testIsBrowserOperationIsInteractionIsInputIsWait(): void
     {
         $backAction = new ResolvedAction(
             new Action('back', 'back')

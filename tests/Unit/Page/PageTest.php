@@ -8,7 +8,7 @@ use webignition\BasilModels\Page\Page;
 
 class PageTest extends \PHPUnit\Framework\TestCase
 {
-    public function testCreate()
+    public function testCreate(): void
     {
         $emptyPage = new Page('', '', []);
 
@@ -23,7 +23,7 @@ class PageTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(['title' => '.title'], $nonEmptyPage->getIdentifiers());
     }
 
-    public function testGetIdentifier()
+    public function testGetIdentifier(): void
     {
         $headingIdentifier = '$".heading"';
         $headingIdentifierName = 'heading';
@@ -36,7 +36,7 @@ class PageTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($page->getIdentifier('non-existent'));
     }
 
-    public function testWithIdentifiers()
+    public function testWithIdentifiers(): void
     {
         $page = new Page('import_name', '');
         $this->assertSame([], $page->getIdentifiers());

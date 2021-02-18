@@ -15,7 +15,7 @@ class BrowserPropertyTest extends \PHPUnit\Framework\TestCase
         string $value,
         string $expectedProperty,
         bool $expectedIsValid
-    ) {
+    ): void {
         $pageUrlReference = new BrowserProperty($value);
 
         $this->assertSame($expectedProperty, $pageUrlReference->getProperty());
@@ -23,6 +23,9 @@ class BrowserPropertyTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($value, (string) $pageUrlReference);
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -52,11 +55,14 @@ class BrowserPropertyTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isDataProvider
      */
-    public function testIs(string $value, bool $expectedIs)
+    public function testIs(string $value, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, BrowserProperty::is($value));
     }
 
+    /**
+     * @return array[]
+     */
     public function isDataProvider(): array
     {
         return [

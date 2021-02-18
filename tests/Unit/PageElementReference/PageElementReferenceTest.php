@@ -17,7 +17,7 @@ class PageElementReferenceTest extends \PHPUnit\Framework\TestCase
         string $expectedElementName,
         string $expectedAttributeName,
         bool $expectedIsValid
-    ) {
+    ): void {
         $pageElementReference = new PageElementReference($reference);
 
         $this->assertSame($expectedImportName, $pageElementReference->getImportName());
@@ -27,6 +27,9 @@ class PageElementReferenceTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($reference, (string) $pageElementReference);
     }
 
+    /**
+     * @return array[]
+     */
     public function createDataProvider(): array
     {
         return [
@@ -85,11 +88,14 @@ class PageElementReferenceTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isDataProvider
      */
-    public function testIs(string $reference, bool $expectedIs)
+    public function testIs(string $reference, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, PageElementReference::is($reference));
     }
 
+    /**
+     * @return array[]
+     */
     public function isDataProvider(): array
     {
         return [
