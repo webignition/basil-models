@@ -22,12 +22,16 @@
         }
     },
     "scripts": {
-        "cs": [
-            "./vendor/bin/ecs check src tests --ansi --config ecs.php",
-            "./vendor/bin/phpcs"
+        "cs-ecs": "./vendor/bin/ecs check src tests --ansi --config ecs.php",
+        "cs-phpcs": "./vendor/bin/phpcs",
+        "cs-fix": [
+            "./vendor/bin/ecs check src tests --ansi --config ecs.php --fix"
         ],
-        "cs-fix": "./vendor/bin/ecs check src tests --ansi --config ecs.yaml --fix",
-        "static-analysis": "./vendor/bin/phpstan analyse src tests --level=7",
+        "cs": [
+            "@cs-ecs",
+            "@cs-phpcs"
+        ],
+        "static-analysis": "./vendor/bin/phpstan analyse --ansi",
         "test": "./vendor/bin/phpunit --colors=always",
         "ci": [
             "@composer cs",
