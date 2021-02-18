@@ -83,7 +83,7 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
 
     private function createAssertion(
         AssertionInterface $sourceAssertion,
-        ?string $identifier,
+        string $identifier,
         ?string $value
     ): AssertionInterface {
         $operator = $sourceAssertion->getOperator();
