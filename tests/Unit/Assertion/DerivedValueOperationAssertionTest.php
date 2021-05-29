@@ -8,8 +8,9 @@ use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
 use webignition\BasilModels\StatementInterface;
+use webignition\BasilModels\Tests\Unit\AbstractStatementTest;
 
-class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
+class DerivedValueOperationAssertionTest extends AbstractStatementTest
 {
     /**
      * @dataProvider createDataProvider
@@ -69,34 +70,6 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                 'expectedStringRepresentation' => '$".selector" is-regexp',
             ],
         ];
-    }
-
-    /**
-     * @dataProvider jsonSerializeDataProvider
-     *
-     * @param array<mixed> $expectedSerializedData
-     */
-    public function testJsonSerialize(
-        DerivedValueOperationAssertion $derivedAssertion,
-        array $expectedSerializedData
-    ): void {
-        $serializedStatement = $derivedAssertion->jsonSerialize();
-
-        ksort($serializedStatement);
-        ksort($expectedSerializedData);
-
-        self::assertArrayHasKey('statement', $serializedStatement);
-        self::assertArrayHasKey('statement', $expectedSerializedData);
-
-        $serializedStatementStatement = $serializedStatement['statement'];
-        ksort($serializedStatementStatement);
-        $serializedStatement['statement'] = $serializedStatementStatement;
-
-        $expectedSerializedDataStatement = $expectedSerializedData['statement'];
-        ksort($expectedSerializedDataStatement);
-        $expectedSerializedData['statement'] = $expectedSerializedDataStatement;
-
-        self::assertSame($expectedSerializedData, $serializedStatement);
     }
 
     /**
