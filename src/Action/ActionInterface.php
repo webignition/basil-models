@@ -12,10 +12,6 @@ interface ActionInterface extends StatementInterface
 
     public function getArguments(): ?string;
 
-    public function getIdentifier(): ?string;
-
-    public function getValue(): ?string;
-
     public function isBrowserOperation(): bool;
 
     public function isInteraction(): bool;
