@@ -74,13 +74,29 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param array<mixed> $expectedSerialisedData
+     * @param array<mixed> $expectedSerializedData
      */
     public function testJsonSerialize(
         DerivedValueOperationAssertion $derivedAssertion,
-        array $expectedSerialisedData
+        array $expectedSerializedData
     ): void {
-        $this->assertSame($expectedSerialisedData, $derivedAssertion->jsonSerialize());
+        $serializedStatement = $derivedAssertion->jsonSerialize();
+
+        ksort($serializedStatement);
+        ksort($expectedSerializedData);
+
+        self::assertArrayHasKey('statement', $serializedStatement);
+        self::assertArrayHasKey('statement', $expectedSerializedData);
+
+        $serializedStatementStatement = $serializedStatement['statement'];
+        ksort($serializedStatementStatement);
+        $serializedStatement['statement'] = $serializedStatementStatement;
+
+        $expectedSerializedDataStatement = $expectedSerializedData['statement'];
+        ksort($expectedSerializedDataStatement);
+        $expectedSerializedData['statement'] = $expectedSerializedDataStatement;
+
+        self::assertSame($expectedSerializedData, $serializedStatement);
     }
 
     /**

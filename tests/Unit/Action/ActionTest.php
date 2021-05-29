@@ -65,7 +65,12 @@ class ActionTest extends \PHPUnit\Framework\TestCase
      */
     public function testJsonSerialize(ActionInterface $action, array $expectedSerializedData): void
     {
-        $this->assertSame($expectedSerializedData, $action->jsonSerialize());
+        $serializedStatement = $action->jsonSerialize();
+
+        ksort($serializedStatement);
+        ksort($expectedSerializedData);
+
+        self::assertSame($expectedSerializedData, $serializedStatement);
     }
 
     /**

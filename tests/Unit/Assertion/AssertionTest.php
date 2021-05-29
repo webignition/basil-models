@@ -148,7 +148,12 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
      */
     public function testJsonSerialize(AssertionInterface $assertion, array $expectedSerializedData): void
     {
-        $this->assertSame($expectedSerializedData, $assertion->jsonSerialize());
+        $serializedStatement = $assertion->jsonSerialize();
+
+        ksort($serializedStatement);
+        ksort($expectedSerializedData);
+
+        self::assertSame($expectedSerializedData, $serializedStatement);
     }
 
     /**

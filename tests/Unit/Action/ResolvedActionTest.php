@@ -70,7 +70,23 @@ class ResolvedActionTest extends \PHPUnit\Framework\TestCase
      */
     public function testJsonSerialize(EncapsulatingActionInterface $action, array $expectedSerializedData): void
     {
-        $this->assertSame($expectedSerializedData, $action->jsonSerialize());
+        $serializedStatement = $action->jsonSerialize();
+
+        ksort($serializedStatement);
+        ksort($expectedSerializedData);
+
+        self::assertArrayHasKey('statement', $serializedStatement);
+        self::assertArrayHasKey('statement', $expectedSerializedData);
+
+        $serializedStatementStatement = $serializedStatement['statement'];
+        ksort($serializedStatementStatement);
+        $serializedStatement['statement'] = $serializedStatementStatement;
+
+        $expectedSerializedDataStatement = $expectedSerializedData['statement'];
+        ksort($expectedSerializedDataStatement);
+        $expectedSerializedData['statement'] = $expectedSerializedDataStatement;
+
+        self::assertSame($expectedSerializedData, $serializedStatement);
     }
 
     /**
