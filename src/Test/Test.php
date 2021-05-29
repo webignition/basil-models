@@ -9,19 +9,11 @@ use webignition\BasilModels\Step\StepCollectionInterface;
 class Test implements TestInterface
 {
     private ?string $path = null;
-    private ConfigurationInterface $configuration;
-    private StepCollectionInterface $steps;
 
-    /**
-     * @param ConfigurationInterface $configuration
-     * @param StepCollectionInterface $steps
-     */
     public function __construct(
-        ConfigurationInterface $configuration,
-        StepCollectionInterface $steps
+        private ConfigurationInterface $configuration,
+        private StepCollectionInterface $steps
     ) {
-        $this->configuration = $configuration;
-        $this->steps = $steps;
     }
 
     public function getPath(): ?string

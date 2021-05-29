@@ -11,11 +11,9 @@ use webignition\BasilModels\UnknownEncapsulatedStatementException;
 
 class Factory
 {
-    private ActionFactory $actionFactory;
-
-    public function __construct(ActionFactory $actionFactory)
-    {
-        $this->actionFactory = $actionFactory;
+    public function __construct(
+        private ActionFactory $actionFactory
+    ) {
     }
 
     public static function createFactory(): self
@@ -27,8 +25,6 @@ class Factory
 
     /**
      * @param array<mixed> $data
-     *
-     * @return AssertionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
@@ -51,10 +47,6 @@ class Factory
     }
 
     /**
-     * @param string $json
-     *
-     * @return AssertionInterface
-     *
      * @throws UnknownEncapsulatedStatementException
      */
     public function createFromJson(string $json): AssertionInterface
@@ -65,8 +57,6 @@ class Factory
     /**
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
-     *
-     * @return DerivedValueOperationAssertion
      *
      * @throws UnknownEncapsulatedStatementException
      */
@@ -84,8 +74,6 @@ class Factory
     /**
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
-     *
-     * @return EncapsulatingAssertionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
@@ -106,8 +94,6 @@ class Factory
 
     /**
      * @param array<mixed> $data
-     *
-     * @return StatementInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
@@ -133,8 +119,6 @@ class Factory
     /**
      * @param array<mixed> $data
      *
-     * @return StatementInterface|null
-     *
      * @throws UnknownEncapsulatedStatementException
      */
     private function createPossibleEncapsulatingStatement(array $data): ?StatementInterface
@@ -152,8 +136,6 @@ class Factory
     /**
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
-     *
-     * @return StatementInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */

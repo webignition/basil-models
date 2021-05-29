@@ -12,17 +12,13 @@ class Assertion extends Statement implements AssertionInterface
     private const KEY_OPERATOR = 'operator';
     private const KEY_VALUE = 'value';
 
-    private string $identifier;
-    private string $operator;
-    private ?string $value;
-
-    public function __construct(string $source, string $identifier, string $operator, ?string $value = null)
-    {
+    public function __construct(
+        string $source,
+        private string $identifier,
+        private string $operator,
+        private ?string $value = null
+    ) {
         parent::__construct($source);
-
-        $this->identifier = $identifier;
-        $this->operator = $operator;
-        $this->value = $value;
     }
 
     public function getStatementType(): string

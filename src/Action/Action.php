@@ -13,25 +13,16 @@ class Action extends Statement implements ActionInterface
     private const KEY_IDENTIFIER = 'identifier';
     private const KEY_VALUE = 'value';
 
-    private string $type;
-    private ?string $arguments;
-    private ?string $identifier;
-    private ?string $value;
-
     public function __construct(
         string $source,
-        string $type,
-        ?string $arguments = null,
-        ?string $identifier = null,
-        ?string $value = null
+        private string $type,
+        private ?string $arguments = null,
+        private ?string $identifier = null,
+        private ?string $value = null
     ) {
         parent::__construct($source);
 
         $this->source = $source;
-        $this->type = $type;
-        $this->arguments = $arguments;
-        $this->identifier = $identifier;
-        $this->value = $value;
     }
 
     public function getStatementType(): string

@@ -9,17 +9,17 @@ class Imports implements ImportsInterface
     /**
      * @var string[]
      */
-    private array $stepPaths = [];
+    private array $stepPaths;
 
     /**
      * @var string[]
      */
-    private array $pagePaths = [];
+    private array $pagePaths;
 
     /**
      * @var string[]
      */
-    private array $dataProviderPaths = [];
+    private array $dataProviderPaths;
 
     public function __construct()
     {
@@ -45,8 +45,6 @@ class Imports implements ImportsInterface
 
     /**
      * @param array<mixed> $paths
-     *
-     * @return Imports
      */
     public function withStepPaths(array $paths): Imports
     {
@@ -58,8 +56,6 @@ class Imports implements ImportsInterface
 
     /**
      * @param array<mixed> $paths
-     *
-     * @return Imports
      */
     public function withPagePaths(array $paths): Imports
     {
@@ -71,8 +67,6 @@ class Imports implements ImportsInterface
 
     /**
      * @param array<mixed> $paths
-     *
-     * @return Imports
      */
     public function withDataProviderPaths(array $paths): Imports
     {

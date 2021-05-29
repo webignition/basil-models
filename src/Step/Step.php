@@ -14,12 +14,12 @@ class Step implements StepInterface
     /**
      * @var ActionInterface[]
      */
-    private array $actions = [];
+    private array $actions;
 
     /**
      * @var AssertionInterface[]
      */
-    private array $assertions = [];
+    private array $assertions;
 
     private ?DataSetCollectionInterface $data = null;
     private ?string $importName = null;
@@ -28,7 +28,7 @@ class Step implements StepInterface
     /**
      * @var string[]
      */
-    private array $identifiers = [];
+    private array $identifiers;
 
     /**
      * @param array<mixed> $actions
@@ -54,8 +54,6 @@ class Step implements StepInterface
 
     /**
      * @param ActionInterface[] $actions
-     *
-     * @return StepInterface
      */
     public function withActions(array $actions): StepInterface
     {
@@ -75,8 +73,6 @@ class Step implements StepInterface
 
     /**
      * @param AssertionInterface[] $assertions
-     *
-     * @return StepInterface
      */
     public function withAssertions(array $assertions): StepInterface
     {
@@ -151,8 +147,6 @@ class Step implements StepInterface
 
     /**
      * @param string[] $identifiers
-     *
-     * @return Step
      */
     public function withIdentifiers(array $identifiers): Step
     {
@@ -268,7 +262,6 @@ class Step implements StepInterface
     }
 
     /**
-     * @param string $value
      * @param string[] $dataParameterNames
      */
     private function addDataParameterName(string $value, array &$dataParameterNames): void

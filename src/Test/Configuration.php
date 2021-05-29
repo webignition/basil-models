@@ -6,13 +6,10 @@ namespace webignition\BasilModels\Test;
 
 class Configuration implements ConfigurationInterface
 {
-    private string $browser;
-    private string $url;
-
-    public function __construct(string $browser, string $url)
-    {
-        $this->browser = $browser;
-        $this->url = $url;
+    public function __construct(
+        private string $browser,
+        private string $url
+    ) {
     }
 
     public function getBrowser(): string

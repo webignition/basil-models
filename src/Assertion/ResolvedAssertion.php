@@ -6,18 +6,15 @@ namespace webignition\BasilModels\Assertion;
 
 use webignition\BasilModels\EncapsulatingStatementData;
 
-class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInterface
+class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInterface, \Stringable
 {
-    private AssertionInterface $sourceAssertion;
     private AssertionInterface $assertion;
     private EncapsulatingStatementData $encapsulatingStatementData;
-
     public function __construct(
-        AssertionInterface $sourceAssertion,
+        private AssertionInterface $sourceAssertion,
         string $identifier,
         ?string $value = null
     ) {
-        $this->sourceAssertion = $sourceAssertion;
         $this->assertion = $this->createAssertion($sourceAssertion, $identifier, $value);
         $this->encapsulatingStatementData = $this->createEncapsulatingStatementData(
             $sourceAssertion,

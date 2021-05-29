@@ -16,8 +16,6 @@ class Factory
     /**
      * @param array<mixed> $data
      *
-     * @return ActionInterface
-     *
      * @throws UnknownEncapsulatedStatementException
      */
     public function createFromArray(array $data): ActionInterface
@@ -48,10 +46,6 @@ class Factory
     }
 
     /**
-     * @param string $json
-     *
-     * @return ActionInterface
-     *
      * @throws UnknownEncapsulatedStatementException
      */
     public function createFromJson(string $json): ActionInterface
@@ -62,8 +56,6 @@ class Factory
     /**
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
-     *
-     * @return ActionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */
@@ -84,8 +76,6 @@ class Factory
     /**
      * @param array<mixed> $containerData
      * @param array<mixed> $statementData
-     *
-     * @return EncapsulatingActionInterface
      *
      * @throws UnknownEncapsulatedStatementException
      */

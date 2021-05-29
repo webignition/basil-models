@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels;
 
-abstract class Statement implements StatementInterface
+abstract class Statement implements StatementInterface, \Stringable
 {
     protected const KEY_STATEMENT_TYPE = 'statement-type';
     protected const KEY_SOURCE = 'source';
 
-    protected string $source;
-
-    public function __construct(string $source)
-    {
-        $this->source = $source;
+    public function __construct(
+        protected string $source
+    ) {
     }
 
     public function getSource(): string

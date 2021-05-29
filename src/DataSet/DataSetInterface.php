@@ -20,8 +20,6 @@ interface DataSetInterface
 
     /**
      * @param string[] $parameterNames
-     *
-     * @return bool
      */
     public function hasParameterNames(array $parameterNames): bool;
 
