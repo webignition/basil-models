@@ -62,9 +62,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider hasParameterNamesDataProvider
      *
-     * @param DataSetInterface $dataSet
      * @param string[] $parameterNames
-     * @param bool $expectedHasParameterNames
      */
     public function testHasParameterNames(
         DataSetInterface $dataSet,
@@ -171,7 +169,6 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider toArrayDataProvider
      *
-     * @param DataSetInterface $dataSet
      * @param array<mixed> $expectedArray
      */
     public function testToArray(DataSetInterface $dataSet, array $expectedArray): void
@@ -212,7 +209,6 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
      * @dataProvider fromArrayDataProvider
      *
      * @param array<mixed> $data
-     * @param DataSetInterface $expectedDataSet
      */
     public function testFromArray(array $data, DataSetInterface $expectedDataSet): void
     {

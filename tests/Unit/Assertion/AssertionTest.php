@@ -144,7 +144,6 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param AssertionInterface $assertion
      * @param array<string, string> $expectedSerializedData
      */
     public function testJsonSerialize(AssertionInterface $assertion, array $expectedSerializedData): void

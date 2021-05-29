@@ -35,7 +35,6 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
      * @dataProvider createFromArrayDataProvider
      *
      * @param array<mixed> $data
-     * @param AssertionInterface $expectedAssertion
      */
     public function testCreateFromArray(array $data, AssertionInterface $expectedAssertion): void
     {
@@ -252,7 +251,6 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
      * @dataProvider createFromArrayDataProvider
      *
      * @param array<mixed> $assertionData
-     * @param AssertionInterface $expectedAssertion
      */
     public function testCreateFromJson(array $assertionData, AssertionInterface $expectedAssertion): void
     {

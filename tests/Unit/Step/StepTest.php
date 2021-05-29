@@ -205,9 +205,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider withPrependedActionsDataProvider
      *
-     * @param StepInterface $step
      * @param ActionInterface[] $actions
-     * @param StepInterface $expectedStep
      */
     public function testWithPrependedActions(StepInterface $step, array $actions, StepInterface $expectedStep): void
     {
@@ -300,9 +298,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider withPrependedAssertionsDataProvider
      *
-     * @param StepInterface $step
      * @param AssertionInterface[] $assertions
-     * @param StepInterface $expectedStep
      */
     public function testWithPrependedAssertions(
         StepInterface $step,
@@ -404,7 +400,6 @@ class StepTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getDataParameterNamesDataProvider
      *
-     * @param StepInterface $step
      * @param string[] $expectedDataParameterNames
      */
     public function testGetDataParameterNames(StepInterface $step, array $expectedDataParameterNames): void

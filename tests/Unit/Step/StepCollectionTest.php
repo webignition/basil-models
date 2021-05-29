@@ -14,7 +14,6 @@ class StepCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getStepNamesDataProvider
      *
-     * @param StepCollectionInterface $collection
      * @param string[] $expectedNames
      */
     public function testGetStepNames(StepCollectionInterface $collection, array $expectedNames): void
