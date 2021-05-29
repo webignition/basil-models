@@ -8,8 +8,9 @@ use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\DerivedValueOperationAssertion;
 use webignition\BasilModels\StatementInterface;
+use webignition\BasilModels\Tests\Unit\AbstractStatementTest;
 
-class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
+class DerivedValueOperationAssertionTest extends AbstractStatementTest
 {
     /**
      * @dataProvider createDataProvider
@@ -69,18 +70,6 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
                 'expectedStringRepresentation' => '$".selector" is-regexp',
             ],
         ];
-    }
-
-    /**
-     * @dataProvider jsonSerializeDataProvider
-     *
-     * @param array<mixed> $expectedSerialisedData
-     */
-    public function testJsonSerialize(
-        DerivedValueOperationAssertion $derivedAssertion,
-        array $expectedSerialisedData
-    ): void {
-        $this->assertSame($expectedSerialisedData, $derivedAssertion->jsonSerialize());
     }
 
     /**

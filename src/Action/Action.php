@@ -10,19 +10,15 @@ class Action extends Statement implements ActionInterface
 {
     private const KEY_TYPE = 'type';
     private const KEY_ARGUMENTS = 'arguments';
-    private const KEY_IDENTIFIER = 'identifier';
-    private const KEY_VALUE = 'value';
 
     public function __construct(
         string $source,
         private string $type,
         private ?string $arguments = null,
-        private ?string $identifier = null,
-        private ?string $value = null
+        ?string $identifier = null,
+        ?string $value = null
     ) {
-        parent::__construct($source);
-
-        $this->source = $source;
+        parent::__construct($source, $identifier, $value);
     }
 
     public function getStatementType(): string
@@ -38,16 +34,6 @@ class Action extends Statement implements ActionInterface
     public function getArguments(): ?string
     {
         return $this->arguments;
-    }
-
-    public function getIdentifier(): ?string
-    {
-        return $this->identifier;
-    }
-
-    public function getValue(): ?string
-    {
-        return $this->value;
     }
 
     public static function isBrowserOperationType(string $type): bool
@@ -101,14 +87,6 @@ class Action extends Statement implements ActionInterface
 
         if (null !== $this->arguments) {
             $data[self::KEY_ARGUMENTS] = $this->arguments;
-        }
-
-        if (null !== $this->identifier) {
-            $data[self::KEY_IDENTIFIER] = $this->identifier;
-        }
-
-        if (null !== $this->value) {
-            $data[self::KEY_VALUE] = $this->value;
         }
 
         return $data;

@@ -8,9 +8,13 @@ interface StatementInterface extends \JsonSerializable
 {
     public function __toString(): string;
 
+    public function getIdentifier(): ?string;
+
     public function getSource(): string;
 
     public function getStatementType(): string;
+
+    public function getValue(): ?string;
 
     /**
      * @return array<mixed>

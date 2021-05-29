@@ -206,7 +206,7 @@ class Step implements StepInterface
         }
 
         foreach ($this->getAssertions() as $assertion) {
-            $identifier = $assertion->getIdentifier();
+            $identifier = (string) $assertion->getIdentifier();
             $this->addDataParameterName($identifier, $dataParameterNames);
 
             $value = $assertion->getValue();

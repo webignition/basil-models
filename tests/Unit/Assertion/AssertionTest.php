@@ -6,8 +6,9 @@ namespace webignition\BasilModels\Tests\Unit\Assertion;
 
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
+use webignition\BasilModels\Tests\Unit\AbstractStatementTest;
 
-class AssertionTest extends \PHPUnit\Framework\TestCase
+class AssertionTest extends AbstractStatementTest
 {
     /**
      * @dataProvider createDataProvider
@@ -139,16 +140,6 @@ class AssertionTest extends \PHPUnit\Framework\TestCase
                 ),
             ],
         ];
-    }
-
-    /**
-     * @dataProvider jsonSerializeDataProvider
-     *
-     * @param array<string, string> $expectedSerializedData
-     */
-    public function testJsonSerialize(AssertionInterface $assertion, array $expectedSerializedData): void
-    {
-        $this->assertSame($expectedSerializedData, $assertion->jsonSerialize());
     }
 
     /**

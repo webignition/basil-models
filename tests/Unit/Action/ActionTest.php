@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Tests\Unit\Action;
 
 use webignition\BasilModels\Action\Action;
-use webignition\BasilModels\Action\ActionInterface;
+use webignition\BasilModels\Tests\Unit\AbstractStatementTest;
 
-class ActionTest extends \PHPUnit\Framework\TestCase
+class ActionTest extends AbstractStatementTest
 {
     /**
      * @dataProvider createDataProvider
@@ -56,16 +56,6 @@ class ActionTest extends \PHPUnit\Framework\TestCase
                 'value' => '"value"',
             ],
         ];
-    }
-
-    /**
-     * @dataProvider jsonSerializeDataProvider
-     *
-     * @param array<string, string> $expectedSerializedData
-     */
-    public function testJsonSerialize(ActionInterface $action, array $expectedSerializedData): void
-    {
-        $this->assertSame($expectedSerializedData, $action->jsonSerialize());
     }
 
     /**

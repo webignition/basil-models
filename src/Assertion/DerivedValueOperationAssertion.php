@@ -36,7 +36,7 @@ class DerivedValueOperationAssertion implements AssertionInterface, Encapsulatin
         return 'assertion';
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier(): ?string
     {
         return $this->assertion->getIdentifier();
     }

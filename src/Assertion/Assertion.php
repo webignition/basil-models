@@ -8,17 +8,15 @@ use webignition\BasilModels\Statement;
 
 class Assertion extends Statement implements AssertionInterface
 {
-    private const KEY_IDENTIFIER = 'identifier';
     private const KEY_OPERATOR = 'operator';
-    private const KEY_VALUE = 'value';
 
     public function __construct(
         string $source,
-        private string $identifier,
+        string $identifier,
         private string $operator,
-        private ?string $value = null
+        ?string $value = null
     ) {
-        parent::__construct($source);
+        parent::__construct($source, $identifier, $value);
     }
 
     public function getStatementType(): string
@@ -26,36 +24,27 @@ class Assertion extends Statement implements AssertionInterface
         return 'assertion';
     }
 
-    public function getIdentifier(): string
-    {
-        return $this->identifier;
-    }
-
     public function getOperator(): string
     {
         return $this->operator;
     }
 
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
     public function equals(AssertionInterface $assertion): bool
     {
         return
-            $this->identifier === $assertion->getIdentifier()
+            $this->getIdentifier() === $assertion->getIdentifier()
             && $this->operator === $assertion->getOperator()
-            && $this->value === $assertion->getValue();
+            && $this->getValue() === $assertion->getValue();
     }
 
     public function normalise(): AssertionInterface
     {
         $new = clone $this;
-        $new->source = $this->identifier . ' ' . $this->operator;
+        $new->source = $this->getIdentifier() . ' ' . $this->operator;
 
-        if (null !== $this->value) {
-            $new->source .= ' ' . $this->value;
+        $value = $this->getValue();
+        if (null !== $value) {
+            $new->source .= ' ' . $value;
         }
 
         return $new;
@@ -78,12 +67,7 @@ class Assertion extends Statement implements AssertionInterface
     {
         $data = parent::jsonSerialize();
 
-        $data[self::KEY_IDENTIFIER] = $this->identifier;
         $data[self::KEY_OPERATOR] = $this->operator;
-
-        if (null !== $this->value) {
-            $data[self::KEY_VALUE] = $this->value;
-        }
 
         return $data;
     }

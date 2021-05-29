@@ -8,11 +8,7 @@ use webignition\BasilModels\StatementInterface;
 
 interface AssertionInterface extends StatementInterface
 {
-    public function getIdentifier(): string;
-
     public function getOperator(): string;
-
-    public function getValue(): ?string;
 
     public function equals(AssertionInterface $assertion): bool;
 

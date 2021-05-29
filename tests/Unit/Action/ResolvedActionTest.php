@@ -6,10 +6,10 @@ namespace webignition\BasilModels\Tests\Unit\Action;
 
 use webignition\BasilModels\Action\Action;
 use webignition\BasilModels\Action\ActionInterface;
-use webignition\BasilModels\Action\EncapsulatingActionInterface;
 use webignition\BasilModels\Action\ResolvedAction;
+use webignition\BasilModels\Tests\Unit\AbstractStatementTest;
 
-class ResolvedActionTest extends \PHPUnit\Framework\TestCase
+class ResolvedActionTest extends AbstractStatementTest
 {
     /**
      * @dataProvider createDataProvider
@@ -61,16 +61,6 @@ class ResolvedActionTest extends \PHPUnit\Framework\TestCase
                 'expectedSource' => 'set $".selector" to "value"',
             ],
         ];
-    }
-
-    /**
-     * @dataProvider jsonSerializeDataProvider
-     *
-     * @param array<mixed> $expectedSerializedData
-     */
-    public function testJsonSerialize(EncapsulatingActionInterface $action, array $expectedSerializedData): void
-    {
-        $this->assertSame($expectedSerializedData, $action->jsonSerialize());
     }
 
     /**

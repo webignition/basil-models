@@ -34,7 +34,7 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
         return 'assertion';
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier(): ?string
     {
         return $this->assertion->getIdentifier();
     }

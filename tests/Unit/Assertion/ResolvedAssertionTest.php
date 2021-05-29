@@ -6,10 +6,10 @@ namespace webignition\BasilModels\Tests\Unit\Assertion;
 
 use webignition\BasilModels\Assertion\Assertion;
 use webignition\BasilModels\Assertion\AssertionInterface;
-use webignition\BasilModels\Assertion\EncapsulatingAssertionInterface;
 use webignition\BasilModels\Assertion\ResolvedAssertion;
+use webignition\BasilModels\Tests\Unit\AbstractStatementTest;
 
-class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
+class ResolvedAssertionTest extends AbstractStatementTest
 {
     /**
      * @dataProvider createDataProvider
@@ -68,16 +68,6 @@ class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
                 'expectedSource' => '$".resolved" is $".value"',
             ],
         ];
-    }
-
-    /**
-     * @dataProvider jsonSerializeDataProvider
-     *
-     * @param array<mixed> $expectedSerializedData
-     */
-    public function testJsonSerialize(EncapsulatingAssertionInterface $assertion, array $expectedSerializedData): void
-    {
-        $this->assertEquals($expectedSerializedData, $assertion->jsonSerialize());
     }
 
     /**
