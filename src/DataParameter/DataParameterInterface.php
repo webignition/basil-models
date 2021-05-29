@@ -6,7 +6,9 @@ namespace webignition\BasilModels\DataParameter;
 
 interface DataParameterInterface
 {
-    public function getProperty(): string;
-    public function isValid(): bool;
     public function __toString(): string;
+
+    public function getProperty(): string;
+
+    public function isValid(): bool;
 }

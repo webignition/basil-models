@@ -31,14 +31,19 @@ interface StepInterface
     public function withAssertions(array $assertions): StepInterface;
 
     public function getData(): ?DataSetCollectionInterface;
+
     public function withData(DataSetCollectionInterface $data): StepInterface;
 
     public function getImportName(): ?string;
+
     public function withImportName(string $importName): StepInterface;
+
     public function removeImportName(): StepInterface;
 
     public function getDataImportName(): ?string;
+
     public function withDataImportName(string $dataImportName): StepInterface;
+
     public function removeDataImportName(): StepInterface;
 
     /**

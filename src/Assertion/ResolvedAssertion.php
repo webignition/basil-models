@@ -10,6 +10,7 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
 {
     private AssertionInterface $assertion;
     private EncapsulatingStatementData $encapsulatingStatementData;
+
     public function __construct(
         private AssertionInterface $sourceAssertion,
         string $identifier,
@@ -21,6 +22,11 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
             $identifier,
             $value
         );
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->assertion;
     }
 
     public function getStatementType(): string
@@ -66,11 +72,6 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
     public function isComparison(): bool
     {
         return $this->assertion->isComparison();
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->assertion;
     }
 
     public function jsonSerialize(): array

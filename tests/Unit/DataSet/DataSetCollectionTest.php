@@ -13,7 +13,7 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider createDataProvider
      *
-     * @param array<mixed> $data
+     * @param array<mixed>       $data
      * @param DataSetInterface[] $expectedDataSets
      */
     public function testCreate(array $data, array $expectedDataSets): void

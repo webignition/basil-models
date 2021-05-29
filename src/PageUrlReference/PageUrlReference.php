@@ -8,6 +8,11 @@ use webignition\BasilModels\AbstractObjectWithProperty;
 
 class PageUrlReference extends AbstractObjectWithProperty implements PageUrlReferenceInterface
 {
+    public function getImportName(): string
+    {
+        return ltrim($this->getValuePart(0), '$');
+    }
+
     protected static function getPatternPrefix(): string
     {
         return '\$[^\.]+';
@@ -16,10 +21,5 @@ class PageUrlReference extends AbstractObjectWithProperty implements PageUrlRefe
     protected static function getPropertyPattern(): string
     {
         return 'url';
-    }
-
-    public function getImportName(): string
-    {
-        return ltrim($this->getValuePart(0), '$');
     }
 }

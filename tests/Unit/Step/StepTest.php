@@ -17,9 +17,9 @@ class StepTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider createDataProvider
      *
-     * @param array<mixed> $actions
-     * @param array<mixed> $assertions
-     * @param ActionInterface[] $expectedActions
+     * @param array<mixed>         $actions
+     * @param array<mixed>         $assertions
+     * @param ActionInterface[]    $expectedActions
      * @param AssertionInterface[] $expectedAssertions
      */
     public function testCreate(

@@ -14,12 +14,12 @@ abstract class Statement implements StatementInterface, \Stringable
     ) {
     }
 
-    public function getSource(): string
+    public function __toString(): string
     {
         return $this->source;
     }
 
-    public function __toString(): string
+    public function getSource(): string
     {
         return $this->source;
     }

@@ -9,7 +9,10 @@ use webignition\BasilModels\Step\StepCollectionInterface;
 interface TestInterface
 {
     public function getPath(): ?string;
+
     public function getConfiguration(): ConfigurationInterface;
+
     public function getSteps(): StepCollectionInterface;
+
     public function withPath(string $path): TestInterface;
 }

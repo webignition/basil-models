@@ -13,7 +13,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
      * @dataProvider getParameterNamesDataProvider
      *
      * @param array<int|string, string> $data
-     * @param string[] $expectedParameterNames
+     * @param string[]                  $expectedParameterNames
      */
     public function testGetParameterNames(array $data, array $expectedParameterNames): void
     {

@@ -15,7 +15,7 @@ class TestSuiteTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider createDataProvider
      *
-     * @param array<mixed> $tests
+     * @param array<mixed>    $tests
      * @param TestInterface[] $expectedTests
      */
     public function testCreate(string $name, array $tests, array $expectedTests): void
