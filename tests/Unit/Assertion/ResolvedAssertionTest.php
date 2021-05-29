@@ -73,7 +73,6 @@ class ResolvedAssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param EncapsulatingAssertionInterface $assertion
      * @param array<mixed> $expectedSerializedData
      */
     public function testJsonSerialize(EncapsulatingAssertionInterface $assertion, array $expectedSerializedData): void

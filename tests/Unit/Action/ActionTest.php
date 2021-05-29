@@ -61,7 +61,6 @@ class ActionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param ActionInterface $action
      * @param array<string, string> $expectedSerializedData
      */
     public function testJsonSerialize(ActionInterface $action, array $expectedSerializedData): void

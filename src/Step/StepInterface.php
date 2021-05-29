@@ -17,8 +17,6 @@ interface StepInterface
 
     /**
      * @param ActionInterface[] $actions
-     *
-     * @return StepInterface
      */
     public function withActions(array $actions): StepInterface;
 
@@ -29,8 +27,6 @@ interface StepInterface
 
     /**
      * @param AssertionInterface[] $assertions
-     *
-     * @return StepInterface
      */
     public function withAssertions(array $assertions): StepInterface;
 
@@ -52,8 +48,6 @@ interface StepInterface
 
     /**
      * @param string[] $identifiers
-     *
-     * @return Step
      */
     public function withIdentifiers(array $identifiers): Step;
 
@@ -61,15 +55,11 @@ interface StepInterface
 
     /**
      * @param ActionInterface[] $actions
-     *
-     * @return StepInterface
      */
     public function withPrependedActions(array $actions): StepInterface;
 
     /**
      * @param AssertionInterface[] $assertions
-     *
-     * @return StepInterface
      */
     public function withPrependedAssertions(array $assertions): StepInterface;
 

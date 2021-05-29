@@ -6,20 +6,18 @@ namespace webignition\BasilModels\DataSet;
 
 class DataSet implements DataSetInterface
 {
-    private string $name;
-
     /**
      * @var array<int|string, string>
      */
     private array $data;
 
     /**
-     * @param string $name
      * @param array<int|string, string> $data
      */
-    public function __construct(string $name, array $data)
-    {
-        $this->name = $name;
+    public function __construct(
+        private string $name,
+        array $data
+    ) {
         $this->data = [];
 
         foreach ($data as $key => $value) {
@@ -29,8 +27,6 @@ class DataSet implements DataSetInterface
 
     /**
      * @param array<mixed> $data
-     *
-     * @return self
      */
     public static function fromArray(array $data): self
     {
@@ -71,8 +67,6 @@ class DataSet implements DataSetInterface
 
     /**
      * @param string[] $parameterNames
-     *
-     * @return bool
      */
     public function hasParameterNames(array $parameterNames): bool
     {

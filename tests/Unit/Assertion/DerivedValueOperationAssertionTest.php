@@ -74,7 +74,6 @@ class DerivedValueOperationAssertionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param DerivedValueOperationAssertion $derivedAssertion
      * @param array<mixed> $expectedSerialisedData
      */
     public function testJsonSerialize(

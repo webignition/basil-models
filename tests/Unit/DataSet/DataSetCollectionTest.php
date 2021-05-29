@@ -76,7 +76,6 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getParameterNamesDataProvider
      *
-     * @param DataSetCollection $dataSetCollection
      * @param string[] $expectedKeys
      */
     public function testGetParameterNames(DataSetCollection $dataSetCollection, array $expectedKeys): void
@@ -114,7 +113,6 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider toArrayDataProvider
      *
-     * @param DataSetCollection $dataSetCollection
      * @param array<string, array<int|string, string>> $expectedData
      */
     public function testToArray(DataSetCollection $dataSetCollection, array $expectedData): void

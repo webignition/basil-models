@@ -8,15 +8,15 @@ use webignition\BasilModels\EncapsulatingStatementData;
 use webignition\BasilModels\EncapsulatingStatementInterface;
 use webignition\BasilModels\StatementInterface;
 
-class DerivedValueOperationAssertion implements AssertionInterface, EncapsulatingStatementInterface
+class DerivedValueOperationAssertion implements AssertionInterface, EncapsulatingStatementInterface, \Stringable
 {
-    private StatementInterface $sourceStatement;
     private AssertionInterface $assertion;
     private EncapsulatingStatementData $encapsulatingStatementData;
-
-    public function __construct(StatementInterface $sourceStatement, string $value, string $operator)
-    {
-        $this->sourceStatement = $sourceStatement;
+    public function __construct(
+        private StatementInterface $sourceStatement,
+        string $value,
+        string $operator
+    ) {
         $this->assertion = new Assertion($value . ' ' . $operator, $value, $operator);
         $this->encapsulatingStatementData = $this->createEncapsulatingStatementData(
             $sourceStatement,

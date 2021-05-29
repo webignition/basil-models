@@ -66,7 +66,6 @@ class ResolvedActionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param EncapsulatingActionInterface $action
      * @param array<mixed> $expectedSerializedData
      */
     public function testJsonSerialize(EncapsulatingActionInterface $action, array $expectedSerializedData): void

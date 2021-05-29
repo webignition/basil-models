@@ -29,7 +29,6 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
      * @dataProvider createFromArrayDataProvider
      *
      * @param array<mixed> $actionData
-     * @param ActionInterface $expectedAction
      */
     public function testCreateFromArray(array $actionData, ActionInterface $expectedAction): void
     {
@@ -197,7 +196,6 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
      * @dataProvider createFromArrayDataProvider
      *
      * @param array<mixed> $actionData
-     * @param ActionInterface $expectedAction
      */
     public function testCreateFromJson(array $actionData, ActionInterface $expectedAction): void
     {

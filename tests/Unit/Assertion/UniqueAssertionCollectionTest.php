@@ -135,8 +135,6 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider mergeDataProvider
      *
-     * @param UniqueAssertionCollection $collection
-     * @param UniqueAssertionCollection $additions
      * @param AssertionInterface[] $expectedAssertions
      */
     public function testMerge(

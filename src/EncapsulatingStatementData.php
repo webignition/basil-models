@@ -10,28 +10,19 @@ class EncapsulatingStatementData
     public const KEY_CONTAINER_TYPE = 'type';
     public const KEY_STATEMENT = 'statement';
 
-    private string $containerType;
-
-    /**
-     * @var array<mixed>
-     */
-    private array $encapsulationData = [];
-
     /**
      * @var array<mixed>
      */
     private array $sourceData = [];
 
     /**
-     * @param StatementInterface $statement
-     * @param string $containerType
      * @param array<mixed> $encapsulationData
      */
-    public function __construct(StatementInterface $statement, string $containerType, array $encapsulationData)
-    {
-        $this->containerType = $containerType;
-        $this->encapsulationData = $encapsulationData;
-
+    public function __construct(
+        StatementInterface $statement,
+        private string $containerType,
+        private array $encapsulationData
+    ) {
         $this->sourceData = $statement->jsonSerialize();
     }
 

@@ -8,21 +8,18 @@ use webignition\BasilModels\Test\TestInterface;
 
 class TestSuite implements TestSuiteInterface
 {
-    private string $name = '';
-
     /**
      * @var TestInterface[]
      */
     private array $tests = [];
 
     /**
-     * @param string $name
      * @param TestInterface[] $tests
      */
-    public function __construct(string $name, array $tests)
-    {
-        $this->name = $name;
-
+    public function __construct(
+        private string $name,
+        array $tests
+    ) {
         foreach ($tests as $test) {
             if ($test instanceof TestInterface) {
                 $this->tests[] = $test;

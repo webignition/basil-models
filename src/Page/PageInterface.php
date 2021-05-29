@@ -17,8 +17,6 @@ interface PageInterface
 
     /**
      * @param string[] $identifiers
-     *
-     * @return PageInterface
      */
     public function withIdentifiers(array $identifiers): PageInterface;
 }
