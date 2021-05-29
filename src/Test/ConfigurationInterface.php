@@ -11,6 +11,8 @@ interface ConfigurationInterface
     public const VALIDATION_STATE_URL_EMPTY = 3;
 
     public function getBrowser(): string;
+
     public function getUrl(): string;
+
     public function validate(): int;
 }

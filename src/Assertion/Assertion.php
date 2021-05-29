@@ -44,9 +44,9 @@ class Assertion extends Statement implements AssertionInterface
     public function equals(AssertionInterface $assertion): bool
     {
         return
-            $this->identifier === $assertion->getIdentifier() &&
-            $this->operator === $assertion->getOperator() &&
-            $this->value === $assertion->getValue();
+            $this->identifier === $assertion->getIdentifier()
+            && $this->operator === $assertion->getOperator()
+            && $this->value === $assertion->getValue();
     }
 
     public function normalise(): AssertionInterface

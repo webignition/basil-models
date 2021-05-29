@@ -27,8 +27,10 @@ abstract class AbstractObjectWithProperty implements \Stringable
         }
     }
 
-    abstract protected static function getPatternPrefix(): string;
-    abstract protected static function getPropertyPattern(): string;
+    public function __toString(): string
+    {
+        return $this->value;
+    }
 
     public static function is(string $value): bool
     {
@@ -45,6 +47,10 @@ abstract class AbstractObjectWithProperty implements \Stringable
         return $this->isValid;
     }
 
+    abstract protected static function getPatternPrefix(): string;
+
+    abstract protected static function getPropertyPattern(): string;
+
     protected function getValue(): string
     {
         return $this->value;
@@ -53,11 +59,6 @@ abstract class AbstractObjectWithProperty implements \Stringable
     protected function getMaxPartCount(): int
     {
         return 2;
-    }
-
-    public function __toString(): string
-    {
-        return $this->value;
     }
 
     protected function getPropertyPart(int $partIndex): string

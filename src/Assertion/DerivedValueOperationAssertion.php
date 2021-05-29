@@ -12,6 +12,7 @@ class DerivedValueOperationAssertion implements AssertionInterface, Encapsulatin
 {
     private AssertionInterface $assertion;
     private EncapsulatingStatementData $encapsulatingStatementData;
+
     public function __construct(
         private StatementInterface $sourceStatement,
         string $value,
@@ -23,6 +24,11 @@ class DerivedValueOperationAssertion implements AssertionInterface, Encapsulatin
             $value,
             $operator
         );
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->assertion;
     }
 
     public function getStatementType(): string
@@ -68,11 +74,6 @@ class DerivedValueOperationAssertion implements AssertionInterface, Encapsulatin
     public function isComparison(): bool
     {
         return $this->assertion->isComparison();
-    }
-
-    public function __toString(): string
-    {
-        return (string) $this->assertion;
     }
 
     public function jsonSerialize(): array

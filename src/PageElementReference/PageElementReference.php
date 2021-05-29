@@ -8,21 +8,6 @@ use webignition\BasilModels\AbstractObjectWithProperty;
 
 class PageElementReference extends AbstractObjectWithProperty implements PageElementReferenceInterface
 {
-    protected static function getPatternPrefix(): string
-    {
-        return '[^\.]+';
-    }
-
-    protected static function getPropertyPattern(): string
-    {
-        return 'elements\.[^ ]+';
-    }
-
-    protected function getMaxPartCount(): int
-    {
-        return 4;
-    }
-
     public function getImportName(): string
     {
         return $this->getValuePart(0);
@@ -36,5 +21,20 @@ class PageElementReference extends AbstractObjectWithProperty implements PageEle
     public function getAttributeName(): string
     {
         return $this->getValuePart(3);
+    }
+
+    protected static function getPatternPrefix(): string
+    {
+        return '[^\.]+';
+    }
+
+    protected static function getPropertyPattern(): string
+    {
+        return 'elements\.[^ ]+';
+    }
+
+    protected function getMaxPartCount(): int
+    {
+        return 4;
     }
 }

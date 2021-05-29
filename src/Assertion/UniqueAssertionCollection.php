@@ -45,7 +45,7 @@ class UniqueAssertionCollection implements \IteratorAggregate
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getIterator()
     {
@@ -57,7 +57,6 @@ class UniqueAssertionCollection implements \IteratorAggregate
         $normalisedCollection = new UniqueAssertionCollection();
 
         foreach ($this as $assertion) {
-            /** @var AssertionInterface $assertion */
             $normalisedCollection->add($assertion->normalise());
         }
 

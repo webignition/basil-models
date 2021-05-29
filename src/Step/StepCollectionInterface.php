@@ -15,5 +15,6 @@ interface StepCollectionInterface extends \Countable, \Iterator
     public function getStepNames(): array;
 
     public function current(): ?StepInterface;
+
     public function count(): int;
 }
