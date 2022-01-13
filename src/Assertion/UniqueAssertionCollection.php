@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Assertion;
 
 /**
- * @implements \IteratorAggregate<AssertionInterface>
+ * @implements \IteratorAggregate<int, AssertionInterface>
  */
 class UniqueAssertionCollection implements \IteratorAggregate
 {
@@ -45,9 +45,9 @@ class UniqueAssertionCollection implements \IteratorAggregate
     }
 
     /**
-     * {@inheritDoc}
+     * @return \Iterator<int, AssertionInterface>
      */
-    public function getIterator()
+    public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->assertions);
     }

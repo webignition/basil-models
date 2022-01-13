@@ -30,7 +30,7 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function createDataProvider(): array
     {
@@ -86,7 +86,7 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function getParameterNamesDataProvider(): array
     {
@@ -121,7 +121,7 @@ class DataSetCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function toArrayDataProvider(): array
     {

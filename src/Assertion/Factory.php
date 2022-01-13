@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Assertion;
 
 use webignition\BasilModels\Action\ActionInterface;
 use webignition\BasilModels\Action\Factory as ActionFactory;
+use webignition\BasilModels\ArrayAccessor;
 use webignition\BasilModels\StatementInterface;
 use webignition\BasilModels\UnknownEncapsulatedStatementException;
 
@@ -35,9 +36,9 @@ class Factory
             return $assertion;
         }
 
-        $source = (string) ($data['source'] ?? '');
-        $identifier = (string) ($data['identifier'] ?? '');
-        $operator = (string) ($data['operator'] ?? '');
+        $source = ArrayAccessor::getStringValue($data, 'source');
+        $identifier = ArrayAccessor::getStringValue($data, 'identifier');
+        $operator = ArrayAccessor::getStringValue($data, 'operator');
 
         $value = array_key_exists('value', $data)
             ? (string) $data['value']
@@ -51,7 +52,10 @@ class Factory
      */
     public function createFromJson(string $json): AssertionInterface
     {
-        return $this->createFromArray(json_decode($json, true));
+        $data = json_decode($json, true);
+        $data = is_array($data) ? $data : [];
+
+        return $this->createFromArray($data);
     }
 
     /**
@@ -66,8 +70,8 @@ class Factory
     ): DerivedValueOperationAssertion {
         return new DerivedValueOperationAssertion(
             $this->createStatement($statementData),
-            (string) ($containerData['value'] ?? ''),
-            (string) ($containerData['operator'] ?? '')
+            ArrayAccessor::getStringValue($containerData, 'value'),
+            ArrayAccessor::getStringValue($containerData, 'operator')
         );
     }
 
@@ -83,7 +87,7 @@ class Factory
     ): EncapsulatingAssertionInterface {
         $sourceAssertion = $this->createFromArray($statementData);
 
-        $identifier = (string) ($containerData['identifier'] ?? '');
+        $identifier = ArrayAccessor::getStringValue($containerData, 'identifier');
 
         $value = array_key_exists('value', $containerData)
             ? (string) $containerData['value']

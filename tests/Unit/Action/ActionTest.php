@@ -29,7 +29,7 @@ class ActionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function createDataProvider(): array
     {
@@ -59,7 +59,7 @@ class ActionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function jsonSerializeDataProvider(): array
     {

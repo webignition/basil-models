@@ -24,7 +24,7 @@ class AssertionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function createDataProvider(): array
     {
@@ -56,7 +56,7 @@ class AssertionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function equalsDataProvider(): array
     {
@@ -98,7 +98,7 @@ class AssertionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function normaliseDataProvider(): array
     {
@@ -143,7 +143,7 @@ class AssertionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function jsonSerializeDataProvider(): array
     {

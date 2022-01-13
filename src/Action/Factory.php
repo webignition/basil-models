@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Action;
 
+use webignition\BasilModels\ArrayAccessor;
 use webignition\BasilModels\UnknownEncapsulatedStatementException;
 
 class Factory
@@ -27,8 +28,8 @@ class Factory
             return $this->createEncapsulatingAction($containerData, $statementData);
         }
 
-        $source = (string) ($data['source'] ?? '');
-        $type = (string) ($data['type'] ?? '');
+        $source = ArrayAccessor::getStringValue($data, 'source');
+        $type = ArrayAccessor::getStringValue($data, 'type');
 
         $arguments = array_key_exists('arguments', $data)
             ? (string) $data['arguments']
@@ -50,7 +51,10 @@ class Factory
      */
     public function createFromJson(string $json): ActionInterface
     {
-        return $this->createFromArray(json_decode($json, true));
+        $data = json_decode($json, true);
+        $data = is_array($data) ? $data : [];
+
+        return $this->createFromArray($data);
     }
 
     /**

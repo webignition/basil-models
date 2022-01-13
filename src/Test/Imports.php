@@ -77,7 +77,7 @@ class Imports implements ImportsInterface
     }
 
     /**
-     * @param string[] $paths
+     * @param array<mixed> $paths
      *
      * @return string[]
      */
