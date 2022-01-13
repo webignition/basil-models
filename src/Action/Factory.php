@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Action;
 
+use webignition\BasilModels\ArrayAccessor;
 use webignition\BasilModels\UnknownEncapsulatedStatementException;
 
 class Factory
@@ -27,11 +28,8 @@ class Factory
             return $this->createEncapsulatingAction($containerData, $statementData);
         }
 
-        $source = $data['source'] ?? '';
-        $source = is_string($source) ? $source : '';
-
-        $type = $data['type'] ?? '';
-        $type = is_string($type) ? $type : '';
+        $source = ArrayAccessor::getStringValue($data, 'source');
+        $type = ArrayAccessor::getStringValue($data, 'type');
 
         $arguments = array_key_exists('arguments', $data)
             ? (string) $data['arguments']
