@@ -13,6 +13,10 @@ class ArrayAccessor
     {
         $value = $data[$key] ?? '';
 
+        if (is_int($value)) {
+            $value = (string) $value;
+        }
+
         return is_string($value) ? $value : '';
     }
 }

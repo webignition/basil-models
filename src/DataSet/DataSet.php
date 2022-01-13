@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\DataSet;
 
+use webignition\BasilModels\ArrayAccessor;
+
 class DataSet implements DataSetInterface
 {
     /**
@@ -30,10 +32,13 @@ class DataSet implements DataSetInterface
      */
     public static function fromArray(array $data): self
     {
-        return new DataSet(
-            (string) ($data['name'] ?? ''),
-            $data['data'] ?? []
-        );
+        $dataValues = $data['data'] ?? [];
+        $dataValues = is_array($dataValues) ? $dataValues : [];
+        array_walk($dataValues, function (&$item, $key) use ($dataValues) {
+            $item = ArrayAccessor::getStringValue($dataValues, $key);
+        });
+
+        return new DataSet(ArrayAccessor::getStringValue($data, 'name'), $dataValues);
     }
 
     public function getName(): string
