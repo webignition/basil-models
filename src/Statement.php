@@ -38,6 +38,9 @@ abstract class Statement implements StatementInterface, \Stringable
         return $this->value;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function jsonSerialize(): array
     {
         $data = [
