@@ -27,8 +27,11 @@ class Factory
             return $this->createEncapsulatingAction($containerData, $statementData);
         }
 
-        $source = (string) ($data['source'] ?? '');
-        $type = (string) ($data['type'] ?? '');
+        $source = $data['source'] ?? '';
+        $source = is_string($source) ? $source : '';
+
+        $type = $data['type'] ?? '';
+        $type = is_string($type) ? $type : '';
 
         $arguments = array_key_exists('arguments', $data)
             ? (string) $data['arguments']
@@ -50,7 +53,10 @@ class Factory
      */
     public function createFromJson(string $json): ActionInterface
     {
-        return $this->createFromArray(json_decode($json, true));
+        $data = json_decode($json, true);
+        $data = is_array($data) ? $data : [];
+
+        return $this->createFromArray($data);
     }
 
     /**
