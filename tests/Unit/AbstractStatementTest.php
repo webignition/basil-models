@@ -11,7 +11,7 @@ abstract class AbstractStatementTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider jsonSerializeDataProvider
      *
-     * @param array<string, array<string, string>|string> $expectedSerializedData
+     * @param array<mixed> $expectedSerializedData
      */
     public function testJsonSerialize(StatementInterface $statement, array $expectedSerializedData): void
     {
@@ -27,9 +27,9 @@ abstract class AbstractStatementTest extends \PHPUnit\Framework\TestCase
     abstract public function jsonSerializeDataProvider(): array;
 
     /**
-     * @param array<string, array<string, string>|string> $serializedStatement
+     * @param array<mixed> $serializedStatement
      *
-     * @return array<string, array<string, string>|string>
+     * @return array<mixed>
      */
     private function sortSerializedStatement(array $serializedStatement): array
     {
