@@ -49,7 +49,7 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function isUniqueDataProvider(): array
     {
@@ -105,7 +105,7 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function normaliseDataProvider(): array
     {
@@ -150,7 +150,7 @@ class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function mergeDataProvider(): array
     {

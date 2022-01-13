@@ -30,7 +30,7 @@ class ResolvedAssertionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function createDataProvider(): array
     {
@@ -71,7 +71,7 @@ class ResolvedAssertionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function jsonSerializeDataProvider(): array
     {

@@ -36,7 +36,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function createFromArrayDataProvider(): array
     {

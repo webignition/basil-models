@@ -35,7 +35,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function createDataProvider(): array
     {
@@ -142,7 +142,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function requiresImportResolutionDataProvider(): array
     {
@@ -215,7 +215,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function withPrependedActionsDataProvider(): array
     {
@@ -311,7 +311,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function withPrependedAssertionsDataProvider(): array
     {
@@ -408,7 +408,7 @@ class StepTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function getDataParameterNamesDataProvider(): array
     {

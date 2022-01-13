@@ -18,7 +18,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function getBrowserDataProvider(): array
     {
@@ -43,7 +43,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function getUrlDataProvider(): array
     {
@@ -68,7 +68,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function validateDataProvider(): array
     {

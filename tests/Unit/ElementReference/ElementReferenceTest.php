@@ -24,7 +24,7 @@ class ElementReferenceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function createDataProvider(): array
     {
@@ -66,7 +66,7 @@ class ElementReferenceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function isDataProvider(): array
     {

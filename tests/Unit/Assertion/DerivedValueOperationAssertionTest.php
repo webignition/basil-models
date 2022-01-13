@@ -31,7 +31,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function createDataProvider(): array
     {
@@ -73,7 +73,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function jsonSerializeDataProvider(): array
     {

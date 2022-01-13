@@ -23,7 +23,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function getParameterNamesDataProvider(): array
     {
@@ -73,7 +73,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function hasParameterNamesDataProvider(): array
     {
@@ -134,7 +134,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function getNameDataProvider(): array
     {
@@ -177,7 +177,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function toArrayDataProvider(): array
     {
@@ -216,7 +216,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function fromArrayDataProvider(): array
     {
@@ -291,7 +291,7 @@ class DataSetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function toArrayFromArrayDataProvider(): array
     {

@@ -22,7 +22,7 @@ abstract class AbstractStatementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     abstract public function jsonSerializeDataProvider(): array;
 
