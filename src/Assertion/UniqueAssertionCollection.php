@@ -45,9 +45,9 @@ class UniqueAssertionCollection implements \IteratorAggregate
     }
 
     /**
-     * @return \Iterator<int, AssertionInterface>
+     * @return \Traversable<int, AssertionInterface>
      */
-    public function getIterator(): \Iterator
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->assertions);
     }
