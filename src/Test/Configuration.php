@@ -7,8 +7,8 @@ namespace webignition\BasilModels\Test;
 class Configuration implements ConfigurationInterface
 {
     public function __construct(
-        private string $browser,
-        private string $url
+        private readonly string $browser,
+        private readonly string $url
     ) {
     }
 

@@ -13,7 +13,7 @@ use webignition\BasilModels\UnknownEncapsulatedStatementException;
 class Factory
 {
     public function __construct(
-        private ActionFactory $actionFactory
+        private readonly ActionFactory $actionFactory
     ) {
     }
 

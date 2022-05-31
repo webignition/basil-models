@@ -8,11 +8,10 @@ use webignition\BasilModels\Step\StepCollectionInterface;
 
 class Test implements TestInterface
 {
-    private ?string $path = null;
-
     public function __construct(
-        private ConfigurationInterface $configuration,
-        private StepCollectionInterface $steps
+        private readonly ConfigurationInterface $configuration,
+        private readonly StepCollectionInterface $steps,
+        private readonly ?string $path = null,
     ) {
     }
 
@@ -33,9 +32,6 @@ class Test implements TestInterface
 
     public function withPath(string $path): TestInterface
     {
-        $new = clone $this;
-        $new->path = $path;
-
-        return $new;
+        return new Test($this->configuration, $this->steps, $path);
     }
 }

@@ -13,8 +13,8 @@ class Action extends Statement implements ActionInterface
 
     public function __construct(
         string $source,
-        private string $type,
-        private ?string $arguments = null,
+        private readonly string $type,
+        private readonly ?string $arguments = null,
         ?string $identifier = null,
         ?string $value = null
     ) {

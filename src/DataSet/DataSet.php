@@ -17,7 +17,7 @@ class DataSet implements DataSetInterface
      * @param array<int|string, string> $data
      */
     public function __construct(
-        private string $name,
+        private readonly string $name,
         array $data
     ) {
         $this->data = [];

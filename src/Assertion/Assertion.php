@@ -13,7 +13,7 @@ class Assertion extends Statement implements AssertionInterface
     public function __construct(
         string $source,
         string $identifier,
-        private string $operator,
+        private readonly string $operator,
         ?string $value = null
     ) {
         parent::__construct($source, $identifier, $value);
@@ -39,15 +39,14 @@ class Assertion extends Statement implements AssertionInterface
 
     public function normalise(): AssertionInterface
     {
-        $new = clone $this;
-        $new->source = $this->getIdentifier() . ' ' . $this->operator;
-
+        $identifier = (string) $this->getIdentifier();
+        $source = $identifier . ' ' . $this->operator;
         $value = $this->getValue();
         if (null !== $value) {
-            $new->source .= ' ' . $value;
+            $source .= ' ' . $value;
         }
 
-        return $new;
+        return new Assertion($source, $identifier, $this->operator, $value);
     }
 
     public static function isComparisonOperator(string $operator): bool

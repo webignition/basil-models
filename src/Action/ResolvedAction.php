@@ -12,7 +12,7 @@ class ResolvedAction implements EncapsulatingActionInterface, \Stringable
     private EncapsulatingStatementData $encapsulatingStatementData;
 
     public function __construct(
-        private ActionInterface $sourceAction,
+        private readonly ActionInterface $sourceAction,
         ?string $identifier = null,
         ?string $value = null
     ) {
