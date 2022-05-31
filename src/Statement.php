@@ -12,9 +12,9 @@ abstract class Statement implements StatementInterface, \Stringable
     private const KEY_VALUE = 'value';
 
     public function __construct(
-        protected string $source,
-        private ?string $identifier,
-        private ?string $value
+        private readonly string $source,
+        private readonly ?string $identifier,
+        private readonly ?string $value
     ) {
     }
 

@@ -13,15 +13,15 @@ class EncapsulatingStatementData
     /**
      * @var array<mixed>
      */
-    private array $sourceData = [];
+    private array $sourceData;
 
     /**
      * @param array<mixed> $encapsulationData
      */
     public function __construct(
         StatementInterface $statement,
-        private string $containerType,
-        private array $encapsulationData
+        private readonly string $containerType,
+        private readonly array $encapsulationData
     ) {
         $this->sourceData = $statement->jsonSerialize();
     }

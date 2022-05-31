@@ -12,7 +12,7 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
     private EncapsulatingStatementData $encapsulatingStatementData;
 
     public function __construct(
-        private AssertionInterface $sourceAssertion,
+        private readonly AssertionInterface $sourceAssertion,
         string $identifier,
         ?string $value = null
     ) {

@@ -17,7 +17,7 @@ class TestSuite implements TestSuiteInterface
      * @param array<mixed> $tests
      */
     public function __construct(
-        private string $name,
+        private readonly string $name,
         array $tests
     ) {
         foreach ($tests as $test) {

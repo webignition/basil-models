@@ -10,9 +10,9 @@ class Page implements PageInterface
      * @param string[] $identifiers
      */
     public function __construct(
-        private string $importName,
-        private string $url,
-        private array $identifiers = []
+        private readonly string $importName,
+        private readonly string $url,
+        private readonly array $identifiers = []
     ) {
     }
 
@@ -41,9 +41,6 @@ class Page implements PageInterface
 
     public function withIdentifiers(array $identifiers): PageInterface
     {
-        $new = clone $this;
-        $new->identifiers = $identifiers;
-
-        return $new;
+        return new Page($this->importName, $this->url, $identifiers);
     }
 }

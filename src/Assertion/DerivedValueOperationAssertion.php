@@ -14,7 +14,7 @@ class DerivedValueOperationAssertion implements AssertionInterface, Encapsulatin
     private EncapsulatingStatementData $encapsulatingStatementData;
 
     public function __construct(
-        private StatementInterface $sourceStatement,
+        private readonly StatementInterface $sourceStatement,
         string $value,
         string $operator
     ) {
