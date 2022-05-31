@@ -29,10 +29,7 @@ class StepCollection implements StepCollectionInterface
 
     public function getStepNames(): array
     {
-        $names = $this->iteratorIndex;
-        sort($names);
-
-        return $names;
+        return $this->iteratorIndex;
     }
 
     public function current(): ?StepInterface
