@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Step;
 
 /**
- * @extends \Iterator<StepInterface>
+ * @extends \Iterator<string, StepInterface>
  */
 interface StepCollectionInterface extends \Countable, \Iterator
 {
@@ -17,4 +17,9 @@ interface StepCollectionInterface extends \Countable, \Iterator
     public function current(): ?StepInterface;
 
     public function count(): int;
+
+    /**
+     * The collection key must be the step name.
+     */
+    public function key(): ?string;
 }
