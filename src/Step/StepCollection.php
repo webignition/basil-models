@@ -9,12 +9,12 @@ class StepCollection implements StepCollectionInterface
     private int $iteratorPosition = 0;
 
     /**
-     * @var string[]
+     * @var non-empty-string[]
      */
-    private array $iteratorIndex = [];
+    private array $iteratorIndex;
 
     /**
-     * @var StepInterface[]
+     * @var array<non-empty-string, StepInterface>
      */
     private array $steps;
 
@@ -23,7 +23,14 @@ class StepCollection implements StepCollectionInterface
      */
     public function __construct(array $steps)
     {
-        $this->steps = array_filter($steps, fn ($step) => $step instanceof StepInterface);
+        $filteredSteps = [];
+        foreach ($steps as $stepName => $step) {
+            if (is_string($stepName) && '' !== $stepName && $step instanceof StepInterface) {
+                $filteredSteps[$stepName] = $step;
+            }
+        }
+
+        $this->steps = $filteredSteps;
         $this->iteratorIndex = array_keys($this->steps);
     }
 

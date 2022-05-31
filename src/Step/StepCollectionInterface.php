@@ -10,7 +10,7 @@ namespace webignition\BasilModels\Step;
 interface StepCollectionInterface extends \Countable, \Iterator
 {
     /**
-     * @return string[]
+     * @return non-empty-string[]
      */
     public function getStepNames(): array;
 
@@ -20,6 +20,8 @@ interface StepCollectionInterface extends \Countable, \Iterator
 
     /**
      * The collection key must be the step name.
+     *
+     * @return non-empty-string
      */
     public function key(): ?string;
 }
