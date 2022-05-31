@@ -59,9 +59,9 @@ class StepCollectionTest extends \PHPUnit\Framework\TestCase
                     'alpha' => new Step([], []),
                 ]),
                 'expectedNames' => [
-                    'alpha',
-                    'charlie',
                     'zulu',
+                    'charlie',
+                    'alpha',
                 ],
             ],
         ];
