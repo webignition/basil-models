@@ -6,7 +6,7 @@ namespace webignition\BasilModels\Model\Test;
 
 use webignition\BasilModels\Model\Step\StepCollectionInterface;
 
-class SourcedTest implements SourcedTestInterface
+class NamedTest implements NamedTestInterface
 {
     /**
      * @param non-empty-string $path
@@ -17,7 +17,7 @@ class SourcedTest implements SourcedTestInterface
     ) {
     }
 
-    public function getPath(): string
+    public function getName(): string
     {
         return $this->path;
     }

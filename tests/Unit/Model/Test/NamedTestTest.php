@@ -6,15 +6,15 @@ namespace webignition\BasilModels\Tests\Unit\Model\Test;
 
 use webignition\BasilModels\Model\Step\StepCollection;
 use webignition\BasilModels\Model\Test\Configuration;
-use webignition\BasilModels\Model\Test\SourcedTest;
+use webignition\BasilModels\Model\Test\NamedTest;
 use webignition\BasilModels\Model\Test\Test;
 
-class SourcedTestTest extends \PHPUnit\Framework\TestCase
+class NamedTestTest extends \PHPUnit\Framework\TestCase
 {
     private Configuration $configuration;
     private StepCollection $stepCollection;
     private string $path;
-    private SourcedTest $test;
+    private NamedTest $test;
 
     protected function setUp(): void
     {
@@ -24,7 +24,7 @@ class SourcedTestTest extends \PHPUnit\Framework\TestCase
         $this->path = md5((string) rand());
         $this->stepCollection = new StepCollection([]);
 
-        $this->test = new SourcedTest(new Test($this->configuration, $this->stepCollection), $this->path);
+        $this->test = new NamedTest(new Test($this->configuration, $this->stepCollection), $this->path);
     }
 
     public function testGetConfiguration(): void
@@ -39,6 +39,6 @@ class SourcedTestTest extends \PHPUnit\Framework\TestCase
 
     public function testGetPath(): void
     {
-        self::assertSame($this->path, $this->test->getPath());
+        self::assertSame($this->path, $this->test->getName());
     }
 }
