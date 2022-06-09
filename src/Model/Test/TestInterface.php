@@ -8,7 +8,9 @@ use webignition\BasilModels\Model\Step\StepCollectionInterface;
 
 interface TestInterface
 {
-    public function getConfiguration(): ConfigurationInterface;
+    public function getBrowser(): string;
+
+    public function getUrl(): string;
 
     public function getSteps(): StepCollectionInterface;
 }

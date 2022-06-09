@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Tests\Unit\Model\Test;
 
 use webignition\BasilModels\Model\Step\StepCollection;
-use webignition\BasilModels\Model\Test\Configuration;
 use webignition\BasilModels\Model\Test\Test;
 
 class TestTest extends \PHPUnit\Framework\TestCase
 {
-    private Configuration $configuration;
+    private string $browser;
+    private string $url;
     private StepCollection $stepCollection;
     private Test $test;
 
@@ -18,15 +18,21 @@ class TestTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->configuration = new Configuration(md5((string) rand()), md5((string) rand()));
+        $this->browser = md5((string) rand());
+        $this->url = md5((string) rand());
         $this->stepCollection = new StepCollection([]);
 
-        $this->test = new Test($this->configuration, $this->stepCollection);
+        $this->test = new Test($this->browser, $this->url, $this->stepCollection);
     }
 
-    public function testGetConfiguration(): void
+    public function testGetBrowser(): void
     {
-        self::assertSame($this->configuration, $this->test->getConfiguration());
+        self::assertSame($this->browser, $this->test->getBrowser());
+    }
+
+    public function testGetUrl(): void
+    {
+        self::assertSame($this->url, $this->test->getUrl());
     }
 
     public function testGetSteps(): void
