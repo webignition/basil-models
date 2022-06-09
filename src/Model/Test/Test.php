@@ -9,14 +9,20 @@ use webignition\BasilModels\Model\Step\StepCollectionInterface;
 class Test implements TestInterface
 {
     public function __construct(
-        private readonly ConfigurationInterface $configuration,
+        private readonly string $browser,
+        private readonly string $url,
         private readonly StepCollectionInterface $steps,
     ) {
     }
 
-    public function getConfiguration(): ConfigurationInterface
+    public function getBrowser(): string
     {
-        return $this->configuration;
+        return $this->browser;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 
     public function getSteps(): StepCollectionInterface

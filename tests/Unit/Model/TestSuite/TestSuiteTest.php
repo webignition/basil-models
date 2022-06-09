@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Tests\Unit\Model\TestSuite;
 
 use webignition\BasilModels\Model\Step\StepCollection;
-use webignition\BasilModels\Model\Test\Configuration;
 use webignition\BasilModels\Model\Test\Test;
 use webignition\BasilModels\Model\Test\TestInterface;
 use webignition\BasilModels\Model\TestSuite\TestSuite;
@@ -31,15 +30,8 @@ class TestSuiteTest extends \PHPUnit\Framework\TestCase
      */
     public function createDataProvider(): array
     {
-        $testOne = new Test(
-            new Configuration('chrome', 'http://example.com/one'),
-            new StepCollection([])
-        );
-
-        $testTwo = new Test(
-            new Configuration('chrome', 'http://example.com/two'),
-            new StepCollection([])
-        );
+        $testOne = new Test('chrome', 'http://example.com/one', new StepCollection([]));
+        $testTwo = new Test('chrome', 'http://example.com/two', new StepCollection([]));
 
         return [
             'no tests' => [

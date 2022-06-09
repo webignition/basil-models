@@ -22,9 +22,14 @@ class NamedTest implements NamedTestInterface
         return $this->path;
     }
 
-    public function getConfiguration(): ConfigurationInterface
+    public function getBrowser(): string
     {
-        return $this->inner->getConfiguration();
+        return $this->inner->getBrowser();
+    }
+
+    public function getUrl(): string
+    {
+        return $this->inner->getUrl();
     }
 
     public function getSteps(): StepCollectionInterface
