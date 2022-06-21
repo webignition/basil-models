@@ -8,6 +8,10 @@ use webignition\BasilModels\Model\Step\StepCollectionInterface;
 
 class Test implements TestInterface
 {
+    /**
+     * @param non-empty-string $browser
+     * @param non-empty-string $url
+     */
     public function __construct(
         private readonly string $browser,
         private readonly string $url,
