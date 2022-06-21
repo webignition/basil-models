@@ -8,8 +8,14 @@ use webignition\BasilModels\Model\Step\StepCollectionInterface;
 
 interface TestInterface
 {
+    /**
+     * @return non-empty-string
+     */
     public function getBrowser(): string;
 
+    /**
+     * @return non-empty-string
+     */
     public function getUrl(): string;
 
     public function getSteps(): StepCollectionInterface;

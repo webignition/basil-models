@@ -12,6 +12,7 @@ use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Model\Step\StepCollection;
 use webignition\BasilModels\Model\Test\Test;
 use webignition\BasilModels\Model\Test\TestInterface;
+use webignition\BasilModels\Parser\Exception\InvalidTestException;
 use webignition\BasilModels\Parser\Exception\UnparseableActionException;
 use webignition\BasilModels\Parser\Exception\UnparseableStepException;
 use webignition\BasilModels\Parser\Exception\UnparseableTestException;
@@ -26,6 +27,85 @@ class TestParserTest extends TestCase
         parent::setUp();
 
         $this->parser = TestParser::create();
+    }
+
+    /**
+     * @dataProvider parseThrowsEmptyBrowserExceptionDataProvider
+     *
+     * @param array<mixed> $testData
+     */
+    public function testParseThrowsEmptyBrowserException(array $testData): void
+    {
+        self::expectException(InvalidTestException::class);
+        self::expectExceptionMessage('config.browser is empty');
+
+        $this->parser->parse($testData);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function parseThrowsEmptyBrowserExceptionDataProvider(): array
+    {
+        return [
+            'no test data' => [
+                'testData' => [],
+            ],
+            'empty' => [
+                'testData' => [
+                    'config' => [
+                        'browser' => '',
+                        'url' => 'http://example.com/',
+                    ],
+                ],
+            ],
+            'whitespace-only' => [
+                'testData' => [
+                    'config' => [
+                        'browser' => '  ',
+                        'url' => 'http://example.com/',
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider parseThrowsEmptyUrlExceptionDataProvider
+     *
+     * @param array<mixed> $testData
+     */
+    public function testParseThrowsEmptyUrlException(array $testData): void
+    {
+        self::expectException(InvalidTestException::class);
+        self::expectExceptionMessage('config.url is empty');
+
+        $this->parser->parse($testData);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function parseThrowsEmptyUrlExceptionDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'testData' => [
+                    'config' => [
+                        'browser' => 'chrome',
+                        'url' => '',
+                    ],
+                ],
+            ],
+            'whitespace-only' => [
+                'testData' => [
+                    'config' => [
+                        'browser' => 'chrome',
+                        'url' => '  ',
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -44,14 +124,6 @@ class TestParserTest extends TestCase
     public function parseDataProvider(): array
     {
         return [
-            'empty' => [
-                'testData' => [],
-                'expectedTest' => new Test(
-                    '',
-                    '',
-                    new StepCollection([])
-                ),
-            ],
             'non-empty' => [
                 'testData' => [
                     'config' => [
@@ -125,6 +197,10 @@ class TestParserTest extends TestCase
     public function testParseTestWithStepWithEmptyAction(): void
     {
         $testData = [
+            'config' => [
+                'browser' => 'chrome',
+                'url' => 'http://example.com',
+            ],
             'step name' => [
                 'actions' => [
                     '',
