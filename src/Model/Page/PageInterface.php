@@ -8,6 +8,9 @@ interface PageInterface
 {
     public function getImportName(): string;
 
+    /**
+     * @return non-empty-string
+     */
     public function getUrl(): string;
 
     public function getIdentifier(string $name): ?string;

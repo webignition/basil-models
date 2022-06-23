@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Parser;
 
 use webignition\BasilModels\Model\Page\Page;
 use webignition\BasilModels\Model\Page\PageInterface;
+use webignition\BasilModels\Parser\Exception\InvalidPageException;
 
 class PageParser
 {
@@ -19,11 +20,16 @@ class PageParser
 
     /**
      * @param array<string, mixed> $pageData
+     *
+     * @throws InvalidPageException
      */
     public function parse(string $importName, array $pageData): PageInterface
     {
         $url = $pageData[self::KEY_URL] ?? '';
         $url = is_string($url) ? trim($url) : '';
+        if ('' === $url) {
+            throw InvalidPageException::createForEmptyUrl();
+        }
 
         $elements = $pageData[self::KEY_ELEMENTS] ?? [];
         $elements = is_array($elements) ? $elements : [];

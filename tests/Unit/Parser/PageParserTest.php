@@ -7,10 +7,61 @@ namespace webignition\BasilModels\Tests\Unit\Parser;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Page\Page;
 use webignition\BasilModels\Model\Page\PageInterface;
+use webignition\BasilModels\Parser\Exception\InvalidPageException;
 use webignition\BasilModels\Parser\PageParser;
 
 class PageParserTest extends TestCase
 {
+    private PageParser $parser;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->parser = PageParser::create();
+    }
+
+    /**
+     * @dataProvider parseThrowsEmptyUrlExceptionDataProvider
+     *
+     * @param array<mixed> $pageData
+     */
+    public function testParseThrowsEmptyUrlException(array $pageData): void
+    {
+        self::expectException(InvalidPageException::class);
+        self::expectExceptionMessage('url is empty');
+
+        $this->parser->parse('import name', $pageData);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function parseThrowsEmptyUrlExceptionDataProvider(): array
+    {
+        return [
+            'no data' => [
+                'pageData' => [
+                ],
+            ],
+            'not a string' => [
+                'pageData' => [
+                    'url' => true,
+                ],
+            ],
+            'empty' => [
+                'pageData' => [
+                    'url' => '',
+                ],
+            ],
+            'whitespace-only' => [
+                'pageData' => [
+                    'url' => '  ',
+                ],
+            ],
+        ];
+    }
+
     /**
      * @dataProvider parseDataProvider
      *
@@ -18,9 +69,7 @@ class PageParserTest extends TestCase
      */
     public function testParse(string $importName, array $pageData, PageInterface $expectedPage): void
     {
-        $parser = PageParser::create();
-
-        $this->assertEquals($expectedPage, $parser->parse($importName, $pageData));
+        $this->assertEquals($expectedPage, $this->parser->parse($importName, $pageData));
     }
 
     /**
@@ -29,18 +78,6 @@ class PageParserTest extends TestCase
     public function parseDataProvider(): array
     {
         return [
-            'empty' => [
-                'importName' => '',
-                'pageData' => [],
-                'expectedPage' => new Page('', ''),
-            ],
-            'invalid url; not a string' => [
-                'importName' => 'import_name',
-                'pageData' => [
-                    'url' => true,
-                ],
-                'expectedPage' => new Page('import_name', ''),
-            ],
             'valid url' => [
                 'importName' => 'import_name',
                 'pageData' => [
@@ -51,30 +88,33 @@ class PageParserTest extends TestCase
             'invalid elements; not an array' => [
                 'importName' => '',
                 'pageData' => [
+                    'url' => 'http://example.com/',
                     'elements' => 'string',
                 ],
-                'expectedPage' => new Page('', '', []),
+                'expectedPage' => new Page('', 'http://example.com/', []),
             ],
             'valid elements' => [
                 'importName' => '',
                 'pageData' => [
+                    'url' => 'http://example.com/',
                     'elements' => [
                         'heading' => '$".heading"',
                     ],
                 ],
-                'expectedPage' => new Page('', '', [
+                'expectedPage' => new Page('', 'http://example.com/', [
                     'heading' => '$".heading"',
                 ]),
             ],
             'valid elements with parent references' => [
                 'importName' => '',
                 'pageData' => [
+                    'url' => 'http://example.com/',
                     'elements' => [
                         'form' => '$".form"',
                         'form_input' => '$"{{ form }} .input"',
                     ],
                 ],
-                'expectedPage' => new Page('', '', [
+                'expectedPage' => new Page('', 'http://example.com/', [
                     'form' => '$".form"',
                     'form_input' => '$"{{ form }} .input"',
                 ]),
