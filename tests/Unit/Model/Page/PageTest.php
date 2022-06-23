@@ -10,10 +10,10 @@ class PageTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreate(): void
     {
-        $emptyPage = new Page('', '', []);
+        $emptyPage = new Page('', 'http://example.com/', []);
 
         $this->assertSame('', $emptyPage->getImportName());
-        $this->assertSame('', $emptyPage->getUrl());
+        $this->assertSame('http://example.com/', $emptyPage->getUrl());
         $this->assertSame([], $emptyPage->getIdentifiers());
 
         $nonEmptyPage = new Page('import_name', 'http://example.com', ['title' => '.title']);
@@ -28,7 +28,7 @@ class PageTest extends \PHPUnit\Framework\TestCase
         $headingIdentifier = '$".heading"';
         $headingIdentifierName = 'heading';
 
-        $page = new Page('import_name', '', [
+        $page = new Page('import_name', 'http://example.com/', [
             $headingIdentifierName => $headingIdentifier,
         ]);
 
@@ -38,7 +38,7 @@ class PageTest extends \PHPUnit\Framework\TestCase
 
     public function testWithIdentifiers(): void
     {
-        $page = new Page('import_name', '');
+        $page = new Page('import_name', 'http://example.com/');
         $this->assertSame([], $page->getIdentifiers());
 
         $identifiers = [
