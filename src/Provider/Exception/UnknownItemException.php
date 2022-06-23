@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Provider\Exception;
 
-use webignition\BasilContextAwareException\ContextAwareExceptionInterface;
-use webignition\BasilContextAwareException\ContextAwareExceptionTrait;
-use webignition\BasilContextAwareException\ExceptionContext\ExceptionContext;
-
-class UnknownItemException extends \Exception implements ContextAwareExceptionInterface
+class UnknownItemException extends \Exception
 {
-    use ContextAwareExceptionTrait;
-
     public const TYPE_DATASET = 'dataset';
     public const TYPE_IDENTIFIER = 'identifier';
     public const TYPE_PAGE = 'page';
     public const TYPE_STEP = 'step';
 
-    private string $type;
-    private string $name;
+    private ?string $testName = null;
+    private ?string $stepName = null;
+    private ?string $content = null;
 
-    public function __construct(string $type, string $name)
-    {
+    public function __construct(
+        private readonly string $type,
+        private readonly string $name,
+    ) {
         parent::__construct(sprintf('Unknown %s "%s"', $type, $name));
-
-        $this->type = $type;
-        $this->name = $name;
-        $this->exceptionContext = new ExceptionContext();
     }
 
     public function getType(): string
@@ -37,5 +30,35 @@ class UnknownItemException extends \Exception implements ContextAwareExceptionIn
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getTestName(): ?string
+    {
+        return $this->testName;
+    }
+
+    public function setTestName(string $testName): void
+    {
+        $this->testName = $testName;
+    }
+
+    public function getStepName(): ?string
+    {
+        return $this->stepName;
+    }
+
+    public function setStepName(string $stepName): void
+    {
+        $this->stepName = $stepName;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
     }
 }
