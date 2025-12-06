@@ -77,9 +77,9 @@ class StepParser implements DataParserInterface
     /**
      * @param array<mixed> $actionsData
      *
-     * @throws UnparseableActionException
-     *
      * @return ActionInterface[]
+     *
+     * @throws UnparseableActionException
      */
     private function parseActions(array $actionsData): array
     {
@@ -97,9 +97,9 @@ class StepParser implements DataParserInterface
     /**
      * @param array<mixed> $assertionsData
      *
-     * @throws UnparseableAssertionException
-     *
      * @return AssertionInterface[]
+     *
+     * @throws UnparseableAssertionException
      */
     private function parseAssertions(array $assertionsData): array
     {

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Action;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Action\ActionInterface;
 use webignition\BasilModels\Model\Action\Factory;
 use webignition\BasilModels\Model\Action\ResolvedAction;
 
-class FactoryTest extends \PHPUnit\Framework\TestCase
+class FactoryTest extends TestCase
 {
     private Factory $factory;
 

@@ -86,10 +86,10 @@ abstract class AbstractObjectWithProperty implements \Stringable
     private static function createPattern(): string
     {
         return
-            self::PATTERN_DELIMITER .
-            '^' .
-            static::getPatternPrefix() .
-            '\.' . static::getPropertyPattern() . '$' .
-            self::PATTERN_DELIMITER;
+            self::PATTERN_DELIMITER
+            . '^'
+            . static::getPatternPrefix()
+            . '\.' . static::getPropertyPattern() . '$'
+            . self::PATTERN_DELIMITER;
     }
 }

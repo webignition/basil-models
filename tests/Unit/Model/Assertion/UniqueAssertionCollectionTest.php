@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Assertion;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Assertion\Assertion;
 use webignition\BasilModels\Model\Assertion\AssertionInterface;
 use webignition\BasilModels\Model\Assertion\UniqueAssertionCollection;
 
-class UniqueAssertionCollectionTest extends \PHPUnit\Framework\TestCase
+class UniqueAssertionCollectionTest extends TestCase
 {
     public function testIterate(): void
     {

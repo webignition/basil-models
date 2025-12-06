@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Assertion;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Action\Factory as ActionFactory;
 use webignition\BasilModels\Model\Action\ResolvedAction;
@@ -13,7 +14,7 @@ use webignition\BasilModels\Model\Assertion\DerivedValueOperationAssertion;
 use webignition\BasilModels\Model\Assertion\Factory;
 use webignition\BasilModels\Model\Assertion\ResolvedAssertion;
 
-class FactoryTest extends \PHPUnit\Framework\TestCase
+class FactoryTest extends TestCase
 {
     private Factory $factory;
 

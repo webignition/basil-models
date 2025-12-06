@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Provider\DataSet;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
 use webignition\BasilModels\Model\DataSet\DataSetCollectionInterface;
 use webignition\BasilModels\Provider\DataSet\DataSetProvider;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
 
-class DataSetProviderTest extends \PHPUnit\Framework\TestCase
+class DataSetProviderTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

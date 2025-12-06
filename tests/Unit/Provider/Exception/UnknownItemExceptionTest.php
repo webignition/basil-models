@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Provider\Exception;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
 
-class UnknownItemExceptionTest extends \PHPUnit\Framework\TestCase
+class UnknownItemExceptionTest extends TestCase
 {
     public function testCreate(): void
     {

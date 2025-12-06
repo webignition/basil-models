@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\ElementReference;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\ElementReference\ElementReference;
 
-class ElementReferenceTest extends \PHPUnit\Framework\TestCase
+class ElementReferenceTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

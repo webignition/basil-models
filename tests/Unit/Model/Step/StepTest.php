@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Step;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Action\ActionInterface;
 use webignition\BasilModels\Model\Assertion\Assertion;
@@ -12,7 +13,7 @@ use webignition\BasilModels\Model\DataSet\DataSetCollection;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Model\Step\StepInterface;
 
-class StepTest extends \PHPUnit\Framework\TestCase
+class StepTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\PageElementReference;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\PageElementReference\PageElementReference;
 
-class PageElementReferenceTest extends \PHPUnit\Framework\TestCase
+class PageElementReferenceTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Test;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Step\StepCollection;
 use webignition\BasilModels\Model\Test\NamedTest;
 use webignition\BasilModels\Model\Test\Test;
 
-class NamedTestTest extends \PHPUnit\Framework\TestCase
+class NamedTestTest extends TestCase
 {
     private string $browser;
     private string $url;

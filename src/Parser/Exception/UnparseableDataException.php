@@ -13,7 +13,7 @@ class UnparseableDataException extends AbstractParserException implements Unpars
         private array $data,
         string $message,
         int $code,
-        \Throwable $previous = null
+        ?\Throwable $previous = null
     ) {
         parent::__construct(
             $message,

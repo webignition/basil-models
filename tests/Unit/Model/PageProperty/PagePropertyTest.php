@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\PageProperty;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\PageProperty\PageProperty;
 
-class PagePropertyTest extends \PHPUnit\Framework\TestCase
+class PagePropertyTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\StatementInterface;
 
-abstract class AbstractStatementTest extends \PHPUnit\Framework\TestCase
+abstract class AbstractStatementTest extends TestCase
 {
     /**
      * @dataProvider jsonSerializeDataProvider

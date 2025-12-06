@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Provider\Step;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
 use webignition\BasilModels\Provider\Step\StepProvider;
 
-class StepProviderTest extends \PHPUnit\Framework\TestCase
+class StepProviderTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

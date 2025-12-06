@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\TestSuite;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Step\StepCollection;
 use webignition\BasilModels\Model\Test\Test;
 use webignition\BasilModels\Model\Test\TestInterface;
 use webignition\BasilModels\Model\TestSuite\TestSuite;
 
-class TestSuiteTest extends \PHPUnit\Framework\TestCase
+class TestSuiteTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Test;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Test\Imports;
 
-class ImportsTest extends \PHPUnit\Framework\TestCase
+class ImportsTest extends TestCase
 {
     public function testGetWithStepPaths(): void
     {

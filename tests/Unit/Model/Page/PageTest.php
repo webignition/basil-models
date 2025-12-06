@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Page;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Page\Page;
 
-class PageTest extends \PHPUnit\Framework\TestCase
+class PageTest extends TestCase
 {
     public function testCreate(): void
     {
