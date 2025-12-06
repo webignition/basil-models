@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Assertion;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use webignition\BasilModels\Model\Assertion\Assertion;
 use webignition\BasilModels\Model\Assertion\AssertionInterface;
-use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTest;
+use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTestCase;
 
-class AssertionTest extends AbstractStatementTest
+class AssertionTest extends AbstractStatementTestCase
 {
-    /**
-     * @dataProvider createDataProvider
-     */
+    #[DataProvider('createDataProvider')]
     public function testCreate(string $source, string $identifier, string $operator, ?string $value): void
     {
         $assertion = new Assertion($source, $identifier, $operator, $value);
@@ -26,7 +25,7 @@ class AssertionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'exists' => [
@@ -44,9 +43,7 @@ class AssertionTest extends AbstractStatementTest
         ];
     }
 
-    /**
-     * @dataProvider equalsDataProvider
-     */
+    #[DataProvider('equalsDataProvider')]
     public function testEquals(
         AssertionInterface $assertion,
         AssertionInterface $comparator,
@@ -58,7 +55,7 @@ class AssertionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function equalsDataProvider(): array
+    public static function equalsDataProvider(): array
     {
         return [
             'identifier not same' => [
@@ -89,9 +86,7 @@ class AssertionTest extends AbstractStatementTest
         ];
     }
 
-    /**
-     * @dataProvider normaliseDataProvider
-     */
+    #[DataProvider('normaliseDataProvider')]
     public function testNormalise(AssertionInterface $assertion, AssertionInterface $expectedNormalisedAssertion): void
     {
         $this->assertEquals($expectedNormalisedAssertion, $assertion->normalise());
@@ -100,7 +95,7 @@ class AssertionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function normaliseDataProvider(): array
+    public static function normaliseDataProvider(): array
     {
         return [
             'exists, in normal form' => [
@@ -145,11 +140,11 @@ class AssertionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function jsonSerializeDataProvider(): array
+    public static function jsonSerializeDataProvider(): array
     {
         return [
             'exists' => [
-                'assertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                'statement' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
                 'expectedSerializedData' => [
                     'statement-type' => 'assertion',
                     'source' => '$".selector" exists',
@@ -158,7 +153,7 @@ class AssertionTest extends AbstractStatementTest
                 ],
             ],
             'is' => [
-                'assertion' => new Assertion('$".selector" is "value"', '$".selector"', 'is', '"value"'),
+                'statement' => new Assertion('$".selector" is "value"', '$".selector"', 'is', '"value"'),
                 'expectedSerializedData' => [
                     'statement-type' => 'assertion',
                     'source' => '$".selector" is "value"',

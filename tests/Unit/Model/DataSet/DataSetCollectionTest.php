@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\DataSet;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\DataSet\DataSet;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
@@ -12,11 +13,10 @@ use webignition\BasilModels\Model\DataSet\DataSetInterface;
 class DataSetCollectionTest extends TestCase
 {
     /**
-     * @dataProvider createDataProvider
-     *
      * @param array<mixed>       $data
      * @param DataSetInterface[] $expectedDataSets
      */
+    #[DataProvider('createDataProvider')]
     public function testCreate(array $data, array $expectedDataSets): void
     {
         $dataSetCollection = new DataSetCollection($data);
@@ -33,7 +33,7 @@ class DataSetCollectionTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [
@@ -75,10 +75,9 @@ class DataSetCollectionTest extends TestCase
     }
 
     /**
-     * @dataProvider getParameterNamesDataProvider
-     *
      * @param string[] $expectedKeys
      */
+    #[DataProvider('getParameterNamesDataProvider')]
     public function testGetParameterNames(DataSetCollection $dataSetCollection, array $expectedKeys): void
     {
         $keys = $dataSetCollection->getParameterNames();
@@ -89,7 +88,7 @@ class DataSetCollectionTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function getParameterNamesDataProvider(): array
+    public static function getParameterNamesDataProvider(): array
     {
         return [
             'empty' => [
@@ -112,10 +111,9 @@ class DataSetCollectionTest extends TestCase
     }
 
     /**
-     * @dataProvider toArrayDataProvider
-     *
      * @param array<string, array<int|string, string>> $expectedData
      */
+    #[DataProvider('toArrayDataProvider')]
     public function testToArray(DataSetCollection $dataSetCollection, array $expectedData): void
     {
         $this->assertSame($expectedData, $dataSetCollection->toArray());
@@ -124,7 +122,7 @@ class DataSetCollectionTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function toArrayDataProvider(): array
+    public static function toArrayDataProvider(): array
     {
         return [
             'empty' => [

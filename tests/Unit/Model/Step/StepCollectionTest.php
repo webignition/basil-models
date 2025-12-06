@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Step;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Model\Step\StepCollection;
@@ -13,10 +14,9 @@ use webignition\ObjectReflector\ObjectReflector;
 class StepCollectionTest extends TestCase
 {
     /**
-     * @dataProvider getStepNamesDataProvider
-     *
      * @param string[] $expectedNames
      */
+    #[DataProvider('getStepNamesDataProvider')]
     public function testGetStepNames(StepCollectionInterface $collection, array $expectedNames): void
     {
         $this->assertSame($expectedNames, $collection->getStepNames());
@@ -25,7 +25,7 @@ class StepCollectionTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function getStepNamesDataProvider(): array
+    public static function getStepNamesDataProvider(): array
     {
         return [
             'empty' => [

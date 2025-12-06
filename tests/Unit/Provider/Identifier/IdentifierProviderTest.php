@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Provider\Identifier;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
 use webignition\BasilModels\Provider\Identifier\IdentifierProvider;
@@ -11,10 +12,9 @@ use webignition\BasilModels\Provider\Identifier\IdentifierProvider;
 class IdentifierProviderTest extends TestCase
 {
     /**
-     * @dataProvider createDataProvider
-     *
      * @param array<string, string> $identifiers
      */
+    #[DataProvider('createDataProvider')]
     public function testCreate(array $identifiers, IdentifierProvider $expectedIdentifierProvider): void
     {
         $this->assertEquals($expectedIdentifierProvider, new IdentifierProvider($identifiers));
@@ -23,7 +23,7 @@ class IdentifierProviderTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [

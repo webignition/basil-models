@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Step;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Action\ActionInterface;
@@ -16,13 +17,12 @@ use webignition\BasilModels\Model\Step\StepInterface;
 class StepTest extends TestCase
 {
     /**
-     * @dataProvider createDataProvider
-     *
      * @param array<mixed>         $actions
      * @param array<mixed>         $assertions
      * @param ActionInterface[]    $expectedActions
      * @param AssertionInterface[] $expectedAssertions
      */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         array $actions,
         array $assertions,
@@ -38,7 +38,7 @@ class StepTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [
@@ -134,9 +134,7 @@ class StepTest extends TestCase
         $this->assertSame($identifiers, $step->getIdentifiers());
     }
 
-    /**
-     * @dataProvider requiresImportResolutionDataProvider
-     */
+    #[DataProvider('requiresImportResolutionDataProvider')]
     public function testRequiresImportResolution(StepInterface $step, bool $expectedRequiresImportResolution): void
     {
         $this->assertSame($expectedRequiresImportResolution, $step->requiresImportResolution());
@@ -145,7 +143,7 @@ class StepTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function requiresImportResolutionDataProvider(): array
+    public static function requiresImportResolutionDataProvider(): array
     {
         return [
             'no import name, no data provider import name' => [
@@ -204,10 +202,9 @@ class StepTest extends TestCase
     }
 
     /**
-     * @dataProvider withPrependedActionsDataProvider
-     *
      * @param ActionInterface[] $actions
      */
+    #[DataProvider('withPrependedActionsDataProvider')]
     public function testWithPrependedActions(StepInterface $step, array $actions, StepInterface $expectedStep): void
     {
         $mutatedStep = $step->withPrependedActions($actions);
@@ -218,7 +215,7 @@ class StepTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function withPrependedActionsDataProvider(): array
+    public static function withPrependedActionsDataProvider(): array
     {
         $assertion = new Assertion(
             '$".selector" exists',
@@ -297,10 +294,9 @@ class StepTest extends TestCase
     }
 
     /**
-     * @dataProvider withPrependedAssertionsDataProvider
-     *
      * @param AssertionInterface[] $assertions
      */
+    #[DataProvider('withPrependedAssertionsDataProvider')]
     public function testWithPrependedAssertions(
         StepInterface $step,
         array $assertions,
@@ -314,7 +310,7 @@ class StepTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function withPrependedAssertionsDataProvider(): array
+    public static function withPrependedAssertionsDataProvider(): array
     {
         $assertion1 = new Assertion(
             '$".selector1" exists',
@@ -399,10 +395,9 @@ class StepTest extends TestCase
     }
 
     /**
-     * @dataProvider getDataParameterNamesDataProvider
-     *
      * @param string[] $expectedDataParameterNames
      */
+    #[DataProvider('getDataParameterNamesDataProvider')]
     public function testGetDataParameterNames(StepInterface $step, array $expectedDataParameterNames): void
     {
         $this->assertSame($expectedDataParameterNames, $step->getDataParameterNames());
@@ -411,7 +406,7 @@ class StepTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function getDataParameterNamesDataProvider(): array
+    public static function getDataParameterNamesDataProvider(): array
     {
         return [
             'empty' => [

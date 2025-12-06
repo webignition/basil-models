@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Provider\Step;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
@@ -12,10 +13,9 @@ use webignition\BasilModels\Provider\Step\StepProvider;
 class StepProviderTest extends TestCase
 {
     /**
-     * @dataProvider createDataProvider
-     *
      * @param array<mixed> $steps
      */
+    #[DataProvider('createDataProvider')]
     public function testCreate(array $steps, StepProvider $expectedStepProvider): void
     {
         $this->assertEquals($expectedStepProvider, new StepProvider($steps));
@@ -24,7 +24,7 @@ class StepProviderTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [

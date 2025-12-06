@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Parser;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Action\ActionInterface;
@@ -21,9 +22,7 @@ class ActionParserTest extends TestCase
         $this->parser = ActionParser::create();
     }
 
-    /**
-     * @dataProvider parseDataProvider
-     */
+    #[DataProvider('parseDataProvider')]
     public function testParse(string $actionString, ActionInterface $expectedAction): void
     {
         $this->assertEquals($expectedAction, $this->parser->parse($actionString));
@@ -32,7 +31,7 @@ class ActionParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseDataProvider(): array
+    public static function parseDataProvider(): array
     {
         return [
             'unknown type' => [
@@ -180,9 +179,7 @@ class ActionParserTest extends TestCase
         $this->parser->parse('');
     }
 
-    /**
-     * @dataProvider parseInputActionEmptyValueDataProvider
-     */
+    #[DataProvider('parseInputActionEmptyValueDataProvider')]
     public function testParseInputActionEmptyValue(string $action, UnparseableActionException $expectedException): void
     {
         $this->expectExceptionObject($expectedException);
@@ -193,17 +190,17 @@ class ActionParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseInputActionEmptyValueDataProvider(): array
+    public static function parseInputActionEmptyValueDataProvider(): array
     {
         return [
             'set with "to" keyword lacking value' => [
-                'actionString' => 'set $".selector" to',
+                'action' => 'set $".selector" to',
                 'expectedException' => UnparseableActionException::createEmptyInputActionValueException(
                     'set $".selector" to'
                 ),
             ],
             'set lacking "to" keyword, lacking value' => [
-                'actionString' => 'set $".selector"',
+                'action' => 'set $".selector"',
                 'expectedException' => UnparseableActionException::createEmptyInputActionValueException(
                     'set $".selector"'
                 ),
@@ -211,9 +208,7 @@ class ActionParserTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider parseActionWithInvalidIdentifierDataProvider
-     */
+    #[DataProvider('parseActionWithInvalidIdentifierDataProvider')]
     public function testParseActionWithInvalidIdentifier(string $action, \Exception $expectedException): void
     {
         $this->expectExceptionObject($expectedException);
@@ -224,7 +219,7 @@ class ActionParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseActionWithInvalidIdentifierDataProvider(): array
+    public static function parseActionWithInvalidIdentifierDataProvider(): array
     {
         return [
             'click action with non-dollar-prefixed selector' => [

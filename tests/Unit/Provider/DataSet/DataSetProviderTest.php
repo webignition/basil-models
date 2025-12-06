@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Provider\DataSet;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
 use webignition\BasilModels\Model\DataSet\DataSetCollectionInterface;
@@ -13,10 +14,9 @@ use webignition\BasilModels\Provider\Exception\UnknownItemException;
 class DataSetProviderTest extends TestCase
 {
     /**
-     * @dataProvider createDataProvider
-     *
      * @param array<string, DataSetCollectionInterface> $dataSetCollections
      */
+    #[DataProvider('createDataProvider')]
     public function testCreate(array $dataSetCollections, DataSetProvider $expectedDataSetProvider): void
     {
         $this->assertEquals($expectedDataSetProvider, new DataSetProvider($dataSetCollections));
@@ -25,7 +25,7 @@ class DataSetProviderTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [

@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\PageUrlReference;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\PageUrlReference\PageUrlReference;
 
 class PageUrlReferenceTest extends TestCase
 {
-    /**
-     * @dataProvider createDataProvider
-     */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         string $reference,
         string $expectedImportName,
@@ -27,7 +26,7 @@ class PageUrlReferenceTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [
@@ -53,9 +52,7 @@ class PageUrlReferenceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isDataProvider
-     */
+    #[DataProvider('isDataProvider')]
     public function testIs(string $reference, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, PageUrlReference::is($reference));
@@ -64,7 +61,7 @@ class PageUrlReferenceTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function isDataProvider(): array
+    public static function isDataProvider(): array
     {
         return [
             'empty string' => [

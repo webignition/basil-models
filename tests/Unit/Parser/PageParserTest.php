@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Parser;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Page\Page;
 use webignition\BasilModels\Model\Page\PageInterface;
@@ -22,10 +23,9 @@ class PageParserTest extends TestCase
     }
 
     /**
-     * @dataProvider parseThrowsEmptyUrlExceptionDataProvider
-     *
      * @param array<mixed> $pageData
      */
+    #[DataProvider('parseThrowsEmptyUrlExceptionDataProvider')]
     public function testParseThrowsEmptyUrlException(array $pageData): void
     {
         self::expectException(InvalidPageException::class);
@@ -37,7 +37,7 @@ class PageParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseThrowsEmptyUrlExceptionDataProvider(): array
+    public static function parseThrowsEmptyUrlExceptionDataProvider(): array
     {
         return [
             'no data' => [
@@ -63,10 +63,9 @@ class PageParserTest extends TestCase
     }
 
     /**
-     * @dataProvider parseDataProvider
-     *
      * @param array<mixed> $pageData
      */
+    #[DataProvider('parseDataProvider')]
     public function testParse(string $importName, array $pageData, PageInterface $expectedPage): void
     {
         $this->assertEquals($expectedPage, $this->parser->parse($importName, $pageData));
@@ -75,7 +74,7 @@ class PageParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseDataProvider(): array
+    public static function parseDataProvider(): array
     {
         return [
             'valid url' => [

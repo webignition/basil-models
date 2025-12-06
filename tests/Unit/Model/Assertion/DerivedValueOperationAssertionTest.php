@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Assertion;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Assertion\Assertion;
 use webignition\BasilModels\Model\Assertion\DerivedValueOperationAssertion;
 use webignition\BasilModels\Model\StatementInterface;
-use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTest;
+use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTestCase;
 
-class DerivedValueOperationAssertionTest extends AbstractStatementTest
+class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
 {
-    /**
-     * @dataProvider createDataProvider
-     */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         StatementInterface $sourceStatement,
         string $identifier,
@@ -33,7 +32,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'derived exists from action' => [
@@ -44,7 +43,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTest
                     '$".selector"'
                 ),
                 'identifier' => '$".selector"',
-                '$operator' => 'exists',
+                'operator' => 'exists',
                 'expectedStringRepresentation' => '$".selector" exists',
             ],
             'derived exists from assertion' => [
@@ -55,7 +54,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTest
                     '"value"'
                 ),
                 'identifier' => '$".selector"',
-                '$operator' => 'exists',
+                'operator' => 'exists',
                 'expectedStringRepresentation' => '$".selector" exists',
             ],
             'derived is-regexp from assertion' => [
@@ -66,7 +65,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTest
                     '"value"'
                 ),
                 'identifier' => '$".selector"',
-                '$operator' => 'is-regexp',
+                'operator' => 'is-regexp',
                 'expectedStringRepresentation' => '$".selector" is-regexp',
             ],
         ];
@@ -75,11 +74,11 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function jsonSerializeDataProvider(): array
+    public static function jsonSerializeDataProvider(): array
     {
         return [
             'exists from assertion' => [
-                'derivedAssertion' => new DerivedValueOperationAssertion(
+                'statement' => new DerivedValueOperationAssertion(
                     new Assertion(
                         '$".selector" is "value',
                         '$".selector"',
@@ -105,7 +104,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTest
                 ],
             ],
             'exists from action' => [
-                'derivedAssertion' => new DerivedValueOperationAssertion(
+                'statement' => new DerivedValueOperationAssertion(
                     new Action(
                         'click $".selector"',
                         'click',
@@ -131,7 +130,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTest
                 ],
             ],
             'is-regexp from assertion' => [
-                'derivedAssertion' => new DerivedValueOperationAssertion(
+                'statement' => new DerivedValueOperationAssertion(
                     new Assertion(
                         '$".selector" matches "value"',
                         '$".selector"',

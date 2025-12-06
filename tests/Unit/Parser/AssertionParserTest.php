@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Parser;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Assertion\Assertion;
 use webignition\BasilModels\Model\Assertion\AssertionInterface;
@@ -21,9 +22,7 @@ class AssertionParserTest extends TestCase
         $this->parser = AssertionParser::create();
     }
 
-    /**
-     * @dataProvider parseDataProvider
-     */
+    #[DataProvider('parseDataProvider')]
     public function testParse(string $assertionString, AssertionInterface $expectedAssertion): void
     {
         $parser = AssertionParser::create();
@@ -34,7 +33,7 @@ class AssertionParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseDataProvider(): array
+    public static function parseDataProvider(): array
     {
         return [
             'css element selector, is, scalar value' => [
