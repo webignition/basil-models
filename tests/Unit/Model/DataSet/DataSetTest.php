@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\DataSet;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\DataSet\DataSet;
 use webignition\BasilModels\Model\DataSet\DataSetInterface;
@@ -11,11 +12,10 @@ use webignition\BasilModels\Model\DataSet\DataSetInterface;
 class DataSetTest extends TestCase
 {
     /**
-     * @dataProvider getParameterNamesDataProvider
-     *
      * @param array<int|string, string> $data
      * @param string[]                  $expectedParameterNames
      */
+    #[DataProvider('getParameterNamesDataProvider')]
     public function testGetParameterNames(array $data, array $expectedParameterNames): void
     {
         $dataSet = new DataSet('0', $data);
@@ -26,7 +26,7 @@ class DataSetTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function getParameterNamesDataProvider(): array
+    public static function getParameterNamesDataProvider(): array
     {
         return [
             'empty' => [
@@ -61,10 +61,9 @@ class DataSetTest extends TestCase
     }
 
     /**
-     * @dataProvider hasParameterNamesDataProvider
-     *
      * @param string[] $parameterNames
      */
+    #[DataProvider('hasParameterNamesDataProvider')]
     public function testHasParameterNames(
         DataSetInterface $dataSet,
         array $parameterNames,
@@ -76,7 +75,7 @@ class DataSetTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function hasParameterNamesDataProvider(): array
+    public static function hasParameterNamesDataProvider(): array
     {
         return [
             'empty data set, empty parameter names' => [
@@ -124,9 +123,7 @@ class DataSetTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getNameDataProvider
-     */
+    #[DataProvider('getNameDataProvider')]
     public function testGetName(string $name): void
     {
         $dataSet = new DataSet($name, []);
@@ -137,7 +134,7 @@ class DataSetTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function getNameDataProvider(): array
+    public static function getNameDataProvider(): array
     {
         return [
             'integer string' => [
@@ -168,10 +165,9 @@ class DataSetTest extends TestCase
     }
 
     /**
-     * @dataProvider toArrayDataProvider
-     *
      * @param array<mixed> $expectedArray
      */
+    #[DataProvider('toArrayDataProvider')]
     public function testToArray(DataSetInterface $dataSet, array $expectedArray): void
     {
         $this->assertEquals($expectedArray, $dataSet->toArray());
@@ -180,7 +176,7 @@ class DataSetTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function toArrayDataProvider(): array
+    public static function toArrayDataProvider(): array
     {
         return [
             'empty' => [
@@ -207,10 +203,9 @@ class DataSetTest extends TestCase
     }
 
     /**
-     * @dataProvider fromArrayDataProvider
-     *
      * @param array<mixed> $data
      */
+    #[DataProvider('fromArrayDataProvider')]
     public function testFromArray(array $data, DataSetInterface $expectedDataSet): void
     {
         $this->assertEquals($expectedDataSet, DataSet::fromArray($data));
@@ -219,7 +214,7 @@ class DataSetTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function fromArrayDataProvider(): array
+    public static function fromArrayDataProvider(): array
     {
         return [
             'empty' => [
@@ -280,9 +275,7 @@ class DataSetTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider toArrayFromArrayDataProvider
-     */
+    #[DataProvider('toArrayFromArrayDataProvider')]
     public function testToArrayFromArray(DataSetInterface $dataSet): void
     {
         $this->assertEquals(
@@ -294,7 +287,7 @@ class DataSetTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function toArrayFromArrayDataProvider(): array
+    public static function toArrayFromArrayDataProvider(): array
     {
         return [
             'empty' => [

@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Action;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Action\ActionInterface;
 use webignition\BasilModels\Model\Action\ResolvedAction;
-use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTest;
+use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTestCase;
 
-class ResolvedActionTest extends AbstractStatementTest
+class ResolvedActionTest extends AbstractStatementTestCase
 {
-    /**
-     * @dataProvider createDataProvider
-     */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         ActionInterface $sourceAction,
         ?string $identifier,
@@ -33,7 +32,7 @@ class ResolvedActionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'browser operation (back)' => [
@@ -66,11 +65,11 @@ class ResolvedActionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function jsonSerializeDataProvider(): array
+    public static function jsonSerializeDataProvider(): array
     {
         return [
             'browser operation (back)' => [
-                'action' => new ResolvedAction(
+                'statement' => new ResolvedAction(
                     new Action('back', 'back')
                 ),
                 'expectedSerializedData' => [
@@ -85,7 +84,7 @@ class ResolvedActionTest extends AbstractStatementTest
                 ],
             ],
             'interaction (click)' => [
-                'action' => new ResolvedAction(
+                'statement' => new ResolvedAction(
                     new Action(
                         'click $page_import_name.elements.element_name',
                         'click',
@@ -109,7 +108,7 @@ class ResolvedActionTest extends AbstractStatementTest
                 ],
             ],
             'input' => [
-                'action' => new ResolvedAction(
+                'statement' => new ResolvedAction(
                     new Action(
                         'set $page_import_name.elements.element_name to "value"',
                         'set',

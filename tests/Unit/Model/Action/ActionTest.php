@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Action;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use webignition\BasilModels\Model\Action\Action;
-use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTest;
+use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTestCase;
 
-class ActionTest extends AbstractStatementTest
+class ActionTest extends AbstractStatementTestCase
 {
-    /**
-     * @dataProvider createDataProvider
-     */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         string $source,
         string $type,
@@ -31,7 +30,7 @@ class ActionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'action-only' => [
@@ -61,11 +60,11 @@ class ActionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function jsonSerializeDataProvider(): array
+    public static function jsonSerializeDataProvider(): array
     {
         return [
             'action-only' => [
-                'action' => new Action('back', 'back'),
+                'statement' => new Action('back', 'back'),
                 'expectedSerializedData' => [
                     'statement-type' => 'action',
                     'source' => 'back',
@@ -73,7 +72,7 @@ class ActionTest extends AbstractStatementTest
                 ],
             ],
             'interaction' => [
-                'action' => new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
+                'statement' => new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
                 'expectedSerializedData' => [
                     'statement-type' => 'action',
                     'source' => 'click $".selector"',
@@ -83,7 +82,7 @@ class ActionTest extends AbstractStatementTest
                 ],
             ],
             'input' => [
-                'action' => new Action(
+                'statement' => new Action(
                     'set $".selector" to "value"',
                     'set',
                     '$".selector" to "value"',
@@ -100,7 +99,7 @@ class ActionTest extends AbstractStatementTest
                 ],
             ],
             'wait' => [
-                'action' => new Action('wait', 'wait', '30', null, '30'),
+                'statement' => new Action('wait', 'wait', '30', null, '30'),
                 'expectedSerializedData' => [
                     'statement-type' => 'action',
                     'source' => 'wait',

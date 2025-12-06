@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Provider\Page;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Page\Page;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
@@ -12,10 +13,9 @@ use webignition\BasilModels\Provider\Page\PageProvider;
 class PageProviderTest extends TestCase
 {
     /**
-     * @dataProvider createDataProvider
-     *
      * @param array<mixed> $pages
      */
+    #[DataProvider('createDataProvider')]
     public function testCreate(array $pages, PageProvider $expectedPageProvider): void
     {
         $this->assertEquals($expectedPageProvider, new PageProvider($pages));
@@ -24,7 +24,7 @@ class PageProviderTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [

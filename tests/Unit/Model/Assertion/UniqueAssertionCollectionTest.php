@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Assertion;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Assertion\Assertion;
 use webignition\BasilModels\Model\Assertion\AssertionInterface;
@@ -31,11 +32,10 @@ class UniqueAssertionCollectionTest extends TestCase
     }
 
     /**
-     * @dataProvider isUniqueDataProvider
-     *
      * @param AssertionInterface[] $assertionsToAdd
      * @param AssertionInterface[] $expectedAssertions
      */
+    #[DataProvider('isUniqueDataProvider')]
     public function testIsUnique(array $assertionsToAdd, array $expectedAssertions): void
     {
         $collection = new UniqueAssertionCollection();
@@ -52,7 +52,7 @@ class UniqueAssertionCollectionTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function isUniqueDataProvider(): array
+    public static function isUniqueDataProvider(): array
     {
         return [
             'single item added' => [
@@ -85,11 +85,10 @@ class UniqueAssertionCollectionTest extends TestCase
     }
 
     /**
-     * @dataProvider normaliseDataProvider
-     *
      * @param AssertionInterface[] $assertionsToAdd
      * @param AssertionInterface[] $expectedAssertions
      */
+    #[DataProvider('normaliseDataProvider')]
     public function testNormalise(array $assertionsToAdd, array $expectedAssertions): void
     {
         $collection = new UniqueAssertionCollection();
@@ -108,7 +107,7 @@ class UniqueAssertionCollectionTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function normaliseDataProvider(): array
+    public static function normaliseDataProvider(): array
     {
         return [
             'is in normal form' => [
@@ -134,10 +133,9 @@ class UniqueAssertionCollectionTest extends TestCase
     }
 
     /**
-     * @dataProvider mergeDataProvider
-     *
      * @param AssertionInterface[] $expectedAssertions
      */
+    #[DataProvider('mergeDataProvider')]
     public function testMerge(
         UniqueAssertionCollection $collection,
         UniqueAssertionCollection $additions,
@@ -153,7 +151,7 @@ class UniqueAssertionCollectionTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function mergeDataProvider(): array
+    public static function mergeDataProvider(): array
     {
         return [
             'no common assertions between collections' => [

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\StatementInterface;
 
-abstract class AbstractStatementTest extends TestCase
+abstract class AbstractStatementTestCase extends TestCase
 {
     /**
-     * @dataProvider jsonSerializeDataProvider
-     *
      * @param array<mixed> $expectedSerializedData
      */
+    #[DataProvider('jsonSerializeDataProvider')]
     public function testJsonSerialize(StatementInterface $statement, array $expectedSerializedData): void
     {
         self::assertSame(
@@ -25,7 +25,7 @@ abstract class AbstractStatementTest extends TestCase
     /**
      * @return array<mixed>
      */
-    abstract public function jsonSerializeDataProvider(): array;
+    abstract public static function jsonSerializeDataProvider(): array;
 
     /**
      * @param array<mixed> $serializedStatement

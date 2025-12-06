@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Action;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Action\ActionInterface;
@@ -27,10 +28,9 @@ class FactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider createFromArrayDataProvider
-     *
      * @param array<mixed> $actionData
      */
+    #[DataProvider('createFromArrayDataProvider')]
     public function testCreateFromArray(array $actionData, ActionInterface $expectedAction): void
     {
         $this->assertEquals($expectedAction, $this->factory->createFromArray($actionData));
@@ -39,7 +39,7 @@ class FactoryTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createFromArrayDataProvider(): array
+    public static function createFromArrayDataProvider(): array
     {
         return [
             'back' => [
@@ -194,10 +194,9 @@ class FactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider createFromArrayDataProvider
-     *
      * @param array<mixed> $actionData
      */
+    #[DataProvider('createFromArrayDataProvider')]
     public function testCreateFromJson(array $actionData, ActionInterface $expectedAction): void
     {
         $this->assertEquals($expectedAction, $this->factory->createFromJson((string) json_encode($actionData)));

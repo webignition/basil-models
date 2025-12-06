@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Assertion;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Action\Factory as ActionFactory;
@@ -33,10 +34,9 @@ class FactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider createFromArrayDataProvider
-     *
      * @param array<mixed> $data
      */
+    #[DataProvider('createFromArrayDataProvider')]
     public function testCreateFromArray(array $data, AssertionInterface $expectedAssertion): void
     {
         $this->assertEquals($expectedAssertion, $this->factory->createFromArray($data));
@@ -45,7 +45,7 @@ class FactoryTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createFromArrayDataProvider(): array
+    public static function createFromArrayDataProvider(): array
     {
         return [
             'exists' => [
@@ -249,12 +249,11 @@ class FactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider createFromArrayDataProvider
-     *
-     * @param array<mixed> $assertionData
+     * @param array<mixed> $data
      */
-    public function testCreateFromJson(array $assertionData, AssertionInterface $expectedAssertion): void
+    #[DataProvider('createFromArrayDataProvider')]
+    public function testCreateFromJson(array $data, AssertionInterface $expectedAssertion): void
     {
-        $this->assertEquals($expectedAssertion, $this->factory->createFromJson((string) json_encode($assertionData)));
+        $this->assertEquals($expectedAssertion, $this->factory->createFromJson((string) json_encode($data)));
     }
 }

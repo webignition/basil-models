@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\BrowserProperty;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\BrowserProperty\BrowserProperty;
 
 class BrowserPropertyTest extends TestCase
 {
-    /**
-     * @dataProvider createDataProvider
-     */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         string $value,
         string $expectedProperty,
@@ -27,7 +26,7 @@ class BrowserPropertyTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [
@@ -53,9 +52,7 @@ class BrowserPropertyTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isDataProvider
-     */
+    #[DataProvider('isDataProvider')]
     public function testIs(string $value, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, BrowserProperty::is($value));
@@ -64,7 +61,7 @@ class BrowserPropertyTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function isDataProvider(): array
+    public static function isDataProvider(): array
     {
         return [
             'empty' => [

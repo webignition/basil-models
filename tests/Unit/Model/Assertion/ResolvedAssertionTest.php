@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Assertion;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use webignition\BasilModels\Model\Assertion\Assertion;
 use webignition\BasilModels\Model\Assertion\AssertionInterface;
 use webignition\BasilModels\Model\Assertion\ResolvedAssertion;
-use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTest;
+use webignition\BasilModels\Tests\Unit\Model\AbstractStatementTestCase;
 
-class ResolvedAssertionTest extends AbstractStatementTest
+class ResolvedAssertionTest extends AbstractStatementTestCase
 {
-    /**
-     * @dataProvider createDataProvider
-     */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         AssertionInterface $sourceAssertion,
         string $identifier,
@@ -32,7 +31,7 @@ class ResolvedAssertionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'exists' => [
@@ -73,11 +72,11 @@ class ResolvedAssertionTest extends AbstractStatementTest
     /**
      * @return array<mixed>
      */
-    public function jsonSerializeDataProvider(): array
+    public static function jsonSerializeDataProvider(): array
     {
         return [
             'from exists assertion' => [
-                'derivedAssertion' => new ResolvedAssertion(
+                'statement' => new ResolvedAssertion(
                     new Assertion(
                         '$page_import_name.elements.element_name exists',
                         '$page_import_name.elements.element_name',
@@ -99,7 +98,7 @@ class ResolvedAssertionTest extends AbstractStatementTest
                 ],
             ],
             'from is assertion' => [
-                'derivedAssertion' => new ResolvedAssertion(
+                'statement' => new ResolvedAssertion(
                     new Assertion(
                         '$page_import_name.elements.element_name is "value"',
                         '$page_import_name.elements.element_name',

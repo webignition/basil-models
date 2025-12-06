@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\AttributeReference;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\AttributeReference\AttributeReference;
 
 class AttributeReferenceTest extends TestCase
 {
-    /**
-     * @dataProvider createDataProvider
-     */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         string $reference,
         string $expectedElementName,
@@ -29,7 +28,7 @@ class AttributeReferenceTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [
@@ -65,9 +64,7 @@ class AttributeReferenceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isDataProvider
-     */
+    #[DataProvider('isDataProvider')]
     public function testIs(string $reference, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, AttributeReference::is($reference));
@@ -76,7 +73,7 @@ class AttributeReferenceTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function isDataProvider(): array
+    public static function isDataProvider(): array
     {
         return [
             'empty string' => [

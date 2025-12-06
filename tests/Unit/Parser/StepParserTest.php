@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Parser;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Assertion\Assertion;
@@ -28,10 +29,9 @@ class StepParserTest extends TestCase
     }
 
     /**
-     * @dataProvider parseDataProvider
-     *
      * @param array<mixed> $stepData
      */
+    #[DataProvider('parseDataProvider')]
     public function testParse(array $stepData, StepInterface $expectedStep): void
     {
         $this->assertEquals($expectedStep, $this->parser->parse($stepData));
@@ -40,7 +40,7 @@ class StepParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseDataProvider(): array
+    public static function parseDataProvider(): array
     {
         return [
             'empty' => [
@@ -136,10 +136,9 @@ class StepParserTest extends TestCase
     }
 
     /**
-     * @dataProvider throwsUnparseableStepExceptionDataProvider
-     *
      * @param array<mixed> $stepData
      */
+    #[DataProvider('throwsUnparseableStepExceptionDataProvider')]
     public function testThrowsUnparseableStepException(
         array $stepData,
         ?UnparseableStatementException $expectedStatementException
@@ -160,7 +159,7 @@ class StepParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function throwsUnparseableStepExceptionDataProvider(): array
+    public static function throwsUnparseableStepExceptionDataProvider(): array
     {
         return [
             'empty action' => [

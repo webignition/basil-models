@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\PageProperty;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\PageProperty\PageProperty;
 
 class PagePropertyTest extends TestCase
 {
-    /**
-     * @dataProvider createDataProvider
-     */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         string $value,
         string $expectedProperty,
@@ -27,7 +26,7 @@ class PagePropertyTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'empty' => [
@@ -58,9 +57,7 @@ class PagePropertyTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isDataProvider
-     */
+    #[DataProvider('isDataProvider')]
     public function testIs(string $value, bool $expectedIs): void
     {
         $this->assertSame($expectedIs, PageProperty::is($value));
@@ -69,7 +66,7 @@ class PagePropertyTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function isDataProvider(): array
+    public static function isDataProvider(): array
     {
         return [
             'empty string' => [

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Parser\Test;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Assertion\Assertion;
@@ -30,10 +31,9 @@ class TestParserTest extends TestCase
     }
 
     /**
-     * @dataProvider parseThrowsEmptyBrowserExceptionDataProvider
-     *
      * @param array<mixed> $testData
      */
+    #[DataProvider('parseThrowsEmptyBrowserExceptionDataProvider')]
     public function testParseThrowsEmptyBrowserException(array $testData): void
     {
         self::expectException(InvalidTestException::class);
@@ -45,7 +45,7 @@ class TestParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseThrowsEmptyBrowserExceptionDataProvider(): array
+    public static function parseThrowsEmptyBrowserExceptionDataProvider(): array
     {
         return [
             'no test data' => [
@@ -71,10 +71,9 @@ class TestParserTest extends TestCase
     }
 
     /**
-     * @dataProvider parseThrowsEmptyUrlExceptionDataProvider
-     *
      * @param array<mixed> $testData
      */
+    #[DataProvider('parseThrowsEmptyUrlExceptionDataProvider')]
     public function testParseThrowsEmptyUrlException(array $testData): void
     {
         self::expectException(InvalidTestException::class);
@@ -86,7 +85,7 @@ class TestParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseThrowsEmptyUrlExceptionDataProvider(): array
+    public static function parseThrowsEmptyUrlExceptionDataProvider(): array
     {
         return [
             'empty' => [
@@ -109,10 +108,9 @@ class TestParserTest extends TestCase
     }
 
     /**
-     * @dataProvider parseDataProvider
-     *
      * @param array<mixed> $testData
      */
+    #[DataProvider('parseDataProvider')]
     public function testParse(array $testData, TestInterface $expectedTest): void
     {
         $this->assertEquals($expectedTest, $this->parser->parse($testData));
@@ -121,7 +119,7 @@ class TestParserTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function parseDataProvider(): array
+    public static function parseDataProvider(): array
     {
         return [
             'non-empty' => [

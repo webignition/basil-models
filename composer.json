@@ -45,7 +45,7 @@
         "webignition/php-path-resolver": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^12",
         "squizlabs/php_codesniffer": "^4.0",
         "phpstan/phpstan": "^1.7",
         "webignition/object-reflector": "^0.1.0",

@@ -47,10 +47,10 @@ class ImportsTest extends TestCase
         $this->assertSame($expectedPaths, $imports->getPagePaths());
     }
 
-    public function testGetWithDataProviderPaths(): void
+    public static function testGetWithDataProviderPaths(): void
     {
         $imports = new Imports();
-        $this->assertSame([], $imports->getDataProviderPaths());
+        self::assertSame([], $imports->getDataProviderPaths());
 
         $paths = [
             'invalid bool' => true,
@@ -63,6 +63,6 @@ class ImportsTest extends TestCase
         ];
 
         $imports = $imports->withDataProviderPaths($paths);
-        $this->assertSame($expectedPaths, $imports->getDataProviderPaths());
+        self::assertSame($expectedPaths, $imports->getDataProviderPaths());
     }
 }
