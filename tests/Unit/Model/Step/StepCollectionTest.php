@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\Step;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Model\Step\StepCollection;
 use webignition\BasilModels\Model\Step\StepCollectionInterface;
 use webignition\ObjectReflector\ObjectReflector;
 
-class StepCollectionTest extends \PHPUnit\Framework\TestCase
+class StepCollectionTest extends TestCase
 {
     /**
      * @dataProvider getStepNamesDataProvider

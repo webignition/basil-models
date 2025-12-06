@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\PageUrlReference;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\PageUrlReference\PageUrlReference;
 
-class PageUrlReferenceTest extends \PHPUnit\Framework\TestCase
+class PageUrlReferenceTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

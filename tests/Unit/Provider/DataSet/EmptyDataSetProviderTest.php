@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Provider\DataSet;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Provider\DataSet\EmptyDataSetProvider;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
 
-class EmptyDataSetProviderTest extends \PHPUnit\Framework\TestCase
+class EmptyDataSetProviderTest extends TestCase
 {
     public function testFindThrowsUnknownItemException(): void
     {

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Provider\Step;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
 use webignition\BasilModels\Provider\Step\EmptyStepProvider;
 
-class EmptyStepProviderTest extends \PHPUnit\Framework\TestCase
+class EmptyStepProviderTest extends TestCase
 {
     public function testFindThrowsUnknownItemException(): void
     {

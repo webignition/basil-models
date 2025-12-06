@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\DataSet;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\DataSet\DataSet;
 use webignition\BasilModels\Model\DataSet\DataSetInterface;
 
-class DataSetTest extends \PHPUnit\Framework\TestCase
+class DataSetTest extends TestCase
 {
     /**
      * @dataProvider getParameterNamesDataProvider

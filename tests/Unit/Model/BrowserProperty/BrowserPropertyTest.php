@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\BrowserProperty;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\BrowserProperty\BrowserProperty;
 
-class BrowserPropertyTest extends \PHPUnit\Framework\TestCase
+class BrowserPropertyTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

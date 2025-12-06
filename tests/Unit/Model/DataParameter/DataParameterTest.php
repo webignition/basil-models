@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\DataParameter;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\DataParameter\DataParameter;
 
-class DataParameterTest extends \PHPUnit\Framework\TestCase
+class DataParameterTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider

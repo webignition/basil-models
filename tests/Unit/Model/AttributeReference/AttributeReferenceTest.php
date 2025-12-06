@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\Unit\Model\AttributeReference;
 
+use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\AttributeReference\AttributeReference;
 
-class AttributeReferenceTest extends \PHPUnit\Framework\TestCase
+class AttributeReferenceTest extends TestCase
 {
     /**
      * @dataProvider createDataProvider
