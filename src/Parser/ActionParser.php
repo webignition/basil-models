@@ -15,8 +15,7 @@ class ActionParser
     public function __construct(
         private IdentifierExtractor $identifierExtractor,
         private ValueExtractor $valueExtractor
-    ) {
-    }
+    ) {}
 
     public static function create(): ActionParser
     {

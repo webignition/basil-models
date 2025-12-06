@@ -15,8 +15,7 @@ class AssertionParser
 
     public function __construct(
         private ValueExtractor $valueExtractor
-    ) {
-    }
+    ) {}
 
     public static function create(): AssertionParser
     {

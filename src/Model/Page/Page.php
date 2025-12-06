@@ -14,8 +14,7 @@ class Page implements PageInterface
         private readonly string $importName,
         private readonly string $url,
         private readonly array $identifiers = []
-    ) {
-    }
+    ) {}
 
     public function getImportName(): string
     {
