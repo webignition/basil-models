@@ -16,8 +16,7 @@ class Test implements TestInterface
         private readonly string $browser,
         private readonly string $url,
         private readonly StepCollectionInterface $steps,
-    ) {
-    }
+    ) {}
 
     public function getBrowser(): string
     {

@@ -14,8 +14,7 @@ class NamedTest implements NamedTestInterface
     public function __construct(
         private readonly TestInterface $inner,
         private readonly string $path,
-    ) {
-    }
+    ) {}
 
     public function getName(): string
     {

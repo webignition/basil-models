@@ -16,8 +16,7 @@ class ImportsParser
 
     public function __construct(
         private PathResolver $pathResolver
-    ) {
-    }
+    ) {}
 
     public static function create(): ImportsParser
     {

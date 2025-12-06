@@ -24,8 +24,7 @@ class StepParser implements DataParserInterface
     public function __construct(
         private ActionParser $actionParser,
         private AssertionParser $assertionParser
-    ) {
-    }
+    ) {}
 
     public static function create(): StepParser
     {

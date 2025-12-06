@@ -15,8 +15,7 @@ abstract class Statement implements StatementInterface, \Stringable
         private readonly string $source,
         private readonly ?string $identifier,
         private readonly ?string $value
-    ) {
-    }
+    ) {}
 
     public function __toString(): string
     {

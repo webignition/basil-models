@@ -14,8 +14,7 @@ class Factory
 {
     public function __construct(
         private readonly ActionFactory $actionFactory
-    ) {
-    }
+    ) {}
 
     public static function createFactory(): self
     {

@@ -22,8 +22,7 @@ class TestParser implements DataParserInterface
 
     public function __construct(
         private StepParser $stepParser
-    ) {
-    }
+    ) {}
 
     public static function create(): TestParser
     {
