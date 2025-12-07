@@ -24,6 +24,7 @@ class DataSetCollectionTest extends TestCase
         $this->assertCount(count($expectedDataSets), $dataSetCollection);
 
         foreach ($dataSetCollection as $index => $dataSet) {
+            \assert(is_int($index));
             $expectedDataSet = $expectedDataSets[$index];
 
             $this->assertEquals($expectedDataSet, $dataSet);

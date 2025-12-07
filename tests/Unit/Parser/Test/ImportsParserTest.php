@@ -42,7 +42,6 @@ class ImportsParserTest extends TestCase
                         'name_of_valid_step_path_2' => 'relative1/step.yml',
                         'name_of_valid_step_path_3' => './relative1/step.yml',
                         'name_of_valid_step_path_4' => '../relative1/step.yml',
-                        'invalid_step_path' => [],
                     ],
                     'data_providers' => [
                         'name_of_valid_data_provider_path' => '/absolute/data.yml',

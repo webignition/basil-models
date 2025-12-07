@@ -11,7 +11,7 @@ class UnparseableStepException extends UnparseableDataException
     public const CODE_INVALID_ACTIONS_DATA = 3;
     public const CODE_INVALID_ASSERTIONS_DATA = 4;
 
-    private ?string $stepName;
+    private string $stepName;
 
     /**
      * @param array<mixed> $stepData

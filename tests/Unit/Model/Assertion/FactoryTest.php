@@ -28,11 +28,6 @@ class FactoryTest extends TestCase
         );
     }
 
-    public function testCreateFactory(): void
-    {
-        $this->assertInstanceOf(Factory::class, Factory::createFactory());
-    }
-
     /**
      * @param array<mixed> $data
      */

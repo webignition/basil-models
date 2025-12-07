@@ -35,7 +35,7 @@ class Page implements PageInterface
     }
 
     /**
-     * @return string[]
+     * @return array<string, string>
      */
     public function getIdentifiers(): array
     {

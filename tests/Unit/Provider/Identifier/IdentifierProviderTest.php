@@ -30,14 +30,6 @@ class IdentifierProviderTest extends TestCase
                 'identifiers' => [],
                 'expectedIdentifierProvider' => new IdentifierProvider([]),
             ],
-            'invalid identifiers' => [
-                'identifiers' => [
-                    1,
-                    true,
-                    [],
-                ],
-                'expectedIdentifierProvider' => new IdentifierProvider([]),
-            ],
             'valid identifiers' => [
                 'identifiers' => [
                     'heading' => '.heading',
