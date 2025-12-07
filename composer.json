@@ -51,7 +51,7 @@
         "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^12.5",
         "squizlabs/php_codesniffer": "^4.0",
-        "webignition/object-reflector": "^0.1.0"
+        "webignition/object-reflector": "^1.0"
     },
     "config": {
         "sort-packages": true,
