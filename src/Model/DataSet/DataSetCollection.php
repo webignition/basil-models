@@ -28,23 +28,6 @@ class DataSetCollection implements DataSetCollectionInterface
     }
 
     /**
-     * @param array<mixed> $dataSet
-     *
-     * @return array<int|string, string>
-     */
-    private function filterDataSet(array $dataSet): array
-    {
-        $filteredDataSet = [];
-        foreach ($dataSet as $key => $value) {
-            if (is_string($value)) {
-                $filteredDataSet[(string) $key] = $value;
-            }
-        }
-
-        return $filteredDataSet;
-    }
-
-    /**
      * @return string[]
      */
     public function getParameterNames(): array
@@ -106,5 +89,22 @@ class DataSetCollection implements DataSetCollectionInterface
     public function valid(): bool
     {
         return isset($this->dataSets[$this->iteratorPosition]);
+    }
+
+    /**
+     * @param array<mixed> $dataSet
+     *
+     * @return array<int|string, string>
+     */
+    private function filterDataSet(array $dataSet): array
+    {
+        $filteredDataSet = [];
+        foreach ($dataSet as $key => $value) {
+            if (is_string($value)) {
+                $filteredDataSet[(string) $key] = $value;
+            }
+        }
+
+        return $filteredDataSet;
     }
 }
