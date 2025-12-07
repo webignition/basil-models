@@ -26,7 +26,7 @@ class Step implements StepInterface
     private ?string $dataImportName = null;
 
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     private array $identifiers;
 

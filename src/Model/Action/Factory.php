@@ -31,17 +31,14 @@ class Factory
         $source = ArrayAccessor::getStringValue($data, 'source');
         $type = ArrayAccessor::getStringValue($data, 'type');
 
-        $arguments = array_key_exists('arguments', $data)
-            ? (string) $data['arguments']
-            : null;
+        $arguments = array_key_exists('arguments', $data) ? $data['arguments'] : null;
+        $arguments = is_scalar($arguments) ? (string) $arguments : null;
 
-        $identifier = array_key_exists('identifier', $data)
-            ? (string) $data['identifier']
-            : null;
+        $identifier = array_key_exists('identifier', $data) ? $data['identifier'] : null;
+        $identifier = is_scalar($identifier) ? (string) $identifier : null;
 
-        $value = array_key_exists('value', $data)
-            ? (string) $data['value']
-            : null;
+        $value = array_key_exists('value', $data) ? $data['value'] : null;
+        $value = is_scalar($value) ? (string) $value : null;
 
         return new Action($source, $type, $arguments, $identifier, $value);
     }
@@ -87,13 +84,11 @@ class Factory
     {
         $sourceAction = $this->createFromArray($statementData);
 
-        $identifier = array_key_exists('identifier', $containerData)
-            ? (string) $containerData['identifier']
-            : null;
+        $identifier = array_key_exists('identifier', $containerData) ? $containerData['identifier'] : null;
+        $identifier = is_scalar($identifier) ? (string) $identifier : null;
 
-        $value = array_key_exists('value', $containerData)
-            ? (string) $containerData['value']
-            : null;
+        $value = array_key_exists('value', $containerData) ? $containerData['value'] : null;
+        $value = is_scalar($value) ? (string) $value : null;
 
         return new ResolvedAction($sourceAction, $identifier, $value);
     }

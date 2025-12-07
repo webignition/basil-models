@@ -39,9 +39,8 @@ class Factory
         $identifier = ArrayAccessor::getStringValue($data, 'identifier');
         $operator = ArrayAccessor::getStringValue($data, 'operator');
 
-        $value = array_key_exists('value', $data)
-            ? (string) $data['value']
-            : null;
+        $value = array_key_exists('value', $data) ? $data['value'] : null;
+        $value = is_scalar($value) ? (string) $value : null;
 
         return new Assertion($source, $identifier, $operator, $value);
     }
@@ -88,9 +87,8 @@ class Factory
 
         $identifier = ArrayAccessor::getStringValue($containerData, 'identifier');
 
-        $value = array_key_exists('value', $containerData)
-            ? (string) $containerData['value']
-            : null;
+        $value = array_key_exists('value', $containerData) ? $containerData['value'] : null;
+        $value = is_scalar($value) ? (string) $value : null;
 
         return new ResolvedAssertion($sourceAssertion, $identifier, $value);
     }

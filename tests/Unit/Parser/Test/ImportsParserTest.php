@@ -13,7 +13,7 @@ use webignition\BasilModels\Parser\Test\ImportsParser;
 class ImportsParserTest extends TestCase
 {
     /**
-     * @param array<mixed> $importsData
+     * @param array<string, mixed> $importsData
      */
     #[DataProvider('parseDataProvider')]
     public function testParse(string $basePath, array $importsData, ImportsInterface $expectedImports): void

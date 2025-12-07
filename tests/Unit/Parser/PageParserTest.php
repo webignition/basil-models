@@ -23,7 +23,7 @@ class PageParserTest extends TestCase
     }
 
     /**
-     * @param array<mixed> $pageData
+     * @param array<string, mixed> $pageData
      */
     #[DataProvider('parseThrowsEmptyUrlExceptionDataProvider')]
     public function testParseThrowsEmptyUrlException(array $pageData): void
@@ -63,7 +63,7 @@ class PageParserTest extends TestCase
     }
 
     /**
-     * @param array<mixed> $pageData
+     * @param array<string, mixed> $pageData
      */
     #[DataProvider('parseDataProvider')]
     public function testParse(string $importName, array $pageData, PageInterface $expectedPage): void
