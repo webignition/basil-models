@@ -20,9 +20,7 @@ class UniqueAssertionCollection implements \IteratorAggregate
     public function __construct(array $assertions = [])
     {
         foreach ($assertions as $assertion) {
-            if ($assertion instanceof AssertionInterface) {
-                $this->add($assertion);
-            }
+            $this->add($assertion);
         }
     }
 

@@ -65,9 +65,7 @@ class ImportsParser
         $resolvedPaths = [];
 
         foreach ($paths as $importName => $path) {
-            if (is_string($path)) {
-                $resolvedPaths[$importName] = $this->pathResolver->resolve($basePath, $path);
-            }
+            $resolvedPaths[$importName] = $this->pathResolver->resolve($basePath, $path);
         }
 
         return $resolvedPaths;
@@ -103,7 +101,15 @@ class ImportsParser
     private function filterPathSet(string $key, array $importsData): array
     {
         $importData = $importsData[$key] ?? [];
+        $importData = is_array($importData) ? $importData : [];
 
-        return is_array($importData) ? $importData : [];
+        $filteredImportData = [];
+        foreach ($importData as $key => $value) {
+            if (is_string($key) && is_string($value)) {
+                $filteredImportData[$key] = $value;
+            }
+        }
+
+        return $filteredImportData;
     }
 }

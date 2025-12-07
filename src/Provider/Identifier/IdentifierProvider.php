@@ -19,9 +19,7 @@ class IdentifierProvider implements IdentifierProviderInterface
     public function __construct(array $identifiers)
     {
         foreach ($identifiers as $name => $identifier) {
-            if (is_string($identifier)) {
-                $this->items[$name] = $identifier;
-            }
+            $this->items[$name] = $identifier;
         }
     }
 
