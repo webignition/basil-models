@@ -16,12 +16,12 @@ interface PageInterface
     public function getIdentifier(string $name): ?string;
 
     /**
-     * @return string[]
+     * @return array<string, string>
      */
     public function getIdentifiers(): array;
 
     /**
-     * @param string[] $identifiers
+     * @param array<string, string> $identifiers
      */
     public function withIdentifiers(array $identifiers): PageInterface;
 }
