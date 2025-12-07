@@ -34,11 +34,17 @@ class DataSet implements DataSetInterface
     {
         $dataValues = $data['data'] ?? [];
         $dataValues = is_array($dataValues) ? $dataValues : [];
-        array_walk($dataValues, function (&$item, $key) use ($dataValues) {
-            $item = ArrayAccessor::getStringValue($dataValues, $key);
-        });
 
-        return new DataSet(ArrayAccessor::getStringValue($data, 'name'), $dataValues);
+        $filteredDataValues = [];
+        foreach ($dataValues as $key => $value) {
+            if (!is_string($value)) {
+                continue;
+            }
+
+            $filteredDataValues[(string) $key] = $value;
+        }
+
+        return new DataSet(ArrayAccessor::getStringValue($data, 'name'), $filteredDataValues);
     }
 
     public function getName(): string
