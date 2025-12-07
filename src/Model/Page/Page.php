@@ -7,8 +7,8 @@ namespace webignition\BasilModels\Model\Page;
 class Page implements PageInterface
 {
     /**
-     * @param non-empty-string $url
-     * @param string[]         $identifiers
+     * @param non-empty-string      $url
+     * @param array<string, string> $identifiers
      */
     public function __construct(
         private readonly string $importName,

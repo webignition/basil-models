@@ -34,6 +34,13 @@ class PageParser
         $elements = $pageData[self::KEY_ELEMENTS] ?? [];
         $elements = is_array($elements) ? $elements : [];
 
-        return new Page($importName, $url, $elements);
+        $filteredElements = [];
+        foreach ($elements as $name => $element) {
+            if (is_string($name) && is_string($element)) {
+                $filteredElements[$name] = $element;
+            }
+        }
+
+        return new Page($importName, $url, $filteredElements);
     }
 }
