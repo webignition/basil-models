@@ -145,15 +145,19 @@ class StepParser implements DataParserInterface
         return $step;
     }
 
-    /**
-     * @param mixed $identifiers
-     */
-    private function setIdentifiers(StepInterface $step, $identifiers): StepInterface
+    private function setIdentifiers(StepInterface $step, mixed $identifiers): StepInterface
     {
-        if (is_array($identifiers)) {
-            $step = $step->withIdentifiers($identifiers);
+        if (!is_array($identifiers)) {
+            return $step;
         }
 
-        return $step;
+        $filteredIdentifiers = [];
+        foreach ($identifiers as $name => $identifier) {
+            if (is_string($name) && is_string($identifier)) {
+                $filteredIdentifiers[$name] = $identifier;
+            }
+        }
+
+        return $step->withIdentifiers($filteredIdentifiers);
     }
 }
