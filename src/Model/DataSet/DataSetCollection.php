@@ -22,7 +22,7 @@ class DataSetCollection implements DataSetCollectionInterface
 
         foreach ($data as $dataSetName => $dataSet) {
             if (is_array($dataSet)) {
-                $this->dataSets[] = new DataSet((string) $dataSetName, $dataSet);
+                $this->dataSets[] = new DataSet((string) $dataSetName, $this->filterDataSet($dataSet));
             }
         }
     }
@@ -89,5 +89,22 @@ class DataSetCollection implements DataSetCollectionInterface
     public function valid(): bool
     {
         return isset($this->dataSets[$this->iteratorPosition]);
+    }
+
+    /**
+     * @param array<mixed> $dataSet
+     *
+     * @return array<int|string, string>
+     */
+    private function filterDataSet(array $dataSet): array
+    {
+        $filteredDataSet = [];
+        foreach ($dataSet as $key => $value) {
+            if (is_string($value)) {
+                $filteredDataSet[(string) $key] = $value;
+            }
+        }
+
+        return $filteredDataSet;
     }
 }
