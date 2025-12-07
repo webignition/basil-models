@@ -138,7 +138,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @return string[]
+     * @return array<string, string>
      */
     public function getIdentifiers(): array
     {
@@ -146,7 +146,7 @@ class Step implements StepInterface
     }
 
     /**
-     * @param string[] $identifiers
+     * @param array<string, string> $identifiers
      */
     public function withIdentifiers(array $identifiers): Step
     {
