@@ -7,7 +7,7 @@ namespace webignition\BasilModels\Model\Test;
 class Imports implements ImportsInterface
 {
     /**
-     * @var string[]
+     * @var array<non-empty-string, string>
      */
     private array $stepPaths;
 
@@ -79,12 +79,20 @@ class Imports implements ImportsInterface
     /**
      * @param array<mixed> $paths
      *
-     * @return string[]
+     * @return array<non-empty-string, string>
      */
     private function filterPaths(array $paths): array
     {
-        return array_filter($paths, function ($path) {
-            return is_string($path) && '' !== trim($path);
-        });
+        $filteredPaths = [];
+        foreach ($paths as $name => $path) {
+            $name = is_string($name) ? trim($name) : '';
+            $path = is_string($path) ? trim($path) : '';
+
+            if ('' !== $name && '' !== $path) {
+                $filteredPaths[$name] = $path;
+            }
+        }
+
+        return $filteredPaths;
     }
 }

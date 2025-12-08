@@ -7,7 +7,7 @@ namespace webignition\BasilModels\Model\Test;
 interface ImportsInterface
 {
     /**
-     * @return string[]
+     * @return array<non-empty-string, string>
      */
     public function getStepPaths(): array;
 
