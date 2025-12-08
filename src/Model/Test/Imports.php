@@ -12,7 +12,7 @@ class Imports implements ImportsInterface
     private array $stepPaths;
 
     /**
-     * @var string[]
+     * @var array<non-empty-string, string>
      */
     private array $pagePaths;
 

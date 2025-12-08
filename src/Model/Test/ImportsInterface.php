@@ -12,7 +12,7 @@ interface ImportsInterface
     public function getStepPaths(): array;
 
     /**
-     * @return string[]
+     * @return array<non-empty-string, string>
      */
     public function getPagePaths(): array;
 
