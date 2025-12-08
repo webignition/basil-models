@@ -19,7 +19,7 @@ class PageParser
     }
 
     /**
-     * @param array<string, mixed> $pageData
+     * @param array<mixed> $pageData
      *
      * @throws InvalidPageException
      */
