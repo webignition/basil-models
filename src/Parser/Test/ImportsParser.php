@@ -26,7 +26,7 @@ class ImportsParser
     }
 
     /**
-     * @param array<string, mixed> $importsData
+     * @param array<mixed> $importsData
      */
     public function parse(string $basePath, array $importsData): ImportsInterface
     {
@@ -72,7 +72,7 @@ class ImportsParser
     }
 
     /**
-     * @param array<string, mixed> $importsData
+     * @param array<mixed> $importsData
      *
      * @return array<string, array<string, string>>
      */
@@ -94,7 +94,7 @@ class ImportsParser
     }
 
     /**
-     * @param array<string, mixed> $importsData
+     * @param array<mixed> $importsData
      *
      * @return array<string, string>
      */
