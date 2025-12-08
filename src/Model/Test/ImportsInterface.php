@@ -17,7 +17,7 @@ interface ImportsInterface
     public function getPagePaths(): array;
 
     /**
-     * @return string[]
+     * @return array<non-empty-string, string>
      */
     public function getDataProviderPaths(): array;
 }

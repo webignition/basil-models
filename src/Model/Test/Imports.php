@@ -17,7 +17,7 @@ class Imports implements ImportsInterface
     private array $pagePaths;
 
     /**
-     * @var string[]
+     * @var array<non-empty-string, string>
      */
     private array $dataProviderPaths;
 
