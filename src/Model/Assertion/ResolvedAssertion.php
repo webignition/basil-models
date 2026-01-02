@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Assertion;
 
+use webignition\BasilModels\Enum\EncapsulatingStatementType;
 use webignition\BasilModels\Enum\StatementType;
 use webignition\BasilModels\Model\EncapsulatingStatementData;
 
@@ -110,7 +111,7 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
 
         return new EncapsulatingStatementData(
             $sourceAssertion,
-            'resolved-assertion',
+            EncapsulatingStatementType::RESOLVED_ASSERTION,
             $encapsulatingStatementData
         );
     }

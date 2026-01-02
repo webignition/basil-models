@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Action;
 
+use webignition\BasilModels\Enum\EncapsulatingStatementType;
 use webignition\BasilModels\Enum\StatementType;
 use webignition\BasilModels\Model\EncapsulatingStatementData;
 
@@ -132,7 +133,7 @@ class ResolvedAction implements EncapsulatingActionInterface, \Stringable
 
         return new EncapsulatingStatementData(
             $sourceAction,
-            'resolved-action',
+            EncapsulatingStatementType::RESOLVED_ACTION,
             $encapsulatingData
         );
     }

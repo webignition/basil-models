@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Assertion;
 
+use webignition\BasilModels\Enum\EncapsulatingStatementType;
 use webignition\BasilModels\Enum\StatementType;
 use webignition\BasilModels\Model\EncapsulatingStatementData;
 use webignition\BasilModels\Model\EncapsulatingStatementInterface;
@@ -89,7 +90,7 @@ class DerivedValueOperationAssertion implements AssertionInterface, Encapsulatin
     ): EncapsulatingStatementData {
         return new EncapsulatingStatementData(
             $sourceStatement,
-            'derived-value-operation-assertion',
+            EncapsulatingStatementType::DERIVED_VALUE_OPERATION_ASSERTION,
             [
                 'value' => $value,
                 'operator' => $operator,
