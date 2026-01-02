@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model;
 
+use webignition\BasilModels\Enum\EncapsulatingStatementType;
+
 class EncapsulatingStatementData
 {
     public const KEY_CONTAINER = 'container';
@@ -20,7 +22,7 @@ class EncapsulatingStatementData
      */
     public function __construct(
         StatementInterface $statement,
-        private readonly string $containerType,
+        private readonly EncapsulatingStatementType $containerType,
         private readonly array $encapsulationData
     ) {
         $this->sourceData = $statement->jsonSerialize();
@@ -34,7 +36,7 @@ class EncapsulatingStatementData
         return [
             self::KEY_CONTAINER => array_merge(
                 [
-                    self::KEY_CONTAINER_TYPE => $this->containerType,
+                    self::KEY_CONTAINER_TYPE => $this->containerType->value,
                 ],
                 $this->encapsulationData
             ),
