@@ -6,6 +6,14 @@ namespace webignition\BasilModels\Model;
 
 use webignition\BasilModels\Enum\StatementType;
 
+/**
+ * @phpstan-type SerializedStatement array{
+ *    'statement-type': value-of<StatementType>,
+ *    'source': string,
+ *    'identifier'?: string,
+ *    'value'?: string
+ *  }
+ */
 interface StatementInterface extends \JsonSerializable
 {
     public function __toString(): string;
@@ -19,7 +27,7 @@ interface StatementInterface extends \JsonSerializable
     public function getValue(): ?string;
 
     /**
-     * @return array<mixed>
+     * @return SerializedStatement
      */
     public function jsonSerialize(): array;
 }

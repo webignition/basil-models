@@ -78,6 +78,9 @@ class DerivedValueOperationAssertion implements AssertionInterface, Encapsulatin
         return $this->assertion->isComparison();
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function jsonSerialize(): array
     {
         return $this->encapsulatingStatementData->jsonSerialize();

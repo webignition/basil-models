@@ -76,6 +76,9 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
         return $this->assertion->isComparison();
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function jsonSerialize(): array
     {
         return $this->encapsulatingStatementData->jsonSerialize();
