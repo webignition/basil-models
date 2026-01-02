@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Assertion;
 
+use webignition\BasilModels\Enum\StatementType;
 use webignition\BasilModels\Model\Statement;
 
 class Assertion extends Statement implements AssertionInterface
@@ -19,9 +20,9 @@ class Assertion extends Statement implements AssertionInterface
         parent::__construct($source, $identifier, $value);
     }
 
-    public function getStatementType(): string
+    public function getStatementType(): StatementType
     {
-        return 'assertion';
+        return StatementType::ASSERTION;
     }
 
     public function getOperator(): string

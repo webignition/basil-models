@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model;
 
+use webignition\BasilModels\Enum\StatementType;
+
 interface StatementInterface extends \JsonSerializable
 {
     public function __toString(): string;
@@ -12,7 +14,7 @@ interface StatementInterface extends \JsonSerializable
 
     public function getSource(): string;
 
-    public function getStatementType(): string;
+    public function getStatementType(): StatementType;
 
     public function getValue(): ?string;
 

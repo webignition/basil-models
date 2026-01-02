@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Assertion;
 
+use webignition\BasilModels\Enum\StatementType;
 use webignition\BasilModels\Model\EncapsulatingStatementData;
 
 class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInterface, \Stringable
@@ -29,9 +30,9 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
         return (string) $this->assertion;
     }
 
-    public function getStatementType(): string
+    public function getStatementType(): StatementType
     {
-        return 'assertion';
+        return StatementType::ASSERTION;
     }
 
     public function getIdentifier(): ?string

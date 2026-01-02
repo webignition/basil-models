@@ -43,7 +43,7 @@ abstract class Statement implements StatementInterface, \Stringable
     public function jsonSerialize(): array
     {
         $data = [
-            self::KEY_STATEMENT_TYPE => $this->getStatementType(),
+            self::KEY_STATEMENT_TYPE => $this->getStatementType()->value,
             self::KEY_SOURCE => $this->source,
         ];
 
