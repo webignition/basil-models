@@ -7,6 +7,9 @@ namespace webignition\BasilModels\Model\Assertion;
 use webignition\BasilModels\Enum\StatementType;
 use webignition\BasilModels\Model\Statement;
 
+/**
+ * @phpstan-import-type SerializedAssertion from AssertionInterface
+ */
 class Assertion extends Statement implements AssertionInterface
 {
     private const KEY_OPERATOR = 'operator';
@@ -20,6 +23,9 @@ class Assertion extends Statement implements AssertionInterface
         parent::__construct($source, $identifier, $value);
     }
 
+    /**
+     * @return StatementType::ASSERTION
+     */
     public function getStatementType(): StatementType
     {
         return StatementType::ASSERTION;
@@ -61,11 +67,12 @@ class Assertion extends Statement implements AssertionInterface
     }
 
     /**
-     * @return array<string, string>
+     * @return SerializedAssertion
      */
     public function jsonSerialize(): array
     {
         $data = parent::jsonSerialize();
+        \assert($data['statement-type'] === $this->getStatementType()->value);
 
         $data[self::KEY_OPERATOR] = $this->operator;
 

@@ -8,6 +8,9 @@ use webignition\BasilModels\Enum\EncapsulatingStatementType;
 use webignition\BasilModels\Enum\StatementType;
 use webignition\BasilModels\Model\EncapsulatingStatementData;
 
+/**
+ * @phpstan-import-type SerializedAction from ActionInterface
+ */
 class ResolvedAction implements EncapsulatingActionInterface, \Stringable
 {
     private ActionInterface $action;

@@ -7,6 +7,9 @@ namespace webignition\BasilModels\Model\Action;
 use webignition\BasilModels\Enum\StatementType;
 use webignition\BasilModels\Model\Statement;
 
+/**
+ * @phpstan-import-type SerializedAction from ActionInterface
+ */
 class Action extends Statement implements ActionInterface
 {
     private const KEY_TYPE = 'type';
@@ -22,6 +25,9 @@ class Action extends Statement implements ActionInterface
         parent::__construct($source, $identifier, $value);
     }
 
+    /**
+     * @return StatementType::ACTION
+     */
     public function getStatementType(): StatementType
     {
         return StatementType::ACTION;
@@ -78,11 +84,12 @@ class Action extends Statement implements ActionInterface
     }
 
     /**
-     * @return array<string, string>
+     * @return SerializedAction
      */
     public function jsonSerialize(): array
     {
         $data = parent::jsonSerialize();
+        \assert($data['statement-type'] === $this->getStatementType()->value);
 
         $data[self::KEY_TYPE] = $this->type;
 
