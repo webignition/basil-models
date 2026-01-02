@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Action;
 
+use webignition\BasilModels\Enum\StatementType;
 use webignition\BasilModels\Model\Statement;
 
 class Action extends Statement implements ActionInterface
@@ -21,9 +22,9 @@ class Action extends Statement implements ActionInterface
         parent::__construct($source, $identifier, $value);
     }
 
-    public function getStatementType(): string
+    public function getStatementType(): StatementType
     {
-        return 'action';
+        return StatementType::ACTION;
     }
 
     public function getType(): string
