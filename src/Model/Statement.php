@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model;
 
+/**
+ * @phpstan-import-type SerializedStatement from StatementInterface
+ */
 abstract class Statement implements StatementInterface, \Stringable
 {
     protected const KEY_STATEMENT_TYPE = 'statement-type';
@@ -38,7 +41,7 @@ abstract class Statement implements StatementInterface, \Stringable
     }
 
     /**
-     * @return array<string, string>
+     * @return SerializedStatement
      */
     public function jsonSerialize(): array
     {

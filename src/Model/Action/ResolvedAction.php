@@ -82,6 +82,9 @@ class ResolvedAction implements EncapsulatingActionInterface, \Stringable
         return $this->action->isWait();
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function jsonSerialize(): array
     {
         return $this->encapsulatingStatementData->jsonSerialize();
