@@ -5,7 +5,14 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Model;
 
 use webignition\BasilModels\Enum\EncapsulatingStatementType;
+use webignition\BasilModels\Model\Action\ActionInterface;
+use webignition\BasilModels\Model\Assertion\AssertionInterface;
 
+/**
+ * @phpstan-import-type SerializedStatement from StatementInterface
+ * @phpstan-import-type SerializedAction from ActionInterface
+ * @phpstan-import-type SerializedAssertion from AssertionInterface
+ */
 class EncapsulatingStatementData
 {
     public const KEY_CONTAINER = 'container';
@@ -13,12 +20,12 @@ class EncapsulatingStatementData
     public const KEY_STATEMENT = 'statement';
 
     /**
-     * @var array<mixed>
+     * @var SerializedAction|SerializedAssertion|SerializedStatement
      */
     private array $sourceData;
 
     /**
-     * @param array<mixed> $encapsulationData
+     * @param array{'identifier'?: ?string, 'value'?: string, 'operator'?: string} $encapsulationData
      */
     public function __construct(
         StatementInterface $statement,
@@ -29,17 +36,23 @@ class EncapsulatingStatementData
     }
 
     /**
-     * @return array<mixed>
+     * @return array{
+     *     'container': array{
+     *         'type': value-of<EncapsulatingStatementType>,
+     *         'identifier'?: ?string,
+     *         'value'?: string,
+     *         'operator'?: string
+     *     },
+     *     'statement': SerializedAction|SerializedAssertion|SerializedStatement
+     * }
      */
     public function jsonSerialize(): array
     {
+        $containerData = $this->encapsulationData;
+        $containerData[self::KEY_CONTAINER_TYPE] = $this->containerType->value;
+
         return [
-            self::KEY_CONTAINER => array_merge(
-                [
-                    self::KEY_CONTAINER_TYPE => $this->containerType->value,
-                ],
-                $this->encapsulationData
-            ),
+            self::KEY_CONTAINER => $containerData,
             self::KEY_STATEMENT => $this->sourceData,
         ];
     }

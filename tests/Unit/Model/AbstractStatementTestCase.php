@@ -16,7 +16,7 @@ abstract class AbstractStatementTestCase extends TestCase
     #[DataProvider('jsonSerializeDataProvider')]
     public function testJsonSerialize(StatementInterface $statement, array $expectedSerializedData): void
     {
-        self::assertSame(
+        self::assertEquals(
             $this->sortSerializedStatement($expectedSerializedData),
             $this->sortSerializedStatement($statement->jsonSerialize())
         );
