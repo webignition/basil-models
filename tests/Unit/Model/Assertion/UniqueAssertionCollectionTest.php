@@ -193,7 +193,7 @@ class UniqueAssertionCollectionTest extends TestCase
                     new Assertion('$import_name.elements.selector1 exists', 0, '$".selector1"', 'exists'),
                 ]),
                 'expectedAssertions' => [
-                    new Assertion('$".selector1" exists', 0,'$".selector1"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
                 ],
             ],
         ];
