@@ -93,6 +93,11 @@ class ResolvedAction implements EncapsulatingActionInterface, \Stringable
         return $this->encapsulatingStatementData->jsonSerialize();
     }
 
+    public function getIndex(): int
+    {
+        return $this->sourceAction->getIndex();
+    }
+
     private function createAction(
         ActionInterface $sourceAction,
         ?string $identifier,
@@ -116,6 +121,7 @@ class ResolvedAction implements EncapsulatingActionInterface, \Stringable
 
         return new Action(
             $source,
+            $sourceAction->getIndex(),
             $sourceAction->getType(),
             $sourceAction->getArguments(),
             $identifier,

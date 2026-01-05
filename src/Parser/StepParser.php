@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Parser;
 
-use webignition\BasilModels\Model\Action\ActionInterface;
-use webignition\BasilModels\Model\Assertion\AssertionInterface;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Model\Step\StepInterface;
@@ -41,13 +39,23 @@ class StepParser implements DataParserInterface
      */
     public function parse(array $data): StepInterface
     {
+        $statementIndex = 0;
+
         $actionsData = $data[self::KEY_ACTIONS] ?? [];
         if (!is_array($actionsData)) {
             throw UnparseableStepException::createForInvalidActionsData($data);
         }
 
         try {
-            $actions = $this->parseActions($actionsData);
+            $actions = [];
+            foreach ($actionsData as $actionString) {
+                if (!is_string($actionString)) {
+                    continue;
+                }
+
+                $actions[] = $this->actionParser->parse($actionString, $statementIndex);
+                ++$statementIndex;
+            }
         } catch (UnparseableActionException $unparseableActionException) {
             throw UnparseableStepException::createForUnparseableAction($data, $unparseableActionException);
         }
@@ -58,7 +66,15 @@ class StepParser implements DataParserInterface
         }
 
         try {
-            $assertions = $this->parseAssertions($assertionsData);
+            $assertions = [];
+            foreach ($assertionsData as $assertionString) {
+                if (!is_string($assertionString)) {
+                    continue;
+                }
+
+                $assertions[] = $this->assertionParser->parse($assertionString, $statementIndex);
+                ++$statementIndex;
+            }
         } catch (UnparseableAssertionException $unparseableAssertionException) {
             throw UnparseableStepException::createForUnparseableAssertion(
                 $data,
@@ -71,46 +87,6 @@ class StepParser implements DataParserInterface
         $step = $this->setData($step, $data[self::KEY_DATA] ?? null);
 
         return $this->setIdentifiers($step, $data[self::KEY_ELEMENTS] ?? null);
-    }
-
-    /**
-     * @param array<mixed> $actionsData
-     *
-     * @return ActionInterface[]
-     *
-     * @throws UnparseableActionException
-     */
-    private function parseActions(array $actionsData): array
-    {
-        $actions = [];
-
-        foreach ($actionsData as $actionString) {
-            if (is_string($actionString)) {
-                $actions[] = $this->actionParser->parse($actionString);
-            }
-        }
-
-        return $actions;
-    }
-
-    /**
-     * @param array<mixed> $assertionsData
-     *
-     * @return AssertionInterface[]
-     *
-     * @throws UnparseableAssertionException
-     */
-    private function parseAssertions(array $assertionsData): array
-    {
-        $assertions = [];
-
-        foreach ($assertionsData as $assertionString) {
-            if (is_string($assertionString)) {
-                $assertions[] = $this->assertionParser->parse($assertionString);
-            }
-        }
-
-        return $assertions;
     }
 
     /**

@@ -27,7 +27,7 @@ class AssertionParser
     /**
      * @throws UnparseableAssertionException
      */
-    public function parse(string $source): AssertionInterface
+    public function parse(string $source, int $index): AssertionInterface
     {
         $source = trim($source);
         if ('' === $source) {
@@ -48,7 +48,7 @@ class AssertionParser
         }
 
         if (false === Assertion::isComparisonOperator($operator)) {
-            return new Assertion($source, $identifier, $operator);
+            return new Assertion($source, $index, $identifier, $operator);
         }
 
         $operatorLength = strlen($operator);
@@ -64,7 +64,7 @@ class AssertionParser
             throw UnparseableAssertionException::createInvalidValueFormatException($source);
         }
 
-        return new Assertion($source, $identifier, $operator, $value);
+        return new Assertion($source, $index, $identifier, $operator, $value);
     }
 
     private function findOperator(string $sourceAndValue): ?string

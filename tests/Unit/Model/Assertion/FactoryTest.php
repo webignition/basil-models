@@ -43,13 +43,23 @@ class FactoryTest extends TestCase
     public static function createFromArrayDataProvider(): array
     {
         return [
-            'exists' => [
+            'exists, index=0' => [
                 'data' => [
                     'source' => '$".selector" exists',
                     'identifier' => '$".selector"',
                     'operator' => 'exists',
+                    'index' => 0,
                 ],
-                'expectedAssertion' => new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                'expectedAssertion' => new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
+            ],
+            'exists, index=6' => [
+                'data' => [
+                    'source' => '$".selector" exists',
+                    'identifier' => '$".selector"',
+                    'operator' => 'exists',
+                    'index' => 6,
+                ],
+                'expectedAssertion' => new Assertion('$".selector" exists', 6, '$".selector"', 'exists'),
             ],
             'is' => [
                 'data' => [
@@ -57,9 +67,11 @@ class FactoryTest extends TestCase
                     'identifier' => '$".selector"',
                     'operator' => 'is',
                     'value' => '"value"',
+                    'index' => 0,
                 ],
                 'expectedAssertion' => new Assertion(
                     '$".selector" is "value"',
+                    0,
                     '$".selector"',
                     'is',
                     '"value"'
@@ -78,11 +90,13 @@ class FactoryTest extends TestCase
                         'type' => 'click',
                         'arguments' => '$".selector"',
                         'identifier' => '$".selector"',
+                        'index' => 0,
                     ],
                 ],
                 'expectedAssertion' => new DerivedValueOperationAssertion(
                     new Action(
                         'click $".selector"',
+                        0,
                         'click',
                         '$".selector"',
                         '$".selector"'
@@ -104,11 +118,13 @@ class FactoryTest extends TestCase
                         'identifier' => '$".selector"',
                         'operator' => 'is',
                         'value' => '"value"',
+                        'index' => 0,
                     ],
                 ],
                 'expectedAssertion' => new DerivedValueOperationAssertion(
                     new Assertion(
                         '$".selector" is "value',
+                        0,
                         '$".selector"',
                         'is',
                         '"value"'
@@ -129,11 +145,13 @@ class FactoryTest extends TestCase
                         'source' => '$page_import_name.elements.element_name exists',
                         'identifier' => '$page_import_name.elements.element_name',
                         'operator' => 'exists',
+                        'index' => 0,
                     ],
                 ],
                 'expectedAssertion' => new ResolvedAssertion(
                     new Assertion(
                         '$page_import_name.elements.element_name exists',
+                        0,
                         '$page_import_name.elements.element_name',
                         'exists'
                     ),
@@ -153,12 +171,14 @@ class FactoryTest extends TestCase
                         'source' => '$page_import_name.elements.selector is $page_import_name.elements.value',
                         'identifier' => '$page_import_name.elements.selector',
                         'operator' => 'is',
-                        'value' => '$page_import_name.elements.value'
+                        'value' => '$page_import_name.elements.value',
+                        'index' => 0,
                     ],
                 ],
                 'expectedAssertion' => new ResolvedAssertion(
                     new Assertion(
                         '$page_import_name.elements.selector is $page_import_name.elements.value',
+                        0,
                         '$page_import_name.elements.selector',
                         'is',
                         '$page_import_name.elements.value'
@@ -186,7 +206,8 @@ class FactoryTest extends TestCase
                             'source' => '$page_import_name.elements.selector is $page_import_name.elements.value',
                             'identifier' => '$page_import_name.elements.selector',
                             'operator' => 'is',
-                            'value' => '$page_import_name.elements.value'
+                            'value' => '$page_import_name.elements.value',
+                            'index' => 0,
                         ],
                     ],
                 ],
@@ -194,6 +215,7 @@ class FactoryTest extends TestCase
                     new ResolvedAssertion(
                         new Assertion(
                             '$page_import_name.elements.selector is $page_import_name.elements.value',
+                            0,
                             '$page_import_name.elements.selector',
                             'is',
                             '$page_import_name.elements.value'
@@ -223,6 +245,7 @@ class FactoryTest extends TestCase
                             'type' => 'click',
                             'arguments' => '$page_import_name.elements.selector',
                             'identifier' => '$page_import_name.elements.selector',
+                            'index' => 0,
                         ],
                     ],
                 ],
@@ -230,6 +253,7 @@ class FactoryTest extends TestCase
                     new ResolvedAction(
                         new Action(
                             'click $page_import_name.elements.selector',
+                            0,
                             'click',
                             '$page_import_name.elements.selector',
                             '$page_import_name.elements.selector'

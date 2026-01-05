@@ -9,13 +9,15 @@ namespace webignition\BasilModels\Model;
  */
 abstract class Statement implements StatementInterface, \Stringable
 {
-    protected const KEY_STATEMENT_TYPE = 'statement-type';
-    protected const KEY_SOURCE = 'source';
-    private const KEY_IDENTIFIER = 'identifier';
-    private const KEY_VALUE = 'value';
+    protected const string KEY_STATEMENT_TYPE = 'statement-type';
+    protected const string KEY_SOURCE = 'source';
+    private const string KEY_IDENTIFIER = 'identifier';
+    private const string KEY_VALUE = 'value';
+    private const string KEY_INDEX = 'index';
 
     public function __construct(
         private readonly string $source,
+        private readonly int $index,
         private readonly ?string $identifier,
         private readonly ?string $value
     ) {}
@@ -40,6 +42,11 @@ abstract class Statement implements StatementInterface, \Stringable
         return $this->value;
     }
 
+    public function getIndex(): int
+    {
+        return $this->index;
+    }
+
     /**
      * @return SerializedStatement
      */
@@ -48,6 +55,7 @@ abstract class Statement implements StatementInterface, \Stringable
         $data = [
             self::KEY_STATEMENT_TYPE => $this->getStatementType()->value,
             self::KEY_SOURCE => $this->source,
+            self::KEY_INDEX => $this->index,
         ];
 
         $identifier = $this->getIdentifier();

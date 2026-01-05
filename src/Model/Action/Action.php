@@ -17,12 +17,13 @@ class Action extends Statement implements ActionInterface
 
     public function __construct(
         string $source,
+        int $index,
         private readonly string $type,
         private readonly ?string $arguments = null,
         ?string $identifier = null,
         ?string $value = null
     ) {
-        parent::__construct($source, $identifier, $value);
+        parent::__construct($source, $index, $identifier, $value);
     }
 
     /**

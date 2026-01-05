@@ -63,20 +63,20 @@ class StepTest extends TestCase
             ],
             'all valid' => [
                 'actions' => [
-                    new Action('wait 1', 'wait', '1', null, '1'),
-                    new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
+                    new Action('wait 1', 0, 'wait', '1', null, '1'),
+                    new Action('click $".selector"', 0, 'click', '$".selector"', '$".selector"'),
                 ],
                 'assertions' => [
-                    new Assertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
-                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                    new Assertion('$page.title is "Example"', 0, '$page.title', 'is', '"Example"'),
+                    new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ],
                 'expectedActions' => [
-                    new Action('wait 1', 'wait', '1', null, '1'),
-                    new Action('click $".selector"', 'click', '$".selector"', '$".selector"'),
+                    new Action('wait 1', 0, 'wait', '1', null, '1'),
+                    new Action('click $".selector"', 0, 'click', '$".selector"', '$".selector"'),
                 ],
                 'expectedAssertions' => [
-                    new Assertion('$page.title is "Example"', '$page.title', 'is', '"Example"'),
-                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                    new Assertion('$page.title is "Example"', 0, '$page.title', 'is', '"Example"'),
+                    new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ],
             ],
         ];
@@ -175,7 +175,7 @@ class StepTest extends TestCase
         $this->assertEquals([], $step->getActions());
 
         $actions = [
-            new Action('click $".selector"', 'click', '$".selector"'),
+            new Action('click $".selector"', 0, 'click', '$".selector"'),
         ];
 
         $mutatedStep = $step->withActions($actions);
@@ -191,7 +191,7 @@ class StepTest extends TestCase
         $this->assertEquals([], $step->getAssertions());
 
         $assertions = [
-            new Assertion('$".selector exists', '$".selector"', 'exists'),
+            new Assertion('$".selector exists', 0, '$".selector"', 'exists'),
         ];
 
         $mutatedStep = $step->withAssertions($assertions);
@@ -217,12 +217,6 @@ class StepTest extends TestCase
      */
     public static function withPrependedActionsDataProvider(): array
     {
-        $assertion = new Assertion(
-            '$".selector" exists',
-            '$".selector"',
-            'exists'
-        );
-
         return [
             'has no actions, empty prepended actions' => [
                 'step' => new Step([], []),
@@ -231,41 +225,41 @@ class StepTest extends TestCase
             ],
             'has actions, empty prepended actions' => [
                 'step' => new Step([
-                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 0, 'wait', '1', null, '1'),
                 ], []),
                 'actions' => [],
                 'expectedStep' => new Step([
-                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 0, 'wait', '1', null, '1'),
                 ], []),
             ],
             'has no actions, non-empty prepended actions' => [
                 'step' => new Step([], []),
                 'actions' => [
-                    new Action('wait 2', 'wait', '2', null, '2'),
+                    new Action('wait 2', 0, 'wait', '2', null, '2'),
                 ],
                 'expectedStep' => new Step([
-                    new Action('wait 2', 'wait', '2', null, '2'),
+                    new Action('wait 2', 0, 'wait', '2', null, '2'),
                 ], []),
             ],
             'has actions, non-empty prepended actions' => [
                 'step' => new Step([
-                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 0, 'wait', '1', null, '1'),
                 ], []),
                 'actions' => [
-                    new Action('wait 2', 'wait', '2', null, '2'),
+                    new Action('wait 2', 0, 'wait', '2', null, '2'),
                 ],
                 'expectedStep' => new Step([
-                    new Action('wait 2', 'wait', '2', null, '2'),
-                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 2', 0, 'wait', '2', null, '2'),
+                    new Action('wait 1', 0, 'wait', '1', null, '1'),
                 ], []),
             ],
             'assertions are retained' => [
                 'step' => new Step([], [
-                    $assertion,
+                    new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ]),
                 'actions' => [],
                 'expectedStep' => new Step([], [
-                    $assertion,
+                    new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ]),
             ],
             'data sets are retained' => [
@@ -314,12 +308,14 @@ class StepTest extends TestCase
     {
         $assertion1 = new Assertion(
             '$".selector1" exists',
+            0,
             '$".selector1"',
             'exists'
         );
 
         $assertion2 = new Assertion(
             '$".selector2" exists',
+            0,
             '$".selector2"',
             'exists'
         );
@@ -362,11 +358,11 @@ class StepTest extends TestCase
             ],
             'actions are retained' => [
                 'step' => new Step([
-                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 0, 'wait', '1', null, '1'),
                 ], []),
                 'assertions' => [],
                 'expectedStep' => new Step([
-                    new Action('wait 1', 'wait', '1', null, '1'),
+                    new Action('wait 1', 0, 'wait', '1', null, '1'),
                 ], []),
             ],
             'data sets are retained' => [
@@ -418,12 +414,14 @@ class StepTest extends TestCase
                     [
                         new Action(
                             'click $".selector"',
+                            0,
                             'click',
                             '$".selector"',
                             '$".selector"'
                         ),
                         new Action(
                             'set $".selector" to "value"',
+                            1,
                             '$".selector" to "value"',
                             '$".selector"',
                             '"value"'
@@ -432,11 +430,13 @@ class StepTest extends TestCase
                     [
                         new Assertion(
                             '$".selector" exists',
+                            2,
                             '$".selector"',
                             'exists'
                         ),
                         new Assertion(
                             '$".selector" is "value"',
+                            3,
                             '$".selector"',
                             'is',
                             '"value"'
@@ -450,12 +450,14 @@ class StepTest extends TestCase
                     [
                         new Action(
                             'click $".selector"',
+                            0,
                             'click',
                             '$".selector"',
                             '$".selector"'
                         ),
                         new Action(
                             'set $".selector" to $data.zebra',
+                            1,
                             '$".selector" to $data.zebra',
                             '$".selector"',
                             '$data.zebra'
@@ -464,11 +466,13 @@ class StepTest extends TestCase
                     [
                         new Assertion(
                             '$data.aardvark exists',
+                            2,
                             '$data.aardvark',
                             'exists'
                         ),
                         new Assertion(
                             '$data.cow is $data.bee',
+                            3,
                             '$data.cow',
                             'is',
                             '$data.bee'

@@ -20,7 +20,12 @@ class DerivedValueOperationAssertion implements AssertionInterface, Encapsulatin
         string $value,
         string $operator
     ) {
-        $this->assertion = new Assertion($value . ' ' . $operator, $value, $operator);
+        $this->assertion = new Assertion(
+            $value . ' ' . $operator,
+            $this->sourceStatement->getIndex(),
+            $value,
+            $operator
+        );
         $this->encapsulatingStatementData = $this->createEncapsulatingStatementData(
             $sourceStatement,
             $value,
@@ -84,6 +89,11 @@ class DerivedValueOperationAssertion implements AssertionInterface, Encapsulatin
     public function jsonSerialize(): array
     {
         return $this->encapsulatingStatementData->jsonSerialize();
+    }
+
+    public function getIndex(): int
+    {
+        return $this->assertion->getIndex();
     }
 
     private function createEncapsulatingStatementData(

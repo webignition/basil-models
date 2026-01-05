@@ -57,6 +57,7 @@ class StepParserTest extends TestCase
                     [
                         new Action(
                             'click $".selector"',
+                            0,
                             'click',
                             '$".selector"',
                             '$".selector"'
@@ -74,7 +75,51 @@ class StepParserTest extends TestCase
                 'expectedStep' => new Step(
                     [],
                     [
-                        new Assertion('$".selector" exists', '$".selector"', 'exists')
+                        new Assertion('$".selector" exists', 0, '$".selector"', 'exists')
+                    ]
+                ),
+            ],
+            'multiple actions, multiple assertions' => [
+                'stepData' => [
+                    'actions' => [
+                        'click $".selector1"',
+                        'click $".selector2"',
+                        'click $".selector3"',
+                    ],
+                    'assertions' => [
+                        '$".selector1" exists',
+                        '$".selector2" exists',
+                        '$".selector3" exists',
+                    ],
+                ],
+                'expectedStep' => new Step(
+                    [
+                        new Action(
+                            'click $".selector1"',
+                            0,
+                            'click',
+                            '$".selector1"',
+                            '$".selector1"'
+                        ),
+                        new Action(
+                            'click $".selector2"',
+                            1,
+                            'click',
+                            '$".selector2"',
+                            '$".selector2"'
+                        ),
+                        new Action(
+                            'click $".selector3"',
+                            2,
+                            'click',
+                            '$".selector3"',
+                            '$".selector3"'
+                        ),
+                    ],
+                    [
+                        new Assertion('$".selector1" exists', 3, '$".selector1"', 'exists'),
+                        new Assertion('$".selector2" exists', 4, '$".selector2"', 'exists'),
+                        new Assertion('$".selector3" exists', 5, '$".selector3"', 'exists'),
                     ]
                 ),
             ],

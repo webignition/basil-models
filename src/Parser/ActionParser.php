@@ -28,7 +28,7 @@ class ActionParser
     /**
      * @throws UnparseableActionException
      */
-    public function parse(string $source): ActionInterface
+    public function parse(string $source, int $index): ActionInterface
     {
         $source = trim($source);
 
@@ -40,7 +40,7 @@ class ActionParser
         $arguments = trim(mb_substr($source, strlen($type)));
 
         if (Action::isWaitType($type)) {
-            return new Action($source, $type, $arguments, null, $arguments);
+            return new Action($source, $index, $type, $arguments, null, $arguments);
         }
 
         $isInteractionType = Action::isInteractionType($type);
@@ -54,7 +54,7 @@ class ActionParser
             }
 
             if ($isInteractionType) {
-                return new Action($source, $type, $arguments, $identifier);
+                return new Action($source, $index, $type, $arguments, $identifier);
             }
 
             $value = $this->findInputValue($identifier, $arguments);
@@ -63,10 +63,10 @@ class ActionParser
                 throw UnparseableActionException::createEmptyInputActionValueException($source);
             }
 
-            return new Action($source, $type, $arguments, $identifier, $value);
+            return new Action($source, $index, $type, $arguments, $identifier, $value);
         }
 
-        return new Action($source, $type, $arguments);
+        return new Action($source, $index, $type, $arguments);
     }
 
     private function findType(string $source): string

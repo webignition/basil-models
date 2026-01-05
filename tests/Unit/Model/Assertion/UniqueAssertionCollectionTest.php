@@ -15,9 +15,9 @@ class UniqueAssertionCollectionTest extends TestCase
     public function testIterate(): void
     {
         $assertions = [
-            new Assertion('$".zero" exists', '$".zero"', 'exists'),
-            new Assertion('$".one" exists', '$".one"', 'exists'),
-            new Assertion('$".two" exists', '$".two"', 'exists')
+            new Assertion('$".zero" exists', 0, '$".zero"', 'exists'),
+            new Assertion('$".one" exists', 0, '$".one"', 'exists'),
+            new Assertion('$".two" exists', 0, '$".two"', 'exists')
         ];
 
         $collection = new UniqueAssertionCollection();
@@ -57,28 +57,28 @@ class UniqueAssertionCollectionTest extends TestCase
         return [
             'single item added' => [
                 'assertionsToAdd' => [
-                    new Assertion('$".zero" exists', '$".zero"', 'exists'),
+                    new Assertion('$".zero" exists', 0, '$".zero"', 'exists'),
                 ],
                 'expectedAssertions' => [
-                    new Assertion('$".zero" exists', '$".zero"', 'exists'),
+                    new Assertion('$".zero" exists', 0, '$".zero"', 'exists'),
                 ],
             ],
-            'single item added twice' => [
+            'single item added twice, index difference is correctly ignored' => [
                 'assertionsToAdd' => [
-                    new Assertion('$".zero" exists', '$".zero"', 'exists'),
-                    new Assertion('$".zero" exists', '$".zero"', 'exists'),
+                    new Assertion('$".zero" exists', 0, '$".zero"', 'exists'),
+                    new Assertion('$".zero" exists', 2, '$".zero"', 'exists'),
                 ],
                 'expectedAssertions' => [
-                    new Assertion('$".zero" exists', '$".zero"', 'exists'),
+                    new Assertion('$".zero" exists', 0, '$".zero"', 'exists'),
                 ],
             ],
             'de-normalised and normalised equivalents' => [
                 'assertionsToAdd' => [
-                    new Assertion('$import_name.elements.selector exists', '$".selector"', 'exists'),
-                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                    new Assertion('$import_name.elements.selector exists', 0, '$".selector"', 'exists'),
+                    new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ],
                 'expectedAssertions' => [
-                    new Assertion('$import_name.elements.selector exists', '$".selector"', 'exists'),
+                    new Assertion('$import_name.elements.selector exists', 0, '$".selector"', 'exists'),
                 ],
             ],
         ];
@@ -112,21 +112,21 @@ class UniqueAssertionCollectionTest extends TestCase
         return [
             'is in normal form' => [
                 'assertionsToAdd' => [
-                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
-                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
                 ],
                 'expectedAssertions' => [
-                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
-                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
                 ],
             ],
             'not in normal form' => [
                 'assertionsToAdd' => [
-                    new Assertion('$import_name.elements.selector exists', '$".selector"', 'exists'),
-                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                    new Assertion('$import_name.elements.selector exists', 0, '$".selector"', 'exists'),
+                    new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ],
                 'expectedAssertions' => [
-                    new Assertion('$".selector" exists', '$".selector"', 'exists'),
+                    new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ],
             ],
         ];
@@ -156,44 +156,44 @@ class UniqueAssertionCollectionTest extends TestCase
         return [
             'no common assertions between collections' => [
                 'collection' => new UniqueAssertionCollection([
-                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
-                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
                 ]),
                 'additions' => new UniqueAssertionCollection([
-                    new Assertion('$".selector3" exists', '$".selector3"', 'exists'),
-                    new Assertion('$".selector4" exists', '$".selector4"', 'exists'),
+                    new Assertion('$".selector3" exists', 0, '$".selector3"', 'exists'),
+                    new Assertion('$".selector4" exists', 0, '$".selector4"', 'exists'),
                 ]),
                 'expectedAssertions' => [
-                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
-                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
-                    new Assertion('$".selector3" exists', '$".selector3"', 'exists'),
-                    new Assertion('$".selector4" exists', '$".selector4"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
+                    new Assertion('$".selector3" exists', 0, '$".selector3"', 'exists'),
+                    new Assertion('$".selector4" exists', 0, '$".selector4"', 'exists'),
                 ],
             ],
             'common assertions between collections' => [
                 'collection' => new UniqueAssertionCollection([
-                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
-                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
+                    new Assertion('$".selector1" exists', 4, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
                 ]),
                 'additions' => new UniqueAssertionCollection([
-                    new Assertion('$".selector3" exists', '$".selector3"', 'exists'),
-                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                    new Assertion('$".selector3" exists', 0, '$".selector3"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
                 ]),
                 'expectedAssertions' => [
-                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
-                    new Assertion('$".selector2" exists', '$".selector2"', 'exists'),
-                    new Assertion('$".selector3" exists', '$".selector3"', 'exists'),
+                    new Assertion('$".selector1" exists', 4, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
+                    new Assertion('$".selector3" exists', 0, '$".selector3"', 'exists'),
                 ],
             ],
             'is normalised' => [
                 'collection' => new UniqueAssertionCollection([
-                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
                 ]),
                 'additions' => new UniqueAssertionCollection([
-                    new Assertion('$import_name.elements.selector1 exists', '$".selector1"', 'exists'),
+                    new Assertion('$import_name.elements.selector1 exists', 0, '$".selector1"', 'exists'),
                 ]),
                 'expectedAssertions' => [
-                    new Assertion('$".selector1" exists', '$".selector1"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
                 ],
             ],
         ];

@@ -26,6 +26,8 @@ interface StatementInterface extends \JsonSerializable
 
     public function getValue(): ?string;
 
+    public function getIndex(): int;
+
     /**
      * @return SerializedStatement
      */
