@@ -37,23 +37,35 @@ class FactoryTest extends TestCase
     public static function createFromArrayDataProvider(): array
     {
         return [
-            'back' => [
+            'back, index=0' => [
                 'actionData' => [
                     'source' => 'back',
+                    'index' => 0,
                     'type' => 'back',
                     'arguments' => '',
                 ],
-                'expectedAction' => new Action('back', 'back', ''),
+                'expectedAction' => new Action('back', 0, 'back', ''),
+            ],
+            'back, index=2' => [
+                'actionData' => [
+                    'source' => 'back',
+                    'index' => 2,
+                    'type' => 'back',
+                    'arguments' => '',
+                ],
+                'expectedAction' => new Action('back', 2, 'back', ''),
             ],
             'click' => [
                 'actionData' => [
                     'source' => 'click $".selector"',
+                    'index' => 0,
                     'type' => 'click',
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
                 'expectedAction' => new Action(
                     'click $".selector"',
+                    0,
                     'click',
                     '$".selector"',
                     '$".selector"'
@@ -62,12 +74,14 @@ class FactoryTest extends TestCase
             'submit' => [
                 'actionData' => [
                     'source' => 'submit $".selector"',
+                    'index' => 0,
                     'type' => 'submit',
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
                 'expectedAction' => new Action(
                     'submit $".selector"',
+                    0,
                     'submit',
                     '$".selector"',
                     '$".selector"'
@@ -76,12 +90,14 @@ class FactoryTest extends TestCase
             'wait-for' => [
                 'actionData' => [
                     'source' => 'wait-for $".selector"',
+                    'index' => 0,
                     'type' => 'wait-for',
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
                 ],
                 'expectedAction' => new Action(
                     'wait-for $".selector"',
+                    0,
                     'wait-for',
                     '$".selector"',
                     '$".selector"'
@@ -90,6 +106,7 @@ class FactoryTest extends TestCase
             'set' => [
                 'actionData' => [
                     'source' => 'set $".selector" to "value"',
+                    'index' => 0,
                     'type' => 'set',
                     'arguments' => '$".selector"',
                     'identifier' => '$".selector"',
@@ -97,6 +114,7 @@ class FactoryTest extends TestCase
                 ],
                 'expectedAction' => new Action(
                     'set $".selector" to "value"',
+                    0,
                     'set',
                     '$".selector"',
                     '$".selector"',
@@ -106,12 +124,14 @@ class FactoryTest extends TestCase
             'wait' => [
                 'actionData' => [
                     'source' => 'wait 30',
+                    'index' => 0,
                     'type' => 'wait',
                     'arguments' => '30',
                     'value' => '30',
                 ],
                 'expectedAction' => new Action(
                     'wait 30',
+                    0,
                     'wait',
                     '30',
                     null,
@@ -125,12 +145,13 @@ class FactoryTest extends TestCase
                     ],
                     'statement' => [
                         'statement-type' => 'action',
+                        'index' => 0,
                         'source' => 'back',
                         'type' => 'back',
                     ],
                 ],
                 'expectedAction' => new ResolvedAction(
-                    new Action('back', 'back')
+                    new Action('back', 0, 'back')
                 ),
             ],
             'resolved interaction (click)' => [
@@ -141,6 +162,7 @@ class FactoryTest extends TestCase
                     ],
                     'statement' => [
                         'statement-type' => 'action',
+                        'index' => 0,
                         'source' => 'click $page_import_name.elements.element_name',
                         'type' => 'click',
                         'arguments' => '$page_import_name.elements.element_name',
@@ -150,6 +172,7 @@ class FactoryTest extends TestCase
                 'expectedAction' => new ResolvedAction(
                     new Action(
                         'click $page_import_name.elements.element_name',
+                        0,
                         'click',
                         '$page_import_name.elements.element_name',
                         '$page_import_name.elements.element_name'
@@ -166,6 +189,7 @@ class FactoryTest extends TestCase
                     ],
                     'statement' => [
                         'statement-type' => 'action',
+                        'index' => 0,
                         'source' => 'set $page_import_name.elements.element_name to "value"',
                         'type' => 'set',
                         'arguments' => '$page_import_name.elements.element_name to "value"',
@@ -176,6 +200,7 @@ class FactoryTest extends TestCase
                 'expectedAction' => new ResolvedAction(
                     new Action(
                         'set $page_import_name.elements.element_name to "value"',
+                        0,
                         'set',
                         '$page_import_name.elements.element_name to "value"',
                         '$page_import_name.elements.element_name',

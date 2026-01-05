@@ -161,17 +161,18 @@ class TestParserTest extends TestCase
                     'chrome',
                     'http://example.com/',
                     new StepCollection([
-                        'step one' => (new Step([], []))
+                        'step one' => new Step([], [])
                             ->withImportName('step_import_name')
                             ->withData(new DataSetCollection([
                                 'set1' => [
                                     'key1' => 'value1',
                                 ],
                             ])),
-                        'step two' => (new Step(
+                        'step two' => new Step(
                             [
                                 new Action(
                                     'click $page_import_name.elements.button',
+                                    0,
                                     'click',
                                     '$page_import_name.elements.button',
                                     '$page_import_name.elements.button'
@@ -180,12 +181,13 @@ class TestParserTest extends TestCase
                             [
                                 new Assertion(
                                     '$page.title is $data.expected_title',
+                                    1,
                                     '$page.title',
                                     'is',
                                     '$data.expected_title'
                                 )
                             ]
-                        ))->withDataImportName('data_provider_import_name'),
+                        )->withDataImportName('data_provider_import_name'),
                     ])
                 ),
             ],

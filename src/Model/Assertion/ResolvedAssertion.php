@@ -84,6 +84,11 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
         return $this->encapsulatingStatementData->jsonSerialize();
     }
 
+    public function getIndex(): int
+    {
+        return $this->assertion->getIndex();
+    }
+
     private function createAssertion(
         AssertionInterface $sourceAssertion,
         string $identifier,
@@ -96,7 +101,7 @@ class ResolvedAssertion implements AssertionInterface, EncapsulatingAssertionInt
             $source .= ' ' . $value;
         }
 
-        return new Assertion($source, $identifier, $operator, $value);
+        return new Assertion($source, $sourceAssertion->getIndex(), $identifier, $operator, $value);
     }
 
     private function createEncapsulatingStatementData(

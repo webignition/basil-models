@@ -36,13 +36,13 @@ class ResolvedActionTest extends AbstractStatementTestCase
     {
         return [
             'browser operation (back)' => [
-                'sourceAction' => new Action('back', 'back'),
+                'sourceAction' => new Action('back', 0, 'back'),
                 'identifier' => null,
                 'value' => null,
                 'expectedSource' => 'back',
             ],
             'interaction action (click)' => [
-                'sourceAction' => new Action('click $page_import_name.elements.element_name', 'click'),
+                'sourceAction' => new Action('click $page_import_name.elements.element_name', 0, 'click'),
                 'identifier' => '$".selector"',
                 'value' => null,
                 'expectedSource' => 'click $".selector"',
@@ -50,6 +50,7 @@ class ResolvedActionTest extends AbstractStatementTestCase
             'input action (set)' => [
                 'sourceAction' => new Action(
                     'set $page_import_name.elements.element_name to "value"',
+                    0,
                     'set',
                     '$page_import_name.elements.element_name to "value"',
                     '$page_import_name.elements.element_name',
@@ -68,9 +69,9 @@ class ResolvedActionTest extends AbstractStatementTestCase
     public static function jsonSerializeDataProvider(): array
     {
         return [
-            'browser operation (back)' => [
+            'browser operation (back), index=0' => [
                 'statement' => new ResolvedAction(
-                    new Action('back', 'back')
+                    new Action('back', 0, 'back')
                 ),
                 'expectedSerializedData' => [
                     'container' => [
@@ -79,6 +80,23 @@ class ResolvedActionTest extends AbstractStatementTestCase
                     'statement' => [
                         'statement-type' => 'action',
                         'source' => 'back',
+                        'index' => 0,
+                        'type' => 'back',
+                    ],
+                ],
+            ],
+            'browser operation (back), index=8' => [
+                'statement' => new ResolvedAction(
+                    new Action('back', 8, 'back')
+                ),
+                'expectedSerializedData' => [
+                    'container' => [
+                        'type' => 'resolved-action',
+                    ],
+                    'statement' => [
+                        'statement-type' => 'action',
+                        'source' => 'back',
+                        'index' => 8,
                         'type' => 'back',
                     ],
                 ],
@@ -87,6 +105,7 @@ class ResolvedActionTest extends AbstractStatementTestCase
                 'statement' => new ResolvedAction(
                     new Action(
                         'click $page_import_name.elements.element_name',
+                        0,
                         'click',
                         '$page_import_name.elements.element_name',
                         '$page_import_name.elements.element_name'
@@ -101,6 +120,7 @@ class ResolvedActionTest extends AbstractStatementTestCase
                     'statement' => [
                         'statement-type' => 'action',
                         'source' => 'click $page_import_name.elements.element_name',
+                        'index' => 0,
                         'type' => 'click',
                         'arguments' => '$page_import_name.elements.element_name',
                         'identifier' => '$page_import_name.elements.element_name',
@@ -111,6 +131,7 @@ class ResolvedActionTest extends AbstractStatementTestCase
                 'statement' => new ResolvedAction(
                     new Action(
                         'set $page_import_name.elements.element_name to "value"',
+                        0,
                         'set',
                         '$page_import_name.elements.element_name to "value"',
                         '$page_import_name.elements.element_name',
@@ -128,6 +149,7 @@ class ResolvedActionTest extends AbstractStatementTestCase
                     'statement' => [
                         'statement-type' => 'action',
                         'source' => 'set $page_import_name.elements.element_name to "value"',
+                        'index' => 0,
                         'type' => 'set',
                         'arguments' => '$page_import_name.elements.element_name to "value"',
                         'identifier' => '$page_import_name.elements.element_name',
@@ -141,35 +163,35 @@ class ResolvedActionTest extends AbstractStatementTestCase
     public function testIsBrowserOperationIsInteractionIsInputIsWait(): void
     {
         $backAction = new ResolvedAction(
-            new Action('back', 'back')
+            new Action('back', 0, 'back')
         );
 
         $forward = new ResolvedAction(
-            new Action('forward', 'forward')
+            new Action('forward', 0, 'forward')
         );
 
         $reload = new ResolvedAction(
-            new Action('reload', 'reload')
+            new Action('reload', 0, 'reload')
         );
 
         $clickAction = new ResolvedAction(
-            new Action('click $"s"', 'click', '$"s"', '$"s"')
+            new Action('click $"s"', 0, 'click', '$"s"', '$"s"')
         );
 
         $submitAction = new ResolvedAction(
-            new Action('submit $"s"', 'submit', '$"s"', '$"s"')
+            new Action('submit $"s"', 0, 'submit', '$"s"', '$"s"')
         );
 
         $waitForAction = new ResolvedAction(
-            new Action('wait-for $"s"', 'wait-for', '$"s"', '$"s"')
+            new Action('wait-for $"s"', 0, 'wait-for', '$"s"', '$"s"')
         );
 
         $setAction = new ResolvedAction(
-            new Action('set $"s" to "v"', 'set', '$"s" to "v"', '$"s"', '"v"')
+            new Action('set $"s" to "v"', 0, 'set', '$"s" to "v"', '$"s"', '"v"')
         );
 
         $waitAction = new ResolvedAction(
-            new Action('wait 1', 'wait', '1', null, '1')
+            new Action('wait 1', 0, 'wait', '1', null, '1')
         );
 
         $this->assertTrue($backAction->isBrowserOperation());

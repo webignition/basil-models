@@ -42,7 +42,10 @@ class Factory
         $value = array_key_exists('value', $data) ? $data['value'] : null;
         $value = is_scalar($value) ? (string) $value : null;
 
-        return new Assertion($source, $identifier, $operator, $value);
+        $index = array_key_exists('index', $data) ? $data['index'] : null;
+        $index = is_int($index) ? $index : 0;
+
+        return new Assertion($source, $index, $identifier, $operator, $value);
     }
 
     /**

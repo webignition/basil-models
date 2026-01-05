@@ -38,6 +38,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
             'derived exists from action' => [
                 'sourceStatement' => new Action(
                     'click $".selector"',
+                    0,
                     'click',
                     '$".selector"',
                     '$".selector"'
@@ -49,6 +50,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
             'derived exists from assertion' => [
                 'sourceStatement' => new Assertion(
                     '$".selector" is "value',
+                    0,
                     '$".selector"',
                     'is',
                     '"value"'
@@ -60,6 +62,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
             'derived is-regexp from assertion' => [
                 'sourceStatement' => new Assertion(
                     '$".selector" matches "value',
+                    0,
                     '$".selector"',
                     'matches',
                     '"value"'
@@ -77,10 +80,11 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
     public static function jsonSerializeDataProvider(): array
     {
         return [
-            'exists from assertion' => [
+            'exists from assertion, index=0' => [
                 'statement' => new DerivedValueOperationAssertion(
                     new Assertion(
                         '$".selector" is "value',
+                        0,
                         '$".selector"',
                         'is',
                         '"value"'
@@ -97,6 +101,35 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
                     'statement' => [
                         'statement-type' => 'assertion',
                         'source' => '$".selector" is "value',
+                        'index' => 0,
+                        'identifier' => '$".selector"',
+                        'operator' => 'is',
+                        'value' => '"value"',
+                    ],
+                ],
+            ],
+            'exists from assertion, index=4' => [
+                'statement' => new DerivedValueOperationAssertion(
+                    new Assertion(
+                        '$".selector" is "value',
+                        4,
+                        '$".selector"',
+                        'is',
+                        '"value"'
+                    ),
+                    '$".selector"',
+                    'exists'
+                ),
+                'expectedSerializedData' => [
+                    'container' => [
+                        'type' => 'derived-value-operation-assertion',
+                        'value' => '$".selector"',
+                        'operator' => 'exists',
+                    ],
+                    'statement' => [
+                        'statement-type' => 'assertion',
+                        'source' => '$".selector" is "value',
+                        'index' => 4,
                         'identifier' => '$".selector"',
                         'operator' => 'is',
                         'value' => '"value"',
@@ -107,6 +140,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
                 'statement' => new DerivedValueOperationAssertion(
                     new Action(
                         'click $".selector"',
+                        0,
                         'click',
                         '$".selector"',
                         '$".selector"'
@@ -123,6 +157,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
                     'statement' => [
                         'statement-type' => 'action',
                         'source' => 'click $".selector"',
+                        'index' => 0,
                         'type' => 'click',
                         'arguments' => '$".selector"',
                         'identifier' => '$".selector"',
@@ -133,6 +168,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
                 'statement' => new DerivedValueOperationAssertion(
                     new Assertion(
                         '$".selector" matches "value"',
+                        0,
                         '$".selector"',
                         'matches',
                         '"value"'
@@ -149,6 +185,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
                     'statement' => [
                         'statement-type' => 'assertion',
                         'source' => '$".selector" matches "value"',
+                        'index' => 0,
                         'identifier' => '$".selector"',
                         'operator' => 'matches',
                         'value' => '"value"',
@@ -160,7 +197,7 @@ class DerivedValueOperationAssertionTest extends AbstractStatementTestCase
 
     public function testIsComparison(): void
     {
-        $source = new Assertion('$"a" foo', '$"a"', 'foo');
+        $source = new Assertion('$"a" foo', 0, '$"a"', 'foo');
 
         $this->assertTrue((new DerivedValueOperationAssertion($source, '$"a"', 'is'))->isComparison());
         $this->assertTrue((new DerivedValueOperationAssertion($source, '$"a"', 'is-not'))->isComparison());

@@ -16,11 +16,12 @@ class Assertion extends Statement implements AssertionInterface
 
     public function __construct(
         string $source,
+        int $index,
         string $identifier,
         private readonly string $operator,
         ?string $value = null
     ) {
-        parent::__construct($source, $identifier, $value);
+        parent::__construct($source, $index, $identifier, $value);
     }
 
     /**
@@ -53,7 +54,7 @@ class Assertion extends Statement implements AssertionInterface
             $source .= ' ' . $value;
         }
 
-        return new Assertion($source, $identifier, $this->operator, $value);
+        return new Assertion($source, $this->getIndex(), $identifier, $this->operator, $value);
     }
 
     public static function isComparisonOperator(string $operator): bool
