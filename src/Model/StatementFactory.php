@@ -25,13 +25,12 @@ readonly class StatementFactory
     }
 
     /**
+     * @param array<mixed> $data
+     *
      * @throws UnknownEncapsulatedStatementException
      */
-    public function createFromJson(string $json): ?StatementInterface
+    public function createFromArray(array $data): ?StatementInterface
     {
-        $data = json_decode($json, true);
-        $data = is_array($data) ? $data : [];
-
         $statementType = $this->getStatementType($data);
 
         if (
@@ -50,6 +49,17 @@ readonly class StatementFactory
         }
 
         return null;
+    }
+
+    /**
+     * @throws UnknownEncapsulatedStatementException
+     */
+    public function createFromJson(string $json): ?StatementInterface
+    {
+        $data = json_decode($json, true);
+        $data = is_array($data) ? $data : [];
+
+        return $this->createFromArray($data);
     }
 
     /**
