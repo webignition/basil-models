@@ -27,6 +27,16 @@ class StatementFactoryTest extends TestCase
 
     #[DataProvider('createActionDataProvider')]
     #[DataProvider('createAssertionDataProvider')]
+    public function testCreateFromArray(string $json, StatementInterface $expected): void
+    {
+        $data = json_decode($json, true);
+        \assert(is_array($data));
+
+        $this->assertEquals($expected, $this->factory->createFromArray($data));
+    }
+
+    #[DataProvider('createActionDataProvider')]
+    #[DataProvider('createAssertionDataProvider')]
     public function testCreateFromJson(string $json, StatementInterface $expected): void
     {
         $this->assertEquals($expected, $this->factory->createFromJson($json));
