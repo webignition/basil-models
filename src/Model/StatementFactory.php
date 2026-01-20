@@ -53,13 +53,21 @@ readonly class StatementFactory
 
     /**
      * @throws UnknownEncapsulatedStatementException
+     * @throws InvalidStatementDataException
      */
-    public function createFromJson(string $json): ?StatementInterface
+    public function createFromJson(string $json): StatementInterface
     {
         $data = json_decode($json, true);
-        $data = is_array($data) ? $data : [];
+        if (!is_array($data)) {
+            throw new InvalidStatementDataException($json);
+        }
 
-        return $this->createFromArray($data);
+        $statement = $this->createFromArray($data);
+        if (null === $statement) {
+            throw new InvalidStatementDataException($json);
+        }
+
+        return $statement;
     }
 
     /**
