@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Tests\Unit\Model;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use webignition\BasilModels\Model\InvalidStatementDataException;
 use webignition\BasilModels\Model\StatementFactory;
 use webignition\BasilModels\Model\StatementInterface;
 use webignition\BasilModels\Tests\DataProvider\CreateActionDataProviderTrait;
@@ -40,5 +41,31 @@ class StatementFactoryTest extends TestCase
     public function testCreateFromJson(string $json, StatementInterface $expected): void
     {
         $this->assertEquals($expected, $this->factory->createFromJson($json));
+    }
+
+    public function testCreateFromJsonNonArrayJson(): void
+    {
+        $exception = null;
+
+        try {
+            $this->factory->createFromJson('not an array');
+        } catch (InvalidStatementDataException $exception) {
+        }
+
+        $this->assertInstanceOf(InvalidStatementDataException::class, $exception);
+        $this->assertSame('not an array', $exception->statementJson);
+    }
+
+    public function testCreateFromJsonInvalidData(): void
+    {
+        $exception = null;
+
+        try {
+            $this->factory->createFromJson('{}');
+        } catch (InvalidStatementDataException $exception) {
+        }
+
+        $this->assertInstanceOf(InvalidStatementDataException::class, $exception);
+        $this->assertSame('{}', $exception->statementJson);
     }
 }
