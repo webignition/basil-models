@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Step;
 
-use webignition\BasilModels\Model\Action\ActionCollectionInterface;
-use webignition\BasilModels\Model\Assertion\AssertionCollectionInterface;
 use webignition\BasilModels\Model\DataParameter\DataParameter;
 use webignition\BasilModels\Model\DataSet\DataSetCollectionInterface;
+use webignition\BasilModels\Model\Statement\Action\ActionCollectionInterface;
+use webignition\BasilModels\Model\Statement\Assertion\AssertionCollectionInterface;
 
 class Step implements StepInterface
 {

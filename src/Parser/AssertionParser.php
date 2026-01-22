@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Parser;
 
-use webignition\BasilModels\Model\Assertion\Assertion;
-use webignition\BasilModels\Model\Assertion\AssertionInterface;
+use webignition\BasilModels\Model\Statement\Assertion\Assertion;
+use webignition\BasilModels\Model\Statement\Assertion\AssertionInterface;
 use webignition\BasilModels\Parser\Exception\UnparseableAssertionException;
 use webignition\BasilValueExtractor\ValueExtractor;
 
