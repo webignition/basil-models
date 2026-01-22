@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Tests\Unit\Model\Step;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use webignition\BasilModels\Model\Assertion\AssertionCollection;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Model\Step\StepCollection;
 use webignition\BasilModels\Model\Step\StepCollectionInterface;
@@ -43,9 +44,9 @@ class StepCollectionTest extends TestCase
             ],
             'provided in alphabetical order' => [
                 'collection' => new StepCollection([
-                    'alpha' => new Step([], []),
-                    'charlie' => new Step([], []),
-                    'zulu' => new Step([], []),
+                    'alpha' => new Step([], new AssertionCollection([])),
+                    'charlie' => new Step([], new AssertionCollection([])),
+                    'zulu' => new Step([], new AssertionCollection([])),
                 ]),
                 'expectedNames' => [
                     'alpha',
@@ -55,9 +56,9 @@ class StepCollectionTest extends TestCase
             ],
             'provided in reverse alphabetical order' => [
                 'collection' => new StepCollection([
-                    'zulu' => new Step([], []),
-                    'charlie' => new Step([], []),
-                    'alpha' => new Step([], []),
+                    'zulu' => new Step([], new AssertionCollection([])),
+                    'charlie' => new Step([], new AssertionCollection([])),
+                    'alpha' => new Step([], new AssertionCollection([])),
                 ]),
                 'expectedNames' => [
                     'zulu',
@@ -71,9 +72,9 @@ class StepCollectionTest extends TestCase
     public function testIterator(): void
     {
         $collection = new StepCollection([
-            'alpha' => new Step([], []),
-            'charlie' => new Step([], []),
-            'zulu' => new Step([], []),
+            'alpha' => new Step([], new AssertionCollection([])),
+            'charlie' => new Step([], new AssertionCollection([])),
+            'zulu' => new Step([], new AssertionCollection([])),
         ]);
 
         $iteratedSteps = [];

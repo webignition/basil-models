@@ -4,39 +4,58 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Assertion;
 
-/**
- * @implements \IteratorAggregate<int, AssertionInterface>
- */
-class UniqueAssertionCollection implements \IteratorAggregate
+final readonly class UniqueAssertionCollection implements AssertionCollectionInterface
 {
     /**
      * @var AssertionInterface[]
      */
-    private array $assertions = [];
+    private array $assertions;
 
     /**
      * @param AssertionInterface[] $assertions
      */
     public function __construct(array $assertions = [])
     {
+        $uniqueAssertions = [];
         foreach ($assertions as $assertion) {
-            $this->add($assertion);
+            if (!$this->contains($uniqueAssertions, $assertion)) {
+                $uniqueAssertions[] = $assertion;
+            }
         }
+
+        $this->assertions = $uniqueAssertions;
     }
 
-    public function add(AssertionInterface $assertion): void
+    public function add(AssertionInterface $assertion): self
     {
-        if (!$this->contains($assertion)) {
-            $this->assertions[] = $assertion;
+        if ($this->contains($this->assertions, $assertion)) {
+            return $this;
         }
+
+        $assertions = $this->assertions;
+        $assertions[] = $assertion;
+
+        return new UniqueAssertionCollection($assertions);
     }
 
-    public function merge(UniqueAssertionCollection $collection): UniqueAssertionCollection
+    public function prepend(AssertionCollectionInterface $collection): self
     {
-        $new = clone $this;
-
+        $assertions = [];
         foreach ($collection as $assertion) {
-            $new->add($assertion);
+            $assertions[] = $assertion;
+        }
+
+        $assertions = array_merge($assertions, $this->assertions);
+        $new = new UniqueAssertionCollection($assertions);
+
+        return $new->normalise();
+    }
+
+    public function append(AssertionCollectionInterface $collection): self
+    {
+        $new = new UniqueAssertionCollection($this->assertions);
+        foreach ($collection as $assertion) {
+            $new = $new->add($assertion);
         }
 
         return $new->normalise();
@@ -55,15 +74,18 @@ class UniqueAssertionCollection implements \IteratorAggregate
         $normalisedCollection = new UniqueAssertionCollection();
 
         foreach ($this as $assertion) {
-            $normalisedCollection->add($assertion->normalise());
+            $normalisedCollection = $normalisedCollection->add($assertion->normalise());
         }
 
         return $normalisedCollection;
     }
 
-    private function contains(AssertionInterface $assertion): bool
+    /**
+     * @param AssertionInterface[] $assertions
+     */
+    private function contains(array $assertions, AssertionInterface $assertion): bool
     {
-        foreach ($this->assertions as $comparator) {
+        foreach ($assertions as $comparator) {
             if ($assertion->equals($comparator)) {
                 return true;
             }

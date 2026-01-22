@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Assertion\Assertion;
+use webignition\BasilModels\Model\Assertion\AssertionCollection;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Model\Step\StepCollection;
@@ -161,7 +162,7 @@ class TestParserTest extends TestCase
                     'chrome',
                     'http://example.com/',
                     new StepCollection([
-                        'step one' => new Step([], [])
+                        'step one' => new Step([], new AssertionCollection([]))
                             ->withImportName('step_import_name')
                             ->withData(new DataSetCollection([
                                 'set1' => [
@@ -178,7 +179,7 @@ class TestParserTest extends TestCase
                                     '$page_import_name.elements.button'
                                 )
                             ],
-                            [
+                            new AssertionCollection([
                                 new Assertion(
                                     '$page.title is $data.expected_title',
                                     1,
@@ -186,7 +187,7 @@ class TestParserTest extends TestCase
                                     'is',
                                     '$data.expected_title'
                                 )
-                            ]
+                            ]),
                         )->withDataImportName('data_provider_import_name'),
                     ])
                 ),

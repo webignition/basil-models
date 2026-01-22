@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace webignition\BasilModels\Model\Step;
 
 use webignition\BasilModels\Model\Action\ActionInterface;
-use webignition\BasilModels\Model\Assertion\AssertionInterface;
+use webignition\BasilModels\Model\Assertion\AssertionCollectionInterface;
 use webignition\BasilModels\Model\DataParameter\DataParameter;
 use webignition\BasilModels\Model\DataSet\DataSetCollectionInterface;
 
@@ -16,10 +16,7 @@ class Step implements StepInterface
      */
     private array $actions;
 
-    /**
-     * @var AssertionInterface[]
-     */
-    private array $assertions;
+    private AssertionCollectionInterface $assertions;
 
     private ?DataSetCollectionInterface $data = null;
     private ?string $importName = null;
@@ -32,16 +29,14 @@ class Step implements StepInterface
 
     /**
      * @param array<mixed> $actions
-     * @param array<mixed> $assertions
      */
-    public function __construct(array $actions, array $assertions)
+    public function __construct(array $actions, AssertionCollectionInterface $assertions)
     {
         $this->actions = [];
-        $this->assertions = [];
+        $this->assertions = $assertions;
         $this->identifiers = [];
 
         $this->setActions($actions);
-        $this->setAssertions($assertions);
     }
 
     /**
@@ -63,21 +58,15 @@ class Step implements StepInterface
         return $new;
     }
 
-    /**
-     * @return AssertionInterface[]
-     */
-    public function getAssertions(): array
+    public function getAssertions(): AssertionCollectionInterface
     {
         return $this->assertions;
     }
 
-    /**
-     * @param AssertionInterface[] $assertions
-     */
-    public function withAssertions(array $assertions): StepInterface
+    public function withAssertions(AssertionCollectionInterface $assertions): StepInterface
     {
         $new = clone $this;
-        $new->setAssertions($assertions);
+        $new->assertions = $assertions;
 
         return $new;
     }
@@ -175,16 +164,10 @@ class Step implements StepInterface
         return $new;
     }
 
-    public function withPrependedAssertions(array $assertions): StepInterface
+    public function withPrependedAssertions(AssertionCollectionInterface $assertions): StepInterface
     {
-        $assertions = $this->filterAssertions($assertions);
-
-        foreach ($this->getAssertions() as $assertion) {
-            $assertions[] = clone $assertion;
-        }
-
         $new = clone $this;
-        $new->assertions = $assertions;
+        $new->assertions = $this->assertions->prepend($assertions);
 
         return $new;
     }
@@ -230,14 +213,6 @@ class Step implements StepInterface
     }
 
     /**
-     * @param array<mixed> $assertions
-     */
-    private function setAssertions(array $assertions): void
-    {
-        $this->assertions = $this->filterAssertions($assertions);
-    }
-
-    /**
      * @param array<mixed> $actions
      *
      * @return ActionInterface[]
@@ -246,18 +221,6 @@ class Step implements StepInterface
     {
         return array_filter($actions, function ($action) {
             return $action instanceof ActionInterface;
-        });
-    }
-
-    /**
-     * @param array<mixed> $assertions
-     *
-     * @return AssertionInterface[]
-     */
-    private function filterAssertions(array $assertions): array
-    {
-        return array_filter($assertions, function ($assertion) {
-            return $assertion instanceof AssertionInterface;
         });
     }
 

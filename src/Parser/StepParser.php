@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Parser;
 
+use webignition\BasilModels\Model\Assertion\AssertionCollection;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Model\Step\StepInterface;
@@ -82,7 +83,7 @@ class StepParser implements DataParserInterface
             );
         }
 
-        $step = new Step($actions, $assertions);
+        $step = new Step($actions, new AssertionCollection($assertions));
         $step = $this->setImportName($step, $data[self::KEY_IMPORT_NAME] ?? null);
         $step = $this->setData($step, $data[self::KEY_DATA] ?? null);
 
