@@ -9,8 +9,6 @@ namespace webignition\BasilModels\Model\Assertion;
  */
 interface AssertionCollectionInterface extends \IteratorAggregate
 {
-    public function add(AssertionInterface $assertion): self;
-
     public function prepend(AssertionCollectionInterface $collection): self;
 
     public function append(AssertionCollectionInterface $collection): self;
