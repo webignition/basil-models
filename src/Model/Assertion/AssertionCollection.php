@@ -13,14 +13,6 @@ final readonly class AssertionCollection implements AssertionCollectionInterface
         private array $assertions,
     ) {}
 
-    public function add(AssertionInterface $assertion): self
-    {
-        $assertions = $this->assertions;
-        $assertions[] = $assertion;
-
-        return new AssertionCollection($assertions);
-    }
-
     public function prepend(AssertionCollectionInterface $collection): self
     {
         $assertions = [];
@@ -47,5 +39,13 @@ final readonly class AssertionCollection implements AssertionCollectionInterface
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->assertions);
+    }
+
+    private function add(AssertionInterface $assertion): self
+    {
+        $assertions = $this->assertions;
+        $assertions[] = $assertion;
+
+        return new AssertionCollection($assertions);
     }
 }

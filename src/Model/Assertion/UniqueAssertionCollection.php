@@ -26,18 +26,6 @@ final readonly class UniqueAssertionCollection implements AssertionCollectionInt
         $this->assertions = $uniqueAssertions;
     }
 
-    public function add(AssertionInterface $assertion): self
-    {
-        if ($this->contains($this->assertions, $assertion)) {
-            return $this;
-        }
-
-        $assertions = $this->assertions;
-        $assertions[] = $assertion;
-
-        return new UniqueAssertionCollection($assertions);
-    }
-
     public function prepend(AssertionCollectionInterface $collection): self
     {
         $assertions = [];
@@ -78,6 +66,18 @@ final readonly class UniqueAssertionCollection implements AssertionCollectionInt
         }
 
         return $normalisedCollection;
+    }
+
+    private function add(AssertionInterface $assertion): self
+    {
+        if ($this->contains($this->assertions, $assertion)) {
+            return $this;
+        }
+
+        $assertions = $this->assertions;
+        $assertions[] = $assertion;
+
+        return new UniqueAssertionCollection($assertions);
     }
 
     /**
