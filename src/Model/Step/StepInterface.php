@@ -4,21 +4,15 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Step;
 
-use webignition\BasilModels\Model\Action\ActionInterface;
+use webignition\BasilModels\Model\Action\ActionCollectionInterface;
 use webignition\BasilModels\Model\Assertion\AssertionCollectionInterface;
 use webignition\BasilModels\Model\DataSet\DataSetCollectionInterface;
 
 interface StepInterface
 {
-    /**
-     * @return ActionInterface[]
-     */
-    public function getActions(): array;
+    public function getActions(): ActionCollectionInterface;
 
-    /**
-     * @param ActionInterface[] $actions
-     */
-    public function withActions(array $actions): StepInterface;
+    public function withActions(ActionCollectionInterface $actions): StepInterface;
 
     public function getAssertions(): AssertionCollectionInterface;
 
@@ -52,10 +46,7 @@ interface StepInterface
 
     public function requiresImportResolution(): bool;
 
-    /**
-     * @param ActionInterface[] $actions
-     */
-    public function withPrependedActions(array $actions): StepInterface;
+    public function withPrependedActions(ActionCollectionInterface $actions): StepInterface;
 
     public function withPrependedAssertions(AssertionCollectionInterface $assertions): StepInterface;
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Parser;
 
+use webignition\BasilModels\Model\Action\ActionCollection;
 use webignition\BasilModels\Model\Assertion\AssertionCollection;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
 use webignition\BasilModels\Model\Step\Step;
@@ -83,17 +84,14 @@ class StepParser implements DataParserInterface
             );
         }
 
-        $step = new Step($actions, new AssertionCollection($assertions));
+        $step = new Step(new ActionCollection($actions), new AssertionCollection($assertions));
         $step = $this->setImportName($step, $data[self::KEY_IMPORT_NAME] ?? null);
         $step = $this->setData($step, $data[self::KEY_DATA] ?? null);
 
         return $this->setIdentifiers($step, $data[self::KEY_ELEMENTS] ?? null);
     }
 
-    /**
-     * @param mixed $importName
-     */
-    private function setImportName(StepInterface $step, $importName): StepInterface
+    private function setImportName(StepInterface $step, mixed $importName): StepInterface
     {
         if (!is_string($importName)) {
             $importName = null;
@@ -106,10 +104,7 @@ class StepParser implements DataParserInterface
         return $step;
     }
 
-    /**
-     * @param mixed $data
-     */
-    private function setData(StepInterface $step, $data): StepInterface
+    private function setData(StepInterface $step, mixed $data): StepInterface
     {
         if (is_array($data)) {
             $step = $step->withData(new DataSetCollection($data));

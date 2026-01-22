@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Step;
 
-use webignition\BasilModels\Model\Action\ActionInterface;
+use webignition\BasilModels\Model\Action\ActionCollectionInterface;
 use webignition\BasilModels\Model\Assertion\AssertionCollectionInterface;
 use webignition\BasilModels\Model\DataParameter\DataParameter;
 use webignition\BasilModels\Model\DataSet\DataSetCollectionInterface;
 
 class Step implements StepInterface
 {
-    /**
-     * @var ActionInterface[]
-     */
-    private array $actions;
+    private ActionCollectionInterface $actions;
 
     private AssertionCollectionInterface $assertions;
 
@@ -27,33 +24,22 @@ class Step implements StepInterface
      */
     private array $identifiers;
 
-    /**
-     * @param array<mixed> $actions
-     */
-    public function __construct(array $actions, AssertionCollectionInterface $assertions)
+    public function __construct(ActionCollectionInterface $actions, AssertionCollectionInterface $assertions)
     {
-        $this->actions = [];
+        $this->actions = $actions;
         $this->assertions = $assertions;
         $this->identifiers = [];
-
-        $this->setActions($actions);
     }
 
-    /**
-     * @return ActionInterface[]
-     */
-    public function getActions(): array
+    public function getActions(): ActionCollectionInterface
     {
         return $this->actions;
     }
 
-    /**
-     * @param ActionInterface[] $actions
-     */
-    public function withActions(array $actions): StepInterface
+    public function withActions(ActionCollectionInterface $actions): StepInterface
     {
         $new = clone $this;
-        $new->setActions($actions);
+        $new->actions = $actions;
 
         return $new;
     }
@@ -150,16 +136,10 @@ class Step implements StepInterface
         return null !== $this->importName || null !== $this->dataImportName;
     }
 
-    public function withPrependedActions(array $actions): StepInterface
+    public function withPrependedActions(ActionCollectionInterface $actions): StepInterface
     {
-        $actions = $this->filterActions($actions);
-
-        foreach ($this->getActions() as $action) {
-            $actions[] = clone $action;
-        }
-
         $new = clone $this;
-        $new->actions = $actions;
+        $new->actions = $this->actions->prepend($actions);
 
         return $new;
     }
@@ -202,26 +182,6 @@ class Step implements StepInterface
         sort($dataParameterNames);
 
         return $dataParameterNames;
-    }
-
-    /**
-     * @param array<mixed> $actions
-     */
-    private function setActions(array $actions): void
-    {
-        $this->actions = $this->filterActions($actions);
-    }
-
-    /**
-     * @param array<mixed> $actions
-     *
-     * @return ActionInterface[]
-     */
-    private function filterActions(array $actions): array
-    {
-        return array_filter($actions, function ($action) {
-            return $action instanceof ActionInterface;
-        });
     }
 
     /**

@@ -7,6 +7,7 @@ namespace webignition\BasilModels\Tests\Unit\Parser;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
+use webignition\BasilModels\Model\Action\ActionCollection;
 use webignition\BasilModels\Model\Assertion\Assertion;
 use webignition\BasilModels\Model\Assertion\AssertionCollection;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
@@ -46,7 +47,7 @@ class StepParserTest extends TestCase
         return [
             'empty' => [
                 'stepData' => [],
-                'expectedStep' => new Step([], new AssertionCollection([])),
+                'expectedStep' => new Step(new ActionCollection([]), new AssertionCollection([])),
             ],
             'single action' => [
                 'stepData' => [
@@ -55,7 +56,7 @@ class StepParserTest extends TestCase
                     ],
                 ],
                 'expectedStep' => new Step(
-                    [
+                    new ActionCollection([
                         new Action(
                             'click $".selector"',
                             0,
@@ -63,7 +64,7 @@ class StepParserTest extends TestCase
                             '$".selector"',
                             '$".selector"'
                         )
-                    ],
+                    ]),
                     new AssertionCollection([])
                 ),
             ],
@@ -74,7 +75,7 @@ class StepParserTest extends TestCase
                     ],
                 ],
                 'expectedStep' => new Step(
-                    [],
+                    new ActionCollection([]),
                     new AssertionCollection([
                         new Assertion('$".selector" exists', 0, '$".selector"', 'exists')
                     ]),
@@ -94,7 +95,7 @@ class StepParserTest extends TestCase
                     ],
                 ],
                 'expectedStep' => new Step(
-                    [
+                    new ActionCollection([
                         new Action(
                             'click $".selector1"',
                             0,
@@ -116,7 +117,7 @@ class StepParserTest extends TestCase
                             '$".selector3"',
                             '$".selector3"'
                         ),
-                    ],
+                    ]),
                     new AssertionCollection([
                         new Assertion('$".selector1" exists', 3, '$".selector1"', 'exists'),
                         new Assertion('$".selector2" exists', 4, '$".selector2"', 'exists'),
@@ -128,25 +129,31 @@ class StepParserTest extends TestCase
                 'stepData' => [
                     'use' => true,
                 ],
-                'expectedStep' => new Step([], new AssertionCollection([])),
+                'expectedStep' => new Step(new ActionCollection([]), new AssertionCollection([])),
             ],
             'valid import name' => [
                 'stepData' => [
                     'use' => 'import_name',
                 ],
-                'expectedStep' => (new Step([], new AssertionCollection([])))->withImportName('import_name'),
+                'expectedStep' => new Step(
+                    new ActionCollection([]),
+                    new AssertionCollection([])
+                )->withImportName('import_name'),
             ],
             'invalid data import name; not a string' => [
                 'stepData' => [
                     'data' => true,
                 ],
-                'expectedStep' => new Step([], new AssertionCollection([])),
+                'expectedStep' => new Step(new ActionCollection([]), new AssertionCollection([])),
             ],
             'valid data import name' => [
                 'stepData' => [
                     'data' => 'data_import_name',
                 ],
-                'expectedStep' => (new Step([], new AssertionCollection([])))->withDataImportName('data_import_name'),
+                'expectedStep' => new Step(
+                    new ActionCollection([]),
+                    new AssertionCollection([])
+                )->withDataImportName('data_import_name'),
             ],
             'valid data array' => [
                 'stepData' => [
@@ -156,7 +163,10 @@ class StepParserTest extends TestCase
                         ],
                     ],
                 ],
-                'expectedStep' => (new Step([], new AssertionCollection([])))->withData(new DataSetCollection([
+                'expectedStep' => new Step(
+                    new ActionCollection([]),
+                    new AssertionCollection([])
+                )->withData(new DataSetCollection([
                     'set1' => [
                         'key' => 'value',
                     ],
@@ -166,7 +176,7 @@ class StepParserTest extends TestCase
                 'stepData' => [
                     'elements' => 'string',
                 ],
-                'expectedStep' => new Step([], new AssertionCollection([])),
+                'expectedStep' => new Step(new ActionCollection([]), new AssertionCollection([])),
             ],
             'valid elements' => [
                 'stepData' => [
@@ -174,7 +184,7 @@ class StepParserTest extends TestCase
                         'heading' => 'page_import_name.elements.heading',
                     ],
                 ],
-                'expectedStep' => (new Step([], new AssertionCollection([])))->withIdentifiers([
+                'expectedStep' => (new Step(new ActionCollection([]), new AssertionCollection([])))->withIdentifiers([
                     'heading' => 'page_import_name.elements.heading',
                 ]),
             ],
