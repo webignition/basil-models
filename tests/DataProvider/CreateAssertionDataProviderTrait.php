@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\DataProvider;
 
-use webignition\BasilModels\Model\Action\Action;
-use webignition\BasilModels\Model\Action\ResolvedAction;
-use webignition\BasilModels\Model\Assertion\Assertion;
-use webignition\BasilModels\Model\Assertion\DerivedValueOperationAssertion;
-use webignition\BasilModels\Model\Assertion\ResolvedAssertion;
+use webignition\BasilModels\Model\Statement\Action\Action;
+use webignition\BasilModels\Model\Statement\Action\ResolvedAction;
+use webignition\BasilModels\Model\Statement\Assertion\Assertion;
+use webignition\BasilModels\Model\Statement\Assertion\DerivedValueOperationAssertion;
+use webignition\BasilModels\Model\Statement\Assertion\ResolvedAssertion;
 
 trait CreateAssertionDataProviderTrait
 {

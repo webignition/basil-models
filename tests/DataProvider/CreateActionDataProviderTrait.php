@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Tests\DataProvider;
 
-use webignition\BasilModels\Model\Action\Action;
-use webignition\BasilModels\Model\Action\ResolvedAction;
+use webignition\BasilModels\Model\Statement\Action\Action;
+use webignition\BasilModels\Model\Statement\Action\ResolvedAction;
 
 trait CreateActionDataProviderTrait
 {

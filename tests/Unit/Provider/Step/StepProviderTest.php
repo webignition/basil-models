@@ -6,8 +6,8 @@ namespace webignition\BasilModels\Tests\Unit\Provider\Step;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use webignition\BasilModels\Model\Action\ActionCollection;
-use webignition\BasilModels\Model\Assertion\AssertionCollection;
+use webignition\BasilModels\Model\Statement\Action\ActionCollection;
+use webignition\BasilModels\Model\Statement\Assertion\AssertionCollection;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
 use webignition\BasilModels\Provider\Step\StepProvider;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Parser;
 
-use webignition\BasilModels\Model\Action\Action;
-use webignition\BasilModels\Model\Action\ActionInterface;
+use webignition\BasilModels\Model\Statement\Action\Action;
+use webignition\BasilModels\Model\Statement\Action\ActionInterface;
 use webignition\BasilModels\Parser\Exception\UnparseableActionException;
 use webignition\BasilValueExtractor\IdentifierExtractor;
 use webignition\BasilValueExtractor\ValueExtractor;

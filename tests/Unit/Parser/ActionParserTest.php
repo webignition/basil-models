@@ -6,8 +6,8 @@ namespace webignition\BasilModels\Tests\Unit\Parser;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use webignition\BasilModels\Model\Action\Action;
-use webignition\BasilModels\Model\Action\ActionInterface;
+use webignition\BasilModels\Model\Statement\Action\Action;
+use webignition\BasilModels\Model\Statement\Action\ActionInterface;
 use webignition\BasilModels\Parser\ActionParser;
 use webignition\BasilModels\Parser\Exception\UnparseableActionException;
 
