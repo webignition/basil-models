@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Statement\Action;
 
+use webignition\BasilModels\Model\Statement\StatementCollectionInterface;
+
 final readonly class ActionCollection implements ActionCollectionInterface
 {
     /**
@@ -21,13 +23,27 @@ final readonly class ActionCollection implements ActionCollectionInterface
         return new \ArrayIterator($this->actions);
     }
 
-    public function prepend(ActionCollectionInterface $collection): self
+    public function prepend(StatementCollectionInterface $collection): static
     {
         $actions = [];
-        foreach ($collection as $action) {
-            $actions[] = $action;
+        foreach ($collection as $statement) {
+            if ($statement instanceof ActionInterface) {
+                $actions[] = $statement;
+            }
         }
 
         return new ActionCollection(array_merge($actions, $this->actions));
+    }
+
+    public function append(StatementCollectionInterface $collection): static
+    {
+        $actions = $this->actions;
+        foreach ($collection as $statement) {
+            if ($statement instanceof ActionInterface) {
+                $actions[] = $statement;
+            }
+        }
+
+        return new ActionCollection($actions);
     }
 }

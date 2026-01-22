@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Statement\Assertion;
 
+use webignition\BasilModels\Model\Statement\StatementCollectionInterface;
+
 final readonly class UniqueAssertionCollection implements AssertionCollectionInterface
 {
     /**
@@ -26,11 +28,13 @@ final readonly class UniqueAssertionCollection implements AssertionCollectionInt
         $this->assertions = $uniqueAssertions;
     }
 
-    public function prepend(AssertionCollectionInterface $collection): self
+    public function prepend(StatementCollectionInterface $collection): static
     {
         $assertions = [];
-        foreach ($collection as $assertion) {
-            $assertions[] = $assertion;
+        foreach ($collection as $statement) {
+            if ($statement instanceof AssertionInterface) {
+                $assertions[] = $statement;
+            }
         }
 
         $assertions = array_merge($assertions, $this->assertions);
@@ -39,11 +43,13 @@ final readonly class UniqueAssertionCollection implements AssertionCollectionInt
         return $new->normalise();
     }
 
-    public function append(AssertionCollectionInterface $collection): self
+    public function append(StatementCollectionInterface $collection): static
     {
         $new = new UniqueAssertionCollection($this->assertions);
-        foreach ($collection as $assertion) {
-            $new = $new->add($assertion);
+        foreach ($collection as $statement) {
+            if ($statement instanceof AssertionInterface) {
+                $new = $new->add($statement);
+            }
         }
 
         return $new->normalise();

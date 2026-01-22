@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilModels\Model\Statement\Assertion;
 
+use webignition\BasilModels\Model\Statement\StatementCollectionInterface;
+
 final readonly class AssertionCollection implements AssertionCollectionInterface
 {
     /**
@@ -13,24 +15,29 @@ final readonly class AssertionCollection implements AssertionCollectionInterface
         private array $assertions,
     ) {}
 
-    public function prepend(AssertionCollectionInterface $collection): self
+    public function prepend(StatementCollectionInterface $collection): static
     {
         $assertions = [];
-        foreach ($collection as $assertion) {
-            $assertions[] = $assertion;
+        foreach ($collection as $statement) {
+            if ($statement instanceof AssertionInterface) {
+                $assertions[] = $statement;
+            }
         }
 
         return new AssertionCollection(array_merge($assertions, $this->assertions));
     }
 
-    public function append(AssertionCollectionInterface $collection): self
+    public function append(StatementCollectionInterface $collection): static
     {
-        $new = new AssertionCollection($this->assertions);
-        foreach ($collection as $assertion) {
-            $new = $new->add($assertion);
+        $assertions = $this->assertions;
+
+        foreach ($collection as $statement) {
+            if ($statement instanceof AssertionInterface) {
+                $assertions[] = $statement;
+            }
         }
 
-        return $new;
+        return new AssertionCollection($assertions);
     }
 
     /**
@@ -39,13 +46,5 @@ final readonly class AssertionCollection implements AssertionCollectionInterface
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->assertions);
-    }
-
-    private function add(AssertionInterface $assertion): self
-    {
-        $assertions = $this->assertions;
-        $assertions[] = $assertion;
-
-        return new AssertionCollection($assertions);
     }
 }
