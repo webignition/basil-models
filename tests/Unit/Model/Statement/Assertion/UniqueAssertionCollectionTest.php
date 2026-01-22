@@ -244,4 +244,37 @@ class UniqueAssertionCollectionTest extends TestCase
             ],
         ];
     }
+
+    #[DataProvider('countDataProvider')]
+    public function testCount(UniqueAssertionCollection $collection, int $expected): void
+    {
+        self::assertCount($expected, $collection);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public static function countDataProvider(): array
+    {
+        return [
+            'empty' => [
+                'collection' => new UniqueAssertionCollection([]),
+                'expected' => 0,
+            ],
+            'one' => [
+                'collection' => new UniqueAssertionCollection([
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                ]),
+                'expected' => 1,
+            ],
+            'three' => [
+                'collection' => new UniqueAssertionCollection([
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 1, '$".selector2"', 'exists'),
+                    new Assertion('$".selector3" exists', 2, '$".selector3"', 'exists'),
+                ]),
+                'expected' => 3,
+            ],
+        ];
+    }
 }

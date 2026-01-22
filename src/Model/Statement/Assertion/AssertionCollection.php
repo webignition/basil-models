@@ -46,4 +46,9 @@ final readonly class AssertionCollection implements AssertionCollectionInterface
     {
         return new \ArrayIterator($this->assertions);
     }
+
+    public function count(): int
+    {
+        return count($this->assertions);
+    }
 }
