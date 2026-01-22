@@ -20,7 +20,9 @@ final readonly class UniqueAssertionCollection implements AssertionCollectionInt
     {
         $uniqueAssertions = [];
         foreach ($assertions as $assertion) {
-            if (!$this->contains($uniqueAssertions, $assertion)) {
+            $assertion = $assertion->normalise();
+
+            if (!self::contains($uniqueAssertions, $assertion)) {
                 $uniqueAssertions[] = $assertion;
             }
         }
@@ -37,22 +39,19 @@ final readonly class UniqueAssertionCollection implements AssertionCollectionInt
             }
         }
 
-        $assertions = array_merge($assertions, $this->assertions);
-        $new = new UniqueAssertionCollection($assertions);
-
-        return $new->normalise();
+        return new UniqueAssertionCollection(array_merge($assertions, $this->assertions));
     }
 
     public function append(StatementCollectionInterface $collection): static
     {
-        $new = new UniqueAssertionCollection($this->assertions);
+        $assertions = [];
         foreach ($collection as $statement) {
             if ($statement instanceof AssertionInterface) {
-                $new = $new->add($statement);
+                $assertions[] = $statement;
             }
         }
 
-        return $new->normalise();
+        return new UniqueAssertionCollection(array_merge($this->assertions, $assertions));
     }
 
     /**
@@ -63,33 +62,10 @@ final readonly class UniqueAssertionCollection implements AssertionCollectionInt
         return new \ArrayIterator($this->assertions);
     }
 
-    public function normalise(): UniqueAssertionCollection
-    {
-        $normalisedCollection = new UniqueAssertionCollection();
-
-        foreach ($this as $assertion) {
-            $normalisedCollection = $normalisedCollection->add($assertion->normalise());
-        }
-
-        return $normalisedCollection;
-    }
-
-    private function add(AssertionInterface $assertion): self
-    {
-        if ($this->contains($this->assertions, $assertion)) {
-            return $this;
-        }
-
-        $assertions = $this->assertions;
-        $assertions[] = $assertion;
-
-        return new UniqueAssertionCollection($assertions);
-    }
-
     /**
      * @param AssertionInterface[] $assertions
      */
-    private function contains(array $assertions, AssertionInterface $assertion): bool
+    private static function contains(array $assertions, AssertionInterface $assertion): bool
     {
         foreach ($assertions as $comparator) {
             if ($assertion->equals($comparator)) {

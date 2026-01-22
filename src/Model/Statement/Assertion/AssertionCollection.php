@@ -24,7 +24,7 @@ final readonly class AssertionCollection implements AssertionCollectionInterface
             }
         }
 
-        return new AssertionCollection(array_merge($assertions, $this->assertions));
+        return new self(array_merge($assertions, $this->assertions));
     }
 
     public function append(StatementCollectionInterface $collection): static
@@ -37,7 +37,7 @@ final readonly class AssertionCollection implements AssertionCollectionInterface
             }
         }
 
-        return new AssertionCollection($assertions);
+        return new static($assertions);
     }
 
     /**

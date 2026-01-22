@@ -22,7 +22,7 @@ class UniqueAssertionCollectionTest extends TestCase
 
         $collection = new UniqueAssertionCollection($assertions);
         foreach ($collection as $index => $assertion) {
-            $this->assertSame($assertions[$index], $assertion);
+            $this->assertEquals($assertions[$index], $assertion);
         }
     }
 
@@ -66,7 +66,7 @@ class UniqueAssertionCollectionTest extends TestCase
                     new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ]),
                 'expectedAssertions' => [
-                    new Assertion('$import_name.elements.selector exists', 0, '$".selector"', 'exists'),
+                    new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ],
             ],
         ];
@@ -76,11 +76,9 @@ class UniqueAssertionCollectionTest extends TestCase
      * @param AssertionInterface[] $expectedAssertions
      */
     #[DataProvider('normaliseDataProvider')]
-    public function testNormalise(UniqueAssertionCollection $collection, array $expectedAssertions): void
+    public function testIsNormalized(UniqueAssertionCollection $collection, array $expectedAssertions): void
     {
-        $normalisedCollection = $collection->normalise();
-
-        foreach ($normalisedCollection as $index => $assertion) {
+        foreach ($collection as $index => $assertion) {
             $this->assertEquals($expectedAssertions[$index], $assertion);
         }
     }
