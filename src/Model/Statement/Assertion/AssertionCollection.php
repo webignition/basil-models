@@ -30,14 +30,13 @@ final readonly class AssertionCollection implements AssertionCollectionInterface
     public function append(StatementCollectionInterface $collection): static
     {
         $assertions = $this->assertions;
-
         foreach ($collection as $statement) {
             if ($statement instanceof AssertionInterface) {
                 $assertions[] = $statement;
             }
         }
 
-        return new static($assertions);
+        return new self($assertions);
     }
 
     /**
