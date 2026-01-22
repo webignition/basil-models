@@ -46,4 +46,9 @@ final readonly class ActionCollection implements ActionCollectionInterface
 
         return new ActionCollection($actions);
     }
+
+    public function count(): int
+    {
+        return count($this->actions);
+    }
 }

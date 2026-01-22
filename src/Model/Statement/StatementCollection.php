@@ -40,4 +40,9 @@ final readonly class StatementCollection implements StatementCollectionInterface
 
         return new StatementCollection($actions);
     }
+
+    public function count(): int
+    {
+        return count($this->statements);
+    }
 }

@@ -62,6 +62,11 @@ final readonly class UniqueAssertionCollection implements AssertionCollectionInt
         return new \ArrayIterator($this->assertions);
     }
 
+    public function count(): int
+    {
+        return count($this->assertions);
+    }
+
     /**
      * @param AssertionInterface[] $assertions
      */
