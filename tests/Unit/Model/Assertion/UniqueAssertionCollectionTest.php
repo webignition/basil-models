@@ -20,30 +20,18 @@ class UniqueAssertionCollectionTest extends TestCase
             new Assertion('$".two" exists', 0, '$".two"', 'exists')
         ];
 
-        $collection = new UniqueAssertionCollection();
-
-        foreach ($assertions as $assertion) {
-            $collection->add($assertion);
-        }
-
+        $collection = new UniqueAssertionCollection($assertions);
         foreach ($collection as $index => $assertion) {
             $this->assertSame($assertions[$index], $assertion);
         }
     }
 
     /**
-     * @param AssertionInterface[] $assertionsToAdd
      * @param AssertionInterface[] $expectedAssertions
      */
     #[DataProvider('isUniqueDataProvider')]
-    public function testIsUnique(array $assertionsToAdd, array $expectedAssertions): void
+    public function testIsUnique(UniqueAssertionCollection $collection, array $expectedAssertions): void
     {
-        $collection = new UniqueAssertionCollection();
-
-        foreach ($assertionsToAdd as $assertion) {
-            $collection->add($assertion);
-        }
-
         foreach ($collection as $index => $assertion) {
             $this->assertEquals($expectedAssertions[$index], $assertion);
         }
@@ -56,27 +44,27 @@ class UniqueAssertionCollectionTest extends TestCase
     {
         return [
             'single item added' => [
-                'assertionsToAdd' => [
+                'collection' => new UniqueAssertionCollection([
                     new Assertion('$".zero" exists', 0, '$".zero"', 'exists'),
-                ],
+                ]),
                 'expectedAssertions' => [
                     new Assertion('$".zero" exists', 0, '$".zero"', 'exists'),
                 ],
             ],
             'single item added twice, index difference is correctly ignored' => [
-                'assertionsToAdd' => [
+                'collection' => new UniqueAssertionCollection([
                     new Assertion('$".zero" exists', 0, '$".zero"', 'exists'),
                     new Assertion('$".zero" exists', 2, '$".zero"', 'exists'),
-                ],
+                ]),
                 'expectedAssertions' => [
                     new Assertion('$".zero" exists', 0, '$".zero"', 'exists'),
                 ],
             ],
             'de-normalised and normalised equivalents' => [
-                'assertionsToAdd' => [
+                'collection' => new UniqueAssertionCollection([
                     new Assertion('$import_name.elements.selector exists', 0, '$".selector"', 'exists'),
                     new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
-                ],
+                ]),
                 'expectedAssertions' => [
                     new Assertion('$import_name.elements.selector exists', 0, '$".selector"', 'exists'),
                 ],
@@ -85,18 +73,11 @@ class UniqueAssertionCollectionTest extends TestCase
     }
 
     /**
-     * @param AssertionInterface[] $assertionsToAdd
      * @param AssertionInterface[] $expectedAssertions
      */
     #[DataProvider('normaliseDataProvider')]
-    public function testNormalise(array $assertionsToAdd, array $expectedAssertions): void
+    public function testNormalise(UniqueAssertionCollection $collection, array $expectedAssertions): void
     {
-        $collection = new UniqueAssertionCollection();
-
-        foreach ($assertionsToAdd as $assertion) {
-            $collection->add($assertion);
-        }
-
         $normalisedCollection = $collection->normalise();
 
         foreach ($normalisedCollection as $index => $assertion) {
@@ -111,20 +92,20 @@ class UniqueAssertionCollectionTest extends TestCase
     {
         return [
             'is in normal form' => [
-                'assertionsToAdd' => [
+                'collection' => new UniqueAssertionCollection([
                     new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
                     new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
-                ],
+                ]),
                 'expectedAssertions' => [
                     new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
                     new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
                 ],
             ],
             'not in normal form' => [
-                'assertionsToAdd' => [
+                'collection' => new UniqueAssertionCollection([
                     new Assertion('$import_name.elements.selector exists', 0, '$".selector"', 'exists'),
                     new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
-                ],
+                ]),
                 'expectedAssertions' => [
                     new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
                 ],
@@ -135,13 +116,13 @@ class UniqueAssertionCollectionTest extends TestCase
     /**
      * @param AssertionInterface[] $expectedAssertions
      */
-    #[DataProvider('mergeDataProvider')]
-    public function testMerge(
+    #[DataProvider('prependDataProvider')]
+    public function testPrepend(
         UniqueAssertionCollection $collection,
         UniqueAssertionCollection $additions,
         array $expectedAssertions
     ): void {
-        $mergedCollection = $collection->merge($additions);
+        $mergedCollection = $collection->prepend($additions);
 
         foreach ($mergedCollection as $index => $assertion) {
             $this->assertEquals($expectedAssertions[$index], $assertion);
@@ -151,7 +132,74 @@ class UniqueAssertionCollectionTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public static function mergeDataProvider(): array
+    public static function prependDataProvider(): array
+    {
+        return [
+            'no common assertions between collections' => [
+                'collection' => new UniqueAssertionCollection([
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
+                ]),
+                'additions' => new UniqueAssertionCollection([
+                    new Assertion('$".selector3" exists', 0, '$".selector3"', 'exists'),
+                    new Assertion('$".selector4" exists', 0, '$".selector4"', 'exists'),
+                ]),
+                'expectedAssertions' => [
+                    new Assertion('$".selector3" exists', 0, '$".selector3"', 'exists'),
+                    new Assertion('$".selector4" exists', 0, '$".selector4"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
+                ],
+            ],
+            'common assertions between collections' => [
+                'collection' => new UniqueAssertionCollection([
+                    new Assertion('$".selector1" exists', 4, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
+                ]),
+                'additions' => new UniqueAssertionCollection([
+                    new Assertion('$".selector3" exists', 0, '$".selector3"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                ]),
+                'expectedAssertions' => [
+                    new Assertion('$".selector3" exists', 0, '$".selector3"', 'exists'),
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                    new Assertion('$".selector2" exists', 0, '$".selector2"', 'exists'),
+                ],
+            ],
+            'is normalised' => [
+                'collection' => new UniqueAssertionCollection([
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                ]),
+                'additions' => new UniqueAssertionCollection([
+                    new Assertion('$import_name.elements.selector1 exists', 0, '$".selector1"', 'exists'),
+                ]),
+                'expectedAssertions' => [
+                    new Assertion('$".selector1" exists', 0, '$".selector1"', 'exists'),
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param AssertionInterface[] $expectedAssertions
+     */
+    #[DataProvider('appendDataProvider')]
+    public function testAppend(
+        UniqueAssertionCollection $collection,
+        UniqueAssertionCollection $additions,
+        array $expectedAssertions
+    ): void {
+        $mergedCollection = $collection->append($additions);
+
+        foreach ($mergedCollection as $index => $assertion) {
+            $this->assertEquals($expectedAssertions[$index], $assertion);
+        }
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public static function appendDataProvider(): array
     {
         return [
             'no common assertions between collections' => [

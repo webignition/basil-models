@@ -6,6 +6,7 @@ namespace webignition\BasilModels\Tests\Unit\Provider\Step;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use webignition\BasilModels\Model\Assertion\AssertionCollection;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
 use webignition\BasilModels\Provider\Step\StepProvider;
@@ -41,12 +42,12 @@ class StepProviderTest extends TestCase
             ],
             'valid steps' => [
                 'steps' => [
-                    'step one' => new Step([], []),
-                    'step two' => new Step([], []),
+                    'step one' => new Step([], new AssertionCollection([])),
+                    'step two' => new Step([], new AssertionCollection([])),
                 ],
                 'expectedStepProvider' => new StepProvider([
-                    'step one' => new Step([], []),
-                    'step two' => new Step([], []),
+                    'step one' => new Step([], new AssertionCollection([])),
+                    'step two' => new Step([], new AssertionCollection([])),
                 ]),
             ],
         ];
@@ -55,7 +56,7 @@ class StepProviderTest extends TestCase
     public function testFind(): void
     {
         $importName = 'step_import_name';
-        $step = new Step([], []);
+        $step = new Step([], new AssertionCollection([]));
 
         $provider = new StepProvider([
             $importName => $step,

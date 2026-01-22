@@ -9,7 +9,8 @@ use PHPUnit\Framework\TestCase;
 use webignition\BasilModels\Model\Action\Action;
 use webignition\BasilModels\Model\Action\ActionInterface;
 use webignition\BasilModels\Model\Assertion\Assertion;
-use webignition\BasilModels\Model\Assertion\AssertionInterface;
+use webignition\BasilModels\Model\Assertion\AssertionCollection;
+use webignition\BasilModels\Model\Assertion\AssertionCollectionInterface;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Model\Step\StepInterface;
@@ -17,17 +18,15 @@ use webignition\BasilModels\Model\Step\StepInterface;
 class StepTest extends TestCase
 {
     /**
-     * @param array<mixed>         $actions
-     * @param array<mixed>         $assertions
-     * @param ActionInterface[]    $expectedActions
-     * @param AssertionInterface[] $expectedAssertions
+     * @param array<mixed>      $actions
+     * @param ActionInterface[] $expectedActions
      */
     #[DataProvider('createDataProvider')]
     public function testCreate(
         array $actions,
-        array $assertions,
+        AssertionCollectionInterface $assertions,
         array $expectedActions,
-        array $expectedAssertions
+        AssertionCollectionInterface $expectedAssertions
     ): void {
         $step = new Step($actions, $assertions);
 
@@ -43,9 +42,9 @@ class StepTest extends TestCase
         return [
             'empty' => [
                 'actions' => [],
-                'assertions' => [],
+                'assertions' => new AssertionCollection([]),
                 'expectedActions' => [],
-                'expectedAssertions' => [],
+                'expectedAssertions' => new AssertionCollection([]),
             ],
             'all invalid' => [
                 'actions' => [
@@ -53,38 +52,34 @@ class StepTest extends TestCase
                     true,
                     'string',
                 ],
-                'assertions' => [
-                    1,
-                    true,
-                    'string',
-                ],
+                'assertions' => new AssertionCollection([]),
                 'expectedActions' => [],
-                'expectedAssertions' => [],
+                'expectedAssertions' => new AssertionCollection([]),
             ],
             'all valid' => [
                 'actions' => [
                     new Action('wait 1', 0, 'wait', '1', null, '1'),
                     new Action('click $".selector"', 0, 'click', '$".selector"', '$".selector"'),
                 ],
-                'assertions' => [
+                'assertions' => new AssertionCollection([
                     new Assertion('$page.title is "Example"', 0, '$page.title', 'is', '"Example"'),
                     new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
-                ],
+                ]),
                 'expectedActions' => [
                     new Action('wait 1', 0, 'wait', '1', null, '1'),
                     new Action('click $".selector"', 0, 'click', '$".selector"', '$".selector"'),
                 ],
-                'expectedAssertions' => [
+                'expectedAssertions' => new AssertionCollection([
                     new Assertion('$page.title is "Example"', 0, '$page.title', 'is', '"Example"'),
                     new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
-                ],
+                ]),
             ],
         ];
     }
 
     public function testGetDataWithData(): void
     {
-        $step = new Step([], []);
+        $step = new Step([], new AssertionCollection([]));
         $this->assertNull($step->getData());
 
         $data = new DataSetCollection([
@@ -99,7 +94,7 @@ class StepTest extends TestCase
 
     public function testImportName(): void
     {
-        $step = new Step([], []);
+        $step = new Step([], new AssertionCollection([]));
         $this->assertNull($step->getImportName());
 
         $step = $step->withImportName('import_name');
@@ -111,7 +106,7 @@ class StepTest extends TestCase
 
     public function testDataImportName(): void
     {
-        $step = new Step([], []);
+        $step = new Step([], new AssertionCollection([]));
         $this->assertNull($step->getDataImportName());
 
         $step = $step->withDataImportName('data_import_name');
@@ -123,7 +118,7 @@ class StepTest extends TestCase
 
     public function testElements(): void
     {
-        $step = new Step([], []);
+        $step = new Step([], new AssertionCollection([]));
         $this->assertSame([], $step->getIdentifiers());
 
         $identifiers = [
@@ -147,21 +142,21 @@ class StepTest extends TestCase
     {
         return [
             'no import name, no data provider import name' => [
-                'step' => new Step([], []),
+                'step' => new Step([], new AssertionCollection([])),
                 'expectedRequiresImportResolution' => false,
             ],
             'no import name, has data provider import name' => [
-                'step' => (new Step([], []))
+                'step' => new Step([], new AssertionCollection([]))
                     ->withDataImportName('data_import_name'),
                 'expectedRequiresImportResolution' => true,
             ],
             'has import name, no data provider import name' => [
-                'step' => (new Step([], []))
+                'step' => new Step([], new AssertionCollection([]))
                     ->withImportName('import_name'),
                 'expectedRequiresImportResolution' => true,
             ],
             'has import name, has data provider import name' => [
-                'step' => (new Step([], []))
+                'step' => new Step([], new AssertionCollection([]))
                     ->withImportName('import_name')
                     ->withDataImportName('data_import_name'),
                 'expectedRequiresImportResolution' => true,
@@ -171,7 +166,7 @@ class StepTest extends TestCase
 
     public function testWithActions(): void
     {
-        $step = new Step([], []);
+        $step = new Step([], new AssertionCollection([]));
         $this->assertEquals([], $step->getActions());
 
         $actions = [
@@ -187,17 +182,17 @@ class StepTest extends TestCase
 
     public function testWithAssertions(): void
     {
-        $step = new Step([], []);
-        $this->assertEquals([], $step->getAssertions());
+        $step = new Step([], new AssertionCollection([]));
+        $this->assertEquals(new AssertionCollection([]), $step->getAssertions());
 
-        $assertions = [
+        $assertions = new AssertionCollection([
             new Assertion('$".selector exists', 0, '$".selector"', 'exists'),
-        ];
+        ]);
 
         $mutatedStep = $step->withAssertions($assertions);
 
         $this->assertNotSame($step, $mutatedStep);
-        $this->assertEquals([], $step->getAssertions());
+        $this->assertEquals(new AssertionCollection([]), $step->getAssertions());
         $this->assertEquals($assertions, $mutatedStep->getAssertions());
     }
 
@@ -219,81 +214,93 @@ class StepTest extends TestCase
     {
         return [
             'has no actions, empty prepended actions' => [
-                'step' => new Step([], []),
+                'step' => new Step([], new AssertionCollection([])),
                 'actions' => [],
-                'expectedStep' => new Step([], []),
+                'expectedStep' => new Step([], new AssertionCollection([])),
             ],
             'has actions, empty prepended actions' => [
-                'step' => new Step([
-                    new Action('wait 1', 0, 'wait', '1', null, '1'),
-                ], []),
+                'step' => new Step(
+                    [
+                        new Action('wait 1', 0, 'wait', '1', null, '1'),
+                    ],
+                    new AssertionCollection([]),
+                ),
                 'actions' => [],
-                'expectedStep' => new Step([
-                    new Action('wait 1', 0, 'wait', '1', null, '1'),
-                ], []),
+                'expectedStep' => new Step(
+                    [
+                        new Action('wait 1', 0, 'wait', '1', null, '1'),
+                    ],
+                    new AssertionCollection([]),
+                ),
             ],
             'has no actions, non-empty prepended actions' => [
-                'step' => new Step([], []),
+                'step' => new Step([], new AssertionCollection([])),
                 'actions' => [
                     new Action('wait 2', 0, 'wait', '2', null, '2'),
                 ],
-                'expectedStep' => new Step([
-                    new Action('wait 2', 0, 'wait', '2', null, '2'),
-                ], []),
+                'expectedStep' => new Step(
+                    [
+                        new Action('wait 2', 0, 'wait', '2', null, '2'),
+                    ],
+                    new AssertionCollection([]),
+                ),
             ],
             'has actions, non-empty prepended actions' => [
-                'step' => new Step([
-                    new Action('wait 1', 0, 'wait', '1', null, '1'),
-                ], []),
+                'step' => new Step(
+                    [
+                        new Action('wait 1', 0, 'wait', '1', null, '1'),
+                    ],
+                    new AssertionCollection([]),
+                ),
                 'actions' => [
                     new Action('wait 2', 0, 'wait', '2', null, '2'),
                 ],
-                'expectedStep' => new Step([
-                    new Action('wait 2', 0, 'wait', '2', null, '2'),
-                    new Action('wait 1', 0, 'wait', '1', null, '1'),
-                ], []),
+                'expectedStep' => new Step(
+                    [
+                        new Action('wait 2', 0, 'wait', '2', null, '2'),
+                        new Action('wait 1', 0, 'wait', '1', null, '1'),
+                    ],
+                    new AssertionCollection([]),
+                ),
             ],
             'assertions are retained' => [
-                'step' => new Step([], [
+                'step' => new Step([], new AssertionCollection([
                     new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
-                ]),
+                ])),
                 'actions' => [],
-                'expectedStep' => new Step([], [
+                'expectedStep' => new Step([], new AssertionCollection([
                     new Assertion('$".selector" exists', 0, '$".selector"', 'exists'),
-                ]),
+                ])),
             ],
             'data sets are retained' => [
-                'step' => (new Step([], []))->withData(new DataSetCollection([
+                'step' => new Step([], new AssertionCollection([]))->withData(new DataSetCollection([
                     '0' => [
                         'field1' => 'value1',
                     ],
                 ])),
                 'actions' => [],
-                'expectedStep' => (new Step([], []))->withData(new DataSetCollection([
+                'expectedStep' => new Step([], new AssertionCollection([]))->withData(new DataSetCollection([
                     '0' => [
                         'field1' => 'value1',
                     ],
                 ])),
             ],
             'identifier collection is retained' => [
-                'step' => (new Step([], []))->withIdentifiers([
+                'step' => new Step([], new AssertionCollection([]))->withIdentifiers([
                     'heading' => '$".heading"'
                 ]),
                 'actions' => [],
-                'expectedStep' => (new Step([], []))->withIdentifiers([
+                'expectedStep' => new Step([], new AssertionCollection([]))->withIdentifiers([
                     'heading' => '$".heading"'
                 ]),
             ],
         ];
     }
 
-    /**
-     * @param AssertionInterface[] $assertions
-     */
     #[DataProvider('withPrependedAssertionsDataProvider')]
     public function testWithPrependedAssertions(
         StepInterface $step,
-        array $assertions,
+        AssertionCollectionInterface $assertions,
         StepInterface $expectedStep
     ): void {
         $mutatedStep = $step->withPrependedAssertions($assertions);
@@ -322,68 +329,74 @@ class StepTest extends TestCase
 
         return [
             'has no assertions, empty prepended assertions' => [
-                'step' => new Step([], []),
-                'assertions' => [],
-                'expectedStep' => new Step([], []),
+                'step' => new Step([], new AssertionCollection([])),
+                'assertions' => new AssertionCollection([]),
+                'expectedStep' => new Step([], new AssertionCollection([])),
             ],
             'has assertions, empty prepended assertions' => [
-                'step' => new Step([], [
+                'step' => new Step([], new AssertionCollection([
                     $assertion1,
-                ]),
-                'assertions' => [],
-                'expectedStep' => new Step([], [
+                ])),
+                'assertions' => new AssertionCollection([]),
+                'expectedStep' => new Step([], new AssertionCollection([
                     $assertion1,
-                ]),
+                ])),
             ],
             'has no assertions, non-empty prepended assertions' => [
-                'step' => new Step([], []),
-                'assertions' => [
-                    $assertion1,
-                ],
-                'expectedStep' => new Step([], [
+                'step' => new Step([], new AssertionCollection([])),
+                'assertions' => new AssertionCollection([
                     $assertion1,
                 ]),
+                'expectedStep' => new Step([], new AssertionCollection([
+                    $assertion1,
+                ])),
             ],
             'has assertions, non-empty prepended assertions' => [
-                'step' => new Step([], [
+                'step' => new Step([], new AssertionCollection([
                     $assertion1,
-                ]),
-                'assertions' => [
+                ])),
+                'assertions' => new AssertionCollection([
                     $assertion2,
-                ],
-                'expectedStep' => new Step([], [
+                ]),
+                'expectedStep' => new Step([], new AssertionCollection([
                     $assertion2,
                     $assertion1,
-                ]),
+                ])),
             ],
             'actions are retained' => [
-                'step' => new Step([
-                    new Action('wait 1', 0, 'wait', '1', null, '1'),
-                ], []),
-                'assertions' => [],
-                'expectedStep' => new Step([
-                    new Action('wait 1', 0, 'wait', '1', null, '1'),
-                ], []),
+                'step' => new Step(
+                    [
+                        new Action('wait 1', 0, 'wait', '1', null, '1'),
+                    ],
+                    new AssertionCollection([]),
+                ),
+                'assertions' => new AssertionCollection([]),
+                'expectedStep' => new Step(
+                    [
+                        new Action('wait 1', 0, 'wait', '1', null, '1'),
+                    ],
+                    new AssertionCollection([]),
+                ),
             ],
             'data sets are retained' => [
-                'step' => (new Step([], []))->withData(new DataSetCollection([
+                'step' => new Step([], new AssertionCollection([]))->withData(new DataSetCollection([
                     '0' => [
                         'field1' => 'value1',
                     ],
                 ])),
-                'assertions' => [],
-                'expectedStep' => (new Step([], []))->withData(new DataSetCollection([
+                'assertions' => new AssertionCollection([]),
+                'expectedStep' => new Step([], new AssertionCollection([]))->withData(new DataSetCollection([
                     '0' => [
                         'field1' => 'value1',
                     ],
                 ])),
             ],
             'identifier collection is retained' => [
-                'step' => (new Step([], []))->withIdentifiers([
+                'step' => new Step([], new AssertionCollection([]))->withIdentifiers([
                     'heading' => '.heading'
                 ]),
-                'assertions' => [],
-                'expectedStep' => (new Step([], []))->withIdentifiers([
+                'assertions' => new AssertionCollection([]),
+                'expectedStep' => new Step([], new AssertionCollection([]))->withIdentifiers([
                     'heading' => '.heading'
                 ]),
             ],
@@ -406,7 +419,7 @@ class StepTest extends TestCase
     {
         return [
             'empty' => [
-                'step' => new Step([], []),
+                'step' => new Step([], new AssertionCollection([])),
                 'expectedDataParameterNames' => [],
             ],
             'has actions, has assertions, no data parameters' => [
@@ -427,7 +440,7 @@ class StepTest extends TestCase
                             '"value"'
                         ),
                     ],
-                    [
+                    new AssertionCollection([
                         new Assertion(
                             '$".selector" exists',
                             2,
@@ -441,7 +454,7 @@ class StepTest extends TestCase
                             'is',
                             '"value"'
                         )
-                    ]
+                    ]),
                 ),
                 'expectedDataParameterNames' => [],
             ],
@@ -463,7 +476,7 @@ class StepTest extends TestCase
                             '$data.zebra'
                         ),
                     ],
-                    [
+                    new AssertionCollection([
                         new Assertion(
                             '$data.aardvark exists',
                             2,
@@ -477,7 +490,7 @@ class StepTest extends TestCase
                             'is',
                             '$data.bee'
                         )
-                    ]
+                    ]),
                 ),
                 'expectedDataParameterNames' => [
                     'aardvark',
