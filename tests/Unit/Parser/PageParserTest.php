@@ -41,8 +41,7 @@ class PageParserTest extends TestCase
     {
         return [
             'no data' => [
-                'pageData' => [
-                ],
+                'pageData' => [],
             ],
             'not a string' => [
                 'pageData' => [
